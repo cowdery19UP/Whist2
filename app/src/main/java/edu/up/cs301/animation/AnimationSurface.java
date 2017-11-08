@@ -2,6 +2,7 @@ package edu.up.cs301.animation;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -263,5 +264,16 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		}
 		return true;
 	};// class AnimationThread
+
+	@Override
+	public void draw(Canvas c){
+		super.draw(c);
+		Paint tableIn = new Paint();
+		Paint tableOut = new Paint();
+		tableIn.setColor(Color.rgb(42,111,0));
+		tableOut.setColor(Color.rgb(104,54,0));
+		c.drawRect(200,160,1860,800,tableOut);
+		c.drawRect(220,180,1840,780,tableIn);
+	}
 
 }// class AnimationSurface
