@@ -42,6 +42,25 @@ public class CardStack {
         return highCard;
     }
     /**
+     * This method goes through the array of cards and
+     * returns the card that is the greatest value rank
+     * @return - the highest value card in any suit
+     * @param inputStack -- an array of cards to sort
+     */
+    public Card getHighest(ArrayList<Card> inputStack){
+        //assigns the first card in the stack to be
+        //the card to be returned
+        Card highCard = inputStack.get(0);
+        //indexes through the stack and if the c card is a higher
+        //value, it becomes the highCard
+        for(Card c: inputStack){
+            if(c.getRank().value(14)>highCard.getRank().value(14)){
+                highCard = c;
+            }
+        }
+        return highCard;
+    }
+    /**
      * This method goes through the stack of cards and
      * returns the card that is the least value rank
      * @return - the lowest value card in any suit
@@ -53,6 +72,25 @@ public class CardStack {
         //indexes through the stack and if the c card is a lower
         //value, it becomes the lowCard
         for(Card c: stack){
+            if(c.getRank().value(14)<lowCard.getRank().value(14)){
+                lowCard = c;
+            }
+        }
+        return lowCard;
+    }
+    /**
+     * This method goes through the array of cards and
+     * returns the card that is the lowest value rank
+     * @return - the lowest value card in any suit
+     * @param inputStack -- an array of cards to sort
+     */
+    public Card getLowest(ArrayList<Card> inputStack){
+        //assigns the first card in the stack to be
+        //the card to be returned
+        Card lowCard = inputStack.get(0);
+        //indexes through the stack and if the c card is a lower
+        //value, it becomes the lowCard
+        for(Card c: inputStack){
             if(c.getRank().value(14)<lowCard.getRank().value(14)){
                 lowCard = c;
             }
