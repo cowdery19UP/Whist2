@@ -14,8 +14,8 @@ public class Deck extends CardStack {
      * @Author Steven R Vegdahl
      */
     public Deck(){
-        // creates a new deck of 52 cards using
-        // Professor Vegdahl's Card methods
+        // creates a new deck with a stack of all 52 cards
+        // using Professor Vegdahl's Card methods
         for (char s : "SHDC".toCharArray()) {
             for (char r : "KQJT98765432A".toCharArray()) {
                 stack.add(Card.fromString(""+r+s));
