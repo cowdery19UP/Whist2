@@ -7,19 +7,33 @@ import edu.up.cs301.card.Suit;
 
 /**
  * Created by Samuel on 11/7/2017.
+ * Hand is given to each player, it contains 13 cards at the
+ * start of play and 0 at the end of a round
  */
 
 public class Hand extends CardStack {
-    ArrayList<Card> hearts = new ArrayList<Card>();
-    ArrayList<Card> clubs = new ArrayList<Card>();
-    ArrayList<Card> diamonds = new ArrayList<Card>();
-    ArrayList<Card> spades = new ArrayList<Card>();
-    private static Card[] T = new Card[52];
 
+    //these 4 arrays hold the different suits to make it
+    //easier to organize them
+    ///////////////////////////////////////////////////
+    private ArrayList<Card> hearts = new ArrayList<Card>();
+    private ArrayList<Card> clubs = new ArrayList<Card>();
+    private ArrayList<Card> diamonds = new ArrayList<Card>();
+    private ArrayList<Card> spades = new ArrayList<Card>();
+    ///////////////////////////////////////////////////////
+    //this array of cards is used in Patrick's mergeSort function
+    private static Card[] T = new Card[52];
+    /**
+     * The constructor for the Hand
+     */
     public Hand(){
         this.organizeBySuit();
     }
 
+    /**
+     * This method organizes the cards in the hand by their suit
+     *  by using Patrick's mergeSort function
+     */
     public void organizeBySuit(){
         for(Card c: stack){
             switch(c.getSuit()){
@@ -53,6 +67,8 @@ public class Hand extends CardStack {
         }
 
     }
+
+
 
     /**
      * This is Patrick's high-minded mergeSort function for cards. Eat it.

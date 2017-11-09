@@ -13,6 +13,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistHumanPlayer extends GameHumanPlayer {
     private GameMainActivity activity;
+    private Hand myHand = new Hand();
 
     public WhistHumanPlayer(String name){
         super(name);
@@ -38,4 +39,5 @@ public class WhistHumanPlayer extends GameHumanPlayer {
         //return activity.findViewById(R.id.top_gui_layout);
         return null;
     }
+    public Hand getMyHand(){ return myHand;}
 }

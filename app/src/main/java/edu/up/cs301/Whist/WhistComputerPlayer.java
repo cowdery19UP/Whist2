@@ -9,6 +9,8 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistComputerPlayer extends GameComputerPlayer {
 
+    private Hand myHand = new Hand();
+
     public WhistComputerPlayer(String name){
         super(name);
     }
@@ -17,5 +19,6 @@ public class WhistComputerPlayer extends GameComputerPlayer {
 
     }
 
+    public Hand getMyHand(){ return myHand;}
 }
 
