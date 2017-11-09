@@ -15,14 +15,17 @@ import static org.junit.Assert.assertTrue;
 public class Test1 {
 
     @Test
-    public void testDeck() throws Exception{
+    public void testHighSuit() throws Exception{
         Deck myDeck = new Deck();
         Card aceClubs = Card.fromString("AC");
         Card highClub = myDeck.getHighestInSuit(Suit.Club);
         assertTrue("highClub!",aceClubs.equals(highClub));
     }
     @Test
-    public void testGameState(){
-
+    public void testLowSuit(){
+        Deck myDeck = new Deck();
+        Card aceClubs = Card.fromString("2C");
+        Card lowClub = myDeck.getLowestInSuit(Suit.Club);
+        assertTrue("lowClub!",aceClubs.equals(lowClub));
     }
 }
