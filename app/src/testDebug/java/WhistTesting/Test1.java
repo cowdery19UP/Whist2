@@ -13,7 +13,6 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class Test1 {
-    //TODO why does the tester report "Empty test suite" for this class??
 
     @Test
     public void testDeck() throws Exception{
