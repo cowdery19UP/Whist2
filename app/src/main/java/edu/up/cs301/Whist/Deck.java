@@ -45,6 +45,7 @@ public class Deck extends CardStack {
      */
     public void dealTopCard(WhistComputerPlayer player){
         player.getMyHand().add(stack.get(0));
+        stack.remove(stack.get(0));
     }
 
     /**
@@ -55,6 +56,7 @@ public class Deck extends CardStack {
     public void dealRandomCard(WhistComputerPlayer player){
         int idx = (int)(Math.random()*stack.size());
         player.getMyHand().add(stack.get(idx));
+        stack.remove(stack.get(idx));
     }
 
     public boolean contains(Card c){
