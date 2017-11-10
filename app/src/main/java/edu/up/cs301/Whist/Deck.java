@@ -56,4 +56,11 @@ public class Deck extends CardStack {
         int idx = (int)(Math.random()*stack.size());
         player.getMyHand().add(stack.get(idx));
     }
+
+    public boolean contains(Card c){
+        for(Card a: this.stack){
+            if(c.getRank() == a.getRank() && c.getSuit() == a.getSuit()) return true;
+        }
+        return false;
+    }
 }

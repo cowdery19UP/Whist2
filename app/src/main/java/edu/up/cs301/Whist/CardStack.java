@@ -163,4 +163,8 @@ public class CardStack {
     public void add(Card addMe){
         stack.add(addMe);
     }
+
+    public ArrayList<Card> getStack(){
+        return this.stack;
+    }
 }

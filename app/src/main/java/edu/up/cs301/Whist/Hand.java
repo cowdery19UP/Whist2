@@ -27,7 +27,9 @@ public class Hand extends CardStack {
      * The constructor for the Hand
      */
     public Hand(){
-        this.organizeBySuit();
+        if(this.stack.size()>0) {
+            this.organizeBySuit();
+        }
     }
 
     /**
