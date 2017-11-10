@@ -5,19 +5,58 @@ import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
- * Created by PatrickMaloney on 11/7/17.
+ * Created by Patrick Maloney on 11/7/17.
+ *
  */
 
 public class WhistLocalGame extends LocalGame {
 
+    WhistGameState mainGameState;
+
+    public WhistLocalGame(){
+        mainGameState = new WhistGameState();
+    }
+
+    public void newRound(){
+        ///////handling points///////////
+        //begin by adding points to the team that won the most tricks in the round
+        if(mainGameState.teams[0].getWonTricks()>mainGameState.teams[1].getWonTricks()){
+           //score is doubled for a team that wins without granding
+            if(!mainGameState.teams[0].isGranded()){
+                mainGameState.teams[0].addPoints(2*mainGameState.teams[0].getWonTricks());
+            }
+            else{
+                mainGameState.teams[0].addPoints(mainGameState.teams[0].getWonTricks());
+            }
+        }
+        else{
+            if(!mainGameState.teams[1].isGranded()){
+                mainGameState.teams[1].addPoints(2*mainGameState.teams[1].getWonTricks());
+            }
+            else{
+                mainGameState.teams[1].addPoints(mainGameState.teams[1].getWonTricks());
+            }
+        }
+        /////////////////////////////////
+
+    }
+
+
     @Override
     protected boolean canMove(int playerIdx){
-        return false;
+        if(mainGameState.getTurn()==playerIdx) return true;
+        else return false;
     }
 
     @Override
     protected String checkIfGameOver(){
-        return null;
+        if(mainGameState.teams[0].getTeamScore()>=7){
+            return "Team 1 Wins!";
+        }
+        else if(mainGameState.teams[1].getTeamScore()>=7){
+            return "Team 2 Wins!";
+        }
+        else return null;
     }
 
     @Override

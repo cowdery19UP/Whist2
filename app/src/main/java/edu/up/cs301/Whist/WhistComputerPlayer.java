@@ -10,13 +10,14 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 public class WhistComputerPlayer extends GameComputerPlayer {
 
     private Hand myHand = new Hand();
+    private WhistGameState savedState;
 
     public WhistComputerPlayer(String name){
         super(name);
     }
 
     public void receiveInfo(GameInfo info){
-
+        savedState = (WhistGameState) info;
     }
 
     public Hand getMyHand(){ return myHand;}

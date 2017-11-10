@@ -1,6 +1,7 @@
 package edu.up.cs301.Whist;
 
 
+import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.GameState;
 
@@ -13,9 +14,13 @@ public class WhistGameState extends GameState {
     private CardStack cardsInPlay = new CardStack();
     private CardStack cardsPlayed = new CardStack();
     private Hand[] playerHands = new Hand[4];
+
+    public Team[] teams = new Team[2];
     public CardStack hotCards = new CardStack();
+
 
     public GameInfo sendGameState(){
         return this;
     }
+    public int getTurn(){return turn;}
 }
