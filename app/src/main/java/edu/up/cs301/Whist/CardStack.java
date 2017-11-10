@@ -7,6 +7,7 @@ import edu.up.cs301.card.Suit;
 
 /**
  * Created by Samuel on 11/7/2017.
+ * Workhorse Class that holds an array list of cards called stack
  */
 
 public class CardStack {
