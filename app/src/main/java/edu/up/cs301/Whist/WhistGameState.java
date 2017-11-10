@@ -1,0 +1,21 @@
+package edu.up.cs301.Whist;
+
+
+import edu.up.cs301.game.infoMsg.GameInfo;
+import edu.up.cs301.game.infoMsg.GameState;
+
+/**
+ * Created by Samuel on 11/9/2017.
+ */
+
+public class WhistGameState extends GameState {
+    private int turn;
+    private CardStack cardsInPlay = new CardStack();
+    private CardStack cardsPlayed = new CardStack();
+    private Hand[] playerHands = new Hand[4];
+    public CardStack hotCards = new CardStack();
+
+    public GameInfo sendGameState(){
+        return this;
+    }
+}
