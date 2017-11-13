@@ -9,6 +9,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistComputerPlayer extends GameComputerPlayer {
 
+    private double reactionTime;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 
