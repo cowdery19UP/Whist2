@@ -18,6 +18,8 @@ public class WhistLocalGame extends LocalGame {
     }
 
     public void newRound(){
+        //sets the turn back to zero
+        mainGameState.turn = 0;
         ///////handling points///////////
         //begin by adding points to the team that won the most tricks in the round
         if(mainGameState.teams[0].getWonTricks()>mainGameState.teams[1].getWonTricks()){
@@ -61,6 +63,18 @@ public class WhistLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action){
+        if(action instanceof BidAction){
+            //check to see if we are still within the first stage of the round
+            if(mainGameState.getTurn()<4){
+                return true;
+            }
+            else return false;
+        }
+        if(action instanceof PlayCardAction){
+            //TODO need to code in all the cases for playing a card
+        }
+
+
         return false;
     }
 

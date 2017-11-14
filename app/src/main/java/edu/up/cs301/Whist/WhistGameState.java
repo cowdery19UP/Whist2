@@ -14,7 +14,6 @@ public class WhistGameState extends GameState {
     public CardStack cardsInPlay = new CardStack();
     public CardStack cardsPlayed = new CardStack();
     private Hand[] playerHands = new Hand[4];
-
     public Team[] teams = new Team[2];
     public CardStack hotCards = new CardStack();
 
@@ -22,5 +21,6 @@ public class WhistGameState extends GameState {
     public GameInfo sendGameState(){
         return this;
     }
+
     public int getTurn(){return turn;}
 }
