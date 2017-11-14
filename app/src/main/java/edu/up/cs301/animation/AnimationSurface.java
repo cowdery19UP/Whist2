@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -138,7 +139,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 	 */
 	private class AnimationThread extends Thread {
 
-		// a reference to a SurfaveView's holder. This is used to "lock" the
+		// a reference to a SurfaceView's holder. This is used to "lock" the
 		// canvas when we want to write to it
 		private SurfaceHolder surfaceHolder;
 
@@ -270,10 +271,24 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		super.draw(c);
 		Paint tableIn = new Paint();
 		Paint tableOut = new Paint();
-		tableIn.setColor(Color.rgb(42,111,0));
-		tableOut.setColor(Color.rgb(104,54,0));
-		c.drawRect(200,160,1860,800,tableOut);
-		c.drawRect(220,180,1840,780,tableIn);
+		tableOut.setColor(Color.rgb(42,111,0));
+		tableIn.setColor(Color.rgb(104,54,0));
+
+		RectF rectIn = new RectF(180,140,1840,780);
+		RectF rectOut = new RectF(200,160,1820,760);
+		c.drawOval(rectIn,tableIn);
+		c.drawOval(rectOut,tableOut);
+
+		Paint paint = new Paint();
+		paint.setColor(Color.WHITE);
+		paint.setTextSize(40);
+		c.drawText("Scores", 10, 40, paint);
+		paint.setTextSize(35);
+		c.drawText("Team 1:", 10, 75, paint);
+		c.drawText("Team 2:", 10, 110, paint);
+
+		c.drawText("Some Text", 1750, 40, paint);
+
 	}
 
 }// class AnimationSurface
