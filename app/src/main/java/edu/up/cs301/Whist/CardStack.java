@@ -1,5 +1,7 @@
 package edu.up.cs301.Whist;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.card.Card;
@@ -106,6 +108,10 @@ public class CardStack {
      * @return -- returns the highest card of that suit
      */
     public Card getHighestInSuit(Suit suit){
+        if(stack.size()==0){
+            Log.e("getLowestInSuit","cardStack stack is empty");
+            return null;
+        }
         //this is our array list of cards of a specific suit
         ArrayList<Card> cardsOfSuit = new ArrayList<Card>();
         //index through the stack and pull out the cards of the right suit
@@ -131,6 +137,10 @@ public class CardStack {
      * @return -- returns the lowest card of that suit
      */
     public Card getLowestInSuit(Suit suit){
+        if(stack.size()==0){
+            Log.e("getLowestInSuit","cardStack stack is empty");
+            return null;
+        }
         //this is our array list of cards of a specific suit
         ArrayList<Card> cardsOfSuit = new ArrayList<Card>();
         //index through the stack and pull out the cards of the right suit

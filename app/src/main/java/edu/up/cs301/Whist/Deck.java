@@ -11,7 +11,7 @@ import edu.up.cs301.card.Card;
 
 public class Deck extends CardStack {
     /**
-     * @Author Steven R Vegdahl
+     * This constructor instantiates a new deck of 52 cards
      */
     public Deck(){
         // creates a new deck with a stack of all 52 cards
@@ -23,7 +23,7 @@ public class Deck extends CardStack {
         }
     }//ctor
     /**
-     * @Author Steven R Vegdahl
+     * This is the copy constructor for the deck
      * @param orig -- the original deck to copy
      */
     public Deck(Deck orig){
