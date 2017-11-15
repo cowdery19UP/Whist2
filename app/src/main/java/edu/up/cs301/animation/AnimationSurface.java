@@ -271,7 +271,6 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		super.draw(c);
 		Paint tableIn = new Paint();
 		Paint tableOut = new Paint();
-
 		tableOut.setColor(Color.rgb(42,111,0));
         tableIn.setColor(Color.rgb(104,54,0));
 
