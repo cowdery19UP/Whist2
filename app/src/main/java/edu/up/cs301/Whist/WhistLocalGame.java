@@ -71,7 +71,7 @@ public class WhistLocalGame extends LocalGame {
             else return false;
         }
         if(action instanceof PlayCardAction){
-            //TODO need to code in all the cases for playing a card
+            //TODO need to code in all the cases for playing a cards
         }
 
 
