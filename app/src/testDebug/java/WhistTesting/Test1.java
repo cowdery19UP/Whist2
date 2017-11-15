@@ -1,5 +1,6 @@
 package WhistTesting;
 
+
 import org.junit.Test;
 
 import edu.up.cs301.Whist.CardStack;
@@ -19,18 +20,20 @@ public class Test1 {
 
     @Test
     public void testHighSuit() throws Exception{
-        CardStack myDeck = new CardStack();
+        Deck myDeck = new Deck();
         Card aceClubs = Card.fromString("AC");
         Card highClub = myDeck.getHighestInSuit(Suit.Club);
         assertTrue("highClub!",aceClubs.equals(highClub));
     }
     @Test
     public void testLowSuit(){
-        CardStack myDeck = new CardStack();
+        Deck myDeck = new Deck();
         Card aceClubs = Card.fromString("2C");
+        System.out.print(""+aceClubs.shortName());
         Card lowClub = myDeck.getLowestInSuit(Suit.Club);
         assertTrue("lowClub!",aceClubs.equals(lowClub));
     }
+
 
     @Test
     public void testHigh(){

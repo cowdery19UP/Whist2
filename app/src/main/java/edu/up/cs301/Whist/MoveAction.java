@@ -5,10 +5,10 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
  * Created by Samuel on 11/10/2017.
- * @Author Steven R Vegdahl
+ *
  */
 
-public class MoveAction extends GameAction {
+public abstract class MoveAction extends GameAction {
     // the player who generated the request
     private GamePlayer player;
 

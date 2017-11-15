@@ -10,11 +10,10 @@ import edu.up.cs301.game.infoMsg.GameState;
  */
 
 public class WhistGameState extends GameState {
-    private int turn;
-    private CardStack cardsInPlay = new CardStack();
-    private CardStack cardsPlayed = new CardStack();
+    public int turn;
+    public CardStack cardsInPlay = new CardStack();
+    public CardStack cardsPlayed = new CardStack();
     private Hand[] playerHands = new Hand[4];
-
     public Team[] teams = new Team[2];
     public CardStack hotCards = new CardStack();
 
@@ -22,5 +21,6 @@ public class WhistGameState extends GameState {
     public GameInfo sendGameState(){
         return this;
     }
+
     public int getTurn(){return turn;}
 }
