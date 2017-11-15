@@ -272,7 +272,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		Paint tableIn = new Paint();
 		Paint tableOut = new Paint();
 		tableOut.setColor(Color.rgb(42,111,0));
-		tableIn.setColor(Color.rgb(104,54,0));
+        tableIn.setColor(Color.rgb(104,54,0));
 
 		RectF rectIn = new RectF(180,140,1840,780);
 		RectF rectOut = new RectF(200,160,1820,760);
@@ -282,12 +282,16 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
 		paint.setTextSize(40);
-		c.drawText("Scores", 10, 40, paint);
+		c.drawText("Overall Scores", 10, 40, paint);
 		paint.setTextSize(35);
 		c.drawText("Team 1:", 10, 75, paint);
 		c.drawText("Team 2:", 10, 110, paint);
 
-		c.drawText("Some Text", 1750, 40, paint);
+		paint.setTextSize(40);
+		c.drawText("Current Tricks", 1750, 40, paint);
+		paint.setTextSize(35);
+		c.drawText("Team 1:", 1750, 75, paint);
+        c.drawText("Team 2:", 1750, 110, paint);
 
 	}
 
