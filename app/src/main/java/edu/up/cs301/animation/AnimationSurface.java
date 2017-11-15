@@ -278,7 +278,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		RectF rectOut = new RectF(200,160,1820,760);
 		c.drawOval(rectIn,tableIn);
 		c.drawOval(rectOut,tableOut);
-
+		//TODO need to draw cards onto 4 different RectF's for all 4 Blayers
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
 		paint.setTextSize(40);

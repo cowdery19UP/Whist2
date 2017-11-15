@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <edu.up.cs301.animation.AnimationSurface
-        android:layout_width="match_parent"
-        android:layout_height="554dp"
-        android:layout_weight="1.02" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,5 +33,11 @@
             android:layout_weight="2"
             android:text="Play Card" />
     </LinearLayout>
+
+    <edu.up.cs301.animation.AnimationSurface
+        android:id="@+id/animationSurface"
+        android:layout_width="match_parent"
+        android:layout_height="554dp"
+        android:layout_weight="1.02" />
 
 </LinearLayout>

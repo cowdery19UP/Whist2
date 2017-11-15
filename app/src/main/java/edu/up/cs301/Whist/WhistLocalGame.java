@@ -63,6 +63,7 @@ public class WhistLocalGame extends LocalGame {
 
     @Override
     protected boolean makeMove(GameAction action){
+
         if(action instanceof BidAction){
             //check to see if we are still within the first stage of the round
             if(mainGameState.getTurn()<4){
@@ -71,7 +72,7 @@ public class WhistLocalGame extends LocalGame {
             else return false;
         }
         if(action instanceof PlayCardAction){
-            //TODO need to code in all the cases for playing a cards
+            //TODO need to code in all the cases for playing a card
         }
 
 
