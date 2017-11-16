@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,17 +16,27 @@ import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.R;
 import edu.up.cs301.game.infoMsg.GameInfo;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+
 
 /**
  * Created by PatrickMaloney on 11/7/17.
  */
 
-public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
+public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnClickListener, OnSeekBarChangeListener {
     private GameMainActivity myActivity;
     private int backgroundColor = Color.BLACK;
     private Hand myHand = new Hand();
+    public Card selectedCard;
     private WhistGameState savedState;
     private AnimationSurface Tablesurface;
+    private SeekBar handSeekBar;
+    private Button playCardButton;
+
+
 
     public WhistHumanPlayer(String name){
         super(name);
@@ -44,7 +55,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
                 .findViewById(R.id.animationSurface);
         Tablesurface.setAnimator(this);
 
+        handSeekBar = (SeekBar) myActivity.findViewById(R.id.hand_seek_bar);
+        handSeekBar.setOnSeekBarChangeListener(this);
 
+        playCardButton = (Button) myActivity.findViewById(R.id.play_card_button);
+        playCardButton.setOnClickListener(this);
 
         // read in the card images
         Card.initImages(activity);
@@ -237,5 +252,25 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
+    }
+
+    public void onClick(View v){
+        PlayCardAction action = new PlayCardAction(this, selectedCard);
+        game.sendAction(action);
+    }
+
+    public void onStartTrackingTouch(SeekBar sb){
+
+    }
+
+    public void onStopTrackingTouch(SeekBar sb){
+
+    }
+
+    public void onProgressChanged(SeekBar sb, int progress, boolean fromUser){
+        float percent = progress/100;
+        float flIndex = myHand.getSize()*percent;
+        //Log.i("Percent",""+percent);
+        selectedCard = myHand.getCardByIndex((int)flIndex);
     }
 }

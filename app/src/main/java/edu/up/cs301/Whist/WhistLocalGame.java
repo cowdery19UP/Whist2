@@ -11,7 +11,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class WhistLocalGame extends LocalGame {
 
-    WhistGameState mainGameState;
+    private WhistGameState mainGameState;
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -81,7 +81,7 @@ public class WhistLocalGame extends LocalGame {
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
-
+        p.sendInfo(mainGameState);
     }
 }
 

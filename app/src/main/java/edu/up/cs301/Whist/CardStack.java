@@ -178,4 +178,8 @@ public class CardStack {
     public ArrayList<Card> getStack(){
         return this.stack;
     }
+
+    public int getSize(){ return stack.size(); }
+
+    public Card getCardByIndex(int index){ return stack.get(index); }
 }
