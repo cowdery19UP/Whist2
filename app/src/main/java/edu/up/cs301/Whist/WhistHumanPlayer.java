@@ -1,10 +1,8 @@
 package edu.up.cs301.Whist;
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -30,17 +28,10 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnClickListener, OnSeekBarChangeListener {
     private GameMainActivity myActivity;
-public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
-
-    private Activity myActivity;
-
     private int backgroundColor = Color.BLACK;
-
     private Hand myHand = new Hand();
     public Card selectedCard;
-
     private WhistGameState savedState;
-
     private AnimationSurface Tablesurface;
     private SeekBar handSeekBar;
     private Button playCardButton;
@@ -88,7 +79,9 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
     @Override
     public View getTopView(){
-        return myActivity.findViewById(R.id.top_gui_layout);
+
+        //return activity.findViewById(R.id.top_gui_layout);
+        return null;
     }
     //returns the player hand
     public Hand getMyHand(){ return myHand;}
