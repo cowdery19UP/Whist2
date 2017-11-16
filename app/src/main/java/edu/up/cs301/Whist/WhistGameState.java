@@ -2,6 +2,7 @@ package edu.up.cs301.Whist;
 
 
 import edu.up.cs301.game.GamePlayer;
+import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.GameState;
 
@@ -23,4 +24,6 @@ public class WhistGameState extends GameState {
     }
 
     public int getTurn(){return turn;}
+
+
 }
