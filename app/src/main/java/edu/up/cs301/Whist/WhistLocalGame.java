@@ -64,6 +64,15 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected boolean makeMove(GameAction action){
 
+        if(!(action instanceof MoveAction)){
+            return false;
+        }
+        MoveAction theAction = (MoveAction) action;
+        // get the index of the player making the move; return false
+        int thisPlayerIdx = getPlayerIdx(theAction.getPlayer());
+        if (thisPlayerIdx < 0) { // illegal player
+            return false;
+        }
         if(action instanceof BidAction){
             //check to see if we are still within the first stage of the round
             if(mainGameState.getTurn()<4){
@@ -83,5 +92,6 @@ public class WhistLocalGame extends LocalGame {
     protected void sendUpdatedStateTo(GamePlayer p){
 
     }
+
 }
 

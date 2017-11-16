@@ -3,6 +3,7 @@ package edu.up.cs301.Whist;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,10 +42,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
         // link the animator (this object) to the animation surface
         Tablesurface = (AnimationSurface) myActivity
-                .findViewById(R.id.animation_surface);
+                .findViewById(R.id.animationSurface);
         Tablesurface.setAnimator(this);
-
-
 
         // read in the card images
         Card.initImages(activity);
@@ -102,6 +101,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
         // get the height and width of the animation surface
         int height = Tablesurface.getHeight();
         int width = Tablesurface.getWidth();
+        RectF myR = new RectF(width/2 -200,height/2-200,width/2+200,height/2+200);
+        Card dcl = Card.fromString("2C");
+        dcl.drawOn(g,myR);
+
     }
     /**
      * @return
@@ -135,6 +138,15 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
     public boolean doQuit() {
         return false;
     }
+
+    private RectF playerCardLocation(){
+        // get the height and width of the animation surface
+        int height = Tablesurface.getHeight();
+        int width = Tablesurface.getWidth();
+        return new RectF(width/2 -200,height/2-200,width/2+200,height/2+200);
+
+    }
+
     /**
      * callback method: we have received a touch on the animation surface
      *
@@ -154,25 +166,20 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
         // the player's pile or the middle pile
 
         //TODO this code is copied over from slapjack. it needs to be fixed to our game
-        /*
-        RectF myTopCardLoc = thisPlayerTopCardLocation();
 
-        RectF middleTopCardLoc = middlePileTopCardLocation();
+        RectF myTopCardLoc = playerCardLocation();
+
         if (myTopCardLoc.contains(x, y)) {
             // it's on my pile: we're playing a card: send action to
             // the game
-            game.sendAction(new SJPlayAction(this));
-        }
-        else if (middleTopCardLoc.contains(x, y)) {
-            // it's on the middlel pile: we're slapping a card: send
-            // action to the game
-            game.sendAction(new SJSlapAction(this));
+
+            //game.sendAction(new PlayCardAction(this));
         }
         else {
             // illegal touch-location: flash for 1/20 second
-            Tablesurface.flash(Color.RED, 50);
+            Tablesurface.flash(Color.WHITE, 50);
         }
-        */
+
     }
 
     /**
