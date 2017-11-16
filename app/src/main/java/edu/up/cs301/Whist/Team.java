@@ -45,5 +45,7 @@ public class Team {
     public int getTeamScore(){return teamScore;}
     public int getWonTricks(){return wonTricks.size();}
     public boolean isGranded(){return granded;}
+    public void resetGrand(){granded = false;}
     public void addPoints(int points){teamScore = teamScore+points;}
+    public void clearTricks(){wonTricks.clear();}
 }

@@ -55,6 +55,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
         // read in the card images
         Card.initImages(activity);
 
+
         // if the state is not null, simulate having just received the state so that
         // any state-related processing is done
         if (savedState != null) {
@@ -99,25 +100,48 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
         else return false;
     }
 
+
     public void tick(Canvas g){
-        // ignore if we have not yet received the game state
-        if (savedState == null) return;
+
+        Paint tableIn = new Paint();
+        Paint tableOut = new Paint();
+        tableOut.setColor(Color.rgb(42,111,0));
+        tableIn.setColor(Color.rgb(104,69,0));
+        RectF rectIn = new RectF(180,70,1840,780);
+        RectF rectOut = new RectF(200,90,1820,760);
+
+        g.drawOval(rectIn,tableIn);
+        g.drawOval(rectOut,tableOut);
+        //TODO need to draw cards onto 4 different RectF's for all 4 Blayers
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(40);
+        g.drawText("Overall Scores", 10, 40, paint);
+        paint.setTextSize(35);
+        g.drawText("Team 1:", 10, 75, paint);
+        g.drawText("Team 2:", 10, 110, paint);
+
+        paint.setTextSize(40);
+        g.drawText("Current Tricks", 1750, 40, paint);
+        paint.setTextSize(35);
+        g.drawText("Team 1:", 1750, 75, paint);
+        g.drawText("Team 2:", 1750, 110, paint);
 
         // get the height and width of the animation surface
-        int height = Tablesurface.getHeight();
-        int width = Tablesurface.getWidth();
-
-
-        RectF myR = new RectF(width/2 -200,height/2-200,width/2+200,height/2+200);
+        RectF myCardSpot = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
+                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
+        RectF playerTopSpot = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
+                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133-330);
+        RectF playerRightSpot = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
+                (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
+        RectF playerLeftSpot = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
+                (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
         Card dcl = Card.fromString("2C");
-        Log.i("Fack off Gringo","murica");
-        drawCard(g,myR,dcl);
-        Paint d = new Paint();
-        d.setColor(Color.BLUE);
-        g.drawRect(myR,d);
-
-
-
+        Card dl = Card.fromString("AC");
+        drawCard(g,myCardSpot,dcl);
+        drawCard(g,playerTopSpot,dcl);
+        drawCard(g,playerRightSpot,dl);
+        drawCard(g,playerLeftSpot,dl);
 
 
     }
@@ -182,18 +206,9 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
         //TODO this code is copied over from slapjack. it needs to be fixed to our game
 
-        RectF myTopCardLoc = playerCardLocation();
+        // illegal touch-location: flash for 1/20 second
+        Tablesurface.flash(Color.WHITE, 50);
 
-        if (myTopCardLoc.contains(x, y)) {
-            // it's on my pile: we're playing a card: send action to
-            // the game
-
-            //game.sendAction(new PlayCardAction(this));
-        }
-        else {
-            // illegal touch-location: flash for 1/20 second
-            Tablesurface.flash(Color.WHITE, 50);
-        }
 
     }
 

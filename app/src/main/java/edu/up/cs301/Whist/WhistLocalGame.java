@@ -39,6 +39,11 @@ public class WhistLocalGame extends LocalGame {
                 mainGameState.teams[1].addPoints(mainGameState.teams[1].getWonTricks());
             }
         }
+        for(Team t: mainGameState.teams){
+            t.resetGrand();
+            t.clearTricks();
+        }
+
         /////////////////////////////////
 
     }

@@ -1,5 +1,6 @@
 package edu.up.cs301.Whist;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 
 /**

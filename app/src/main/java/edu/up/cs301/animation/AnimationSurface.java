@@ -266,36 +266,8 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		return true;
 	};// class AnimationThread
 
-	//TODO Draw cards in specific places. Pull from resource file somehow
 
-	@Override
-	public void draw(Canvas c){
-		super.draw(c);
-		Paint tableIn = new Paint();
-		Paint tableOut = new Paint();
-		tableOut.setColor(Color.rgb(42,111,0));
-        tableIn.setColor(Color.rgb(104,54,0));
 
-		RectF rectIn = new RectF(180,140,1840,780);
-		RectF rectOut = new RectF(200,160,1820,760);
 
-		c.drawOval(rectIn,tableIn);
-		c.drawOval(rectOut,tableOut);
-		//TODO need to draw cards onto 4 different RectF's for all 4 Blayers
-		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextSize(40);
-		c.drawText("Overall Scores", 10, 40, paint);
-		paint.setTextSize(35);
-		c.drawText("Team 1:", 10, 75, paint);
-		c.drawText("Team 2:", 10, 110, paint);
-
-		paint.setTextSize(40);
-		c.drawText("Current Tricks", 1750, 40, paint);
-		paint.setTextSize(35);
-		c.drawText("Team 1:", 1750, 75, paint);
-        c.drawText("Team 2:", 1750, 110, paint);
-
-	}
 
 }// class AnimationSurface
