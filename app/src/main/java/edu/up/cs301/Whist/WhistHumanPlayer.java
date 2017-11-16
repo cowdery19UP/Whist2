@@ -41,7 +41,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
         // link the animator (this object) to the animation surface
         Tablesurface = (AnimationSurface) myActivity
-                .findViewById(R.id.animation_surface);
+                .findViewById(R.id.animationSurface);
         Tablesurface.setAnimator(this);
 
 

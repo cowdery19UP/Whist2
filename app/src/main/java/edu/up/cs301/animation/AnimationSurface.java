@@ -266,6 +266,8 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		return true;
 	};// class AnimationThread
 
+	//TODO Draw cards in specific places. Pull from resource file.
+
 	@Override
 	public void draw(Canvas c){
 		super.draw(c);
@@ -276,6 +278,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 
 		RectF rectIn = new RectF(180,140,1840,780);
 		RectF rectOut = new RectF(200,160,1820,760);
+
 		c.drawOval(rectIn,tableIn);
 		c.drawOval(rectOut,tableOut);
 		//TODO need to draw cards onto 4 different RectF's for all 4 Blayers
