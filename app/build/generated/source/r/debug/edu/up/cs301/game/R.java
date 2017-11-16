@@ -89,8 +89,8 @@ public final class R {
     }
     public static final class id {
         public static final int addPlayerButton=0x7f0a000d;
-        public static final int animationSurface=0x7f0a0019;
-        public static final int button=0x7f0a0018;
+        public static final int animationSurface=0x7f0a0017;
+        public static final int button=0x7f0a0019;
         public static final int configTableLayout=0x7f0a0007;
         public static final int delPlayerButton=0x7f0a0011;
         public static final int ipCodeLabel=0x7f0a0009;
@@ -108,7 +108,7 @@ public final class R {
         public static final int remoteTabLayout=0x7f0a0006;
         public static final int remote_player_spinner=0x7f0a0014;
         public static final int saveConfigButton=0x7f0a0001;
-        public static final int seekBar=0x7f0a0017;
+        public static final int seekBar=0x7f0a0018;
         public static final int serverIPCode=0x7f0a0015;
         public static final int tabHost=0x7f0a0000;
         public static final int tableDataRow=0x7f0a0012;

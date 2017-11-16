@@ -266,7 +266,7 @@ public class AnimationSurface extends SurfaceView implements OnTouchListener {
 		return true;
 	};// class AnimationThread
 
-	//TODO Draw cards in specific places. Pull from resource file.
+	//TODO Draw cards in specific places. Pull from resource file somehow
 
 	@Override
 	public void draw(Canvas c){
