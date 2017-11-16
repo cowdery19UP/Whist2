@@ -10,6 +10,7 @@ import edu.up.cs301.game.GamePlayer;
 public class PlayCardAction extends MoveAction {
     // the player who generated the request
     private GamePlayer player;
+    private Card card;
 
     /**
      * constructor for GameAction
@@ -17,10 +18,11 @@ public class PlayCardAction extends MoveAction {
      * @param player
      * 		the player who created the action
      */
-    public PlayCardAction(GamePlayer player) {
+    public PlayCardAction(GamePlayer player, Card c) {
         super(player);
+        card = c;
     }
 
-    public boolean isCardPlayAction(){return true;}
-    public boolean isBidAction(){return false;}
+    public boolean isCardPlayAction() { return true; }
+    public boolean isBidAction() { return false; }
 }

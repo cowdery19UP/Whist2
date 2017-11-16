@@ -1,11 +1,14 @@
 package WhistTesting;
 
 
+import android.widget.SeekBar;
+
 import org.junit.Test;
 
 import edu.up.cs301.Whist.CardStack;
 import edu.up.cs301.Whist.Deck;
 import edu.up.cs301.Whist.WhistComputerPlayer;
+import edu.up.cs301.Whist.WhistHumanPlayer;
 import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Rank;
 import edu.up.cs301.card.Suit;
@@ -80,5 +83,19 @@ public class Test1 {
         Deck d = new Deck();
         d.dealRandomCard(new WhistComputerPlayer(""));
         assertTrue("Card not removed from deck", d.getStack().size() < 52 );
+    }
+
+    @Test
+    public void testSeekBarPerent(){
+        WhistHumanPlayer p = new WhistHumanPlayer("name");
+        p.getMyHand().add(Card.fromString("2c"));
+        p.getMyHand().add(Card.fromString("3c"));
+        p.getMyHand().add(Card.fromString("4c"));
+        p.getMyHand().add(Card.fromString("5c"));
+        p.getMyHand().add(Card.fromString("6c"));
+
+        p.onProgressChanged(null,60,true );
+
+        assertTrue("wrong card selected", p.selectedCard.equals(Card.fromString("5c")));
     }
 }
