@@ -1,10 +1,12 @@
 package edu.up.cs301.Whist;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,10 +24,15 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  */
 
 public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
-    private GameMainActivity myActivity;
+
+    private Activity myActivity;
+
     private int backgroundColor = Color.BLACK;
+
     private Hand myHand = new Hand();
+
     private WhistGameState savedState;
+
     private AnimationSurface Tablesurface;
 
     public WhistHumanPlayer(String name){
@@ -63,9 +70,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
 
     @Override
     public View getTopView(){
-
-        //return activity.findViewById(R.id.top_gui_layout);
-        return null;
+        return myActivity.findViewById(R.id.top_gui_layout);
     }
     //returns the player hand
     public Hand getMyHand(){ return myHand;}
@@ -101,9 +106,19 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator{
         // get the height and width of the animation surface
         int height = Tablesurface.getHeight();
         int width = Tablesurface.getWidth();
+
+
         RectF myR = new RectF(width/2 -200,height/2-200,width/2+200,height/2+200);
         Card dcl = Card.fromString("2C");
-        dcl.drawOn(g,myR);
+        Log.i("Fack off Gringo","murica");
+        drawCard(g,myR,dcl);
+        Paint d = new Paint();
+        d.setColor(Color.BLUE);
+        g.drawRect(myR,d);
+
+
+
+
 
     }
     /**
