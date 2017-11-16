@@ -45,16 +45,25 @@ public class WhistLocalGame extends LocalGame {
         }
 
         /////////////////////////////////
-
+        sendAllUpdatedState();
     }
 
-
+    /**
+     * this method is called first to see if a move is legal.
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return
+     */
     @Override
     protected boolean canMove(int playerIdx){
         if(mainGameState.getTurn()==playerIdx) return true;
         else return false;
     }
 
+    /**
+     * this method is called after send updated states
+     * @return
+     */
     @Override
     protected String checkIfGameOver(){
         if(mainGameState.teams[0].getTeamScore()>=7){
@@ -66,9 +75,14 @@ public class WhistLocalGame extends LocalGame {
         else return null;
     }
 
+    /**
+     * This method alters the state based on the action received
+     */
     @Override
     protected boolean makeMove(GameAction action){
-
+        //newRound() should be somewhere in here
+        //newTrick()?
+        //if number of tricks or turn is 52 or all player's hand
         if(!(action instanceof MoveAction)){
             return false;
         }
@@ -81,18 +95,28 @@ public class WhistLocalGame extends LocalGame {
         if(action instanceof BidAction){
             //check to see if we are still within the first stage of the round
             if(mainGameState.getTurn()<4){
+                //lastly, increment the turn
+                mainGameState.turn++;
                 return true;
             }
             else return false;
         }
         if(action instanceof PlayCardAction){
             //TODO need to code in all the cases for playing a card
+
+            //lastly, increment the turn
+            mainGameState.turn++;
         }
 
 
         return false;
     }
 
+    /**
+     * This method needs to null out all information that isn't supposed to be known
+     * by certain players
+     * @param p
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
         p.sendInfo(mainGameState);

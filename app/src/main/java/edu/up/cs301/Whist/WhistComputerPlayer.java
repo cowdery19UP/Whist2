@@ -9,7 +9,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistComputerPlayer extends GameComputerPlayer {
 
-    private double reactionTime;
+    private double reactionTime = 5000;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 
@@ -18,6 +18,8 @@ public class WhistComputerPlayer extends GameComputerPlayer {
     }
 
     public void receiveInfo(GameInfo info){
+        //check for null state
+        //sleep, then make move.
         if(!(info instanceof WhistGameState)){
             return;
         }

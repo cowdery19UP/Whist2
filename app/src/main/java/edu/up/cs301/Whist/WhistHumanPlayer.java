@@ -72,9 +72,24 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
     }
 
+    /**
+     * when the game calls sendInfoTo...this method is called
+     *
+     * @param info
+     */
     @Override
     public void receiveInfo(GameInfo info){
-        info = (WhistGameState) info;
+        //check if state is not null
+        //update GUI and state
+        //could check if my turn..but that gets handled by the game framework
+
+        //
+        if(!(info instanceof WhistGameState)){
+            return;
+        }
+        //updates the player's gamestate
+        savedState = (WhistGameState) info;
+
 
     }
 
