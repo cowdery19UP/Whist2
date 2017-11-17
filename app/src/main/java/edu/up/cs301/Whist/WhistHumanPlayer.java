@@ -153,6 +153,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         g.drawText("Team 1:", 1750, 75, paint);
         g.drawText("Team 2:", 1750, 110, paint);
 
+
         // get the height and width of the animation surface
         RectF myCardSpot = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
                 (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
@@ -163,12 +164,52 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         RectF playerLeftSpot = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
         Card dcl = Card.fromString("2C");
-        Card dl = Card.fromString("AC");
+        Card dl = Card.fromString("AH");
         drawCard(g,myCardSpot,dcl);
         drawCard(g,playerTopSpot,dcl);
         drawCard(g,playerRightSpot,dl);
         drawCard(g,playerLeftSpot,dl);
 
+        RectF handSpot1 = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot2 = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot3 = new RectF((Tablesurface.getWidth()/2)-100-530,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-530,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot4 = new RectF((Tablesurface.getWidth()/2)-100-560,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-560,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot5 = new RectF((Tablesurface.getWidth()/2)-100-590,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-590,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot6 = new RectF((Tablesurface.getWidth()/2)-100-620,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-620,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot7 = new RectF((Tablesurface.getWidth()/2)-100-650,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100-650,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot8 = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot9 = new RectF((Tablesurface.getWidth()/2)-100+530,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+530,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot10 = new RectF((Tablesurface.getWidth()/2)-100+560,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+560,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot11 = new RectF((Tablesurface.getWidth()/2)-100+590,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+590,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot12 = new RectF((Tablesurface.getWidth()/2)-100+620,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+620,(Tablesurface.getHeight()/2)+133+400);
+        RectF handSpot13 = new RectF((Tablesurface.getWidth()/2)-100+650,(Tablesurface.getHeight()/2)-133+400,
+                (Tablesurface.getWidth()/2)+100+650,(Tablesurface.getHeight()/2)+133+400);
+
+        drawCard(g,handSpot1,dl);
+        drawCard(g,handSpot2,dcl);
+        drawCard(g,handSpot3,dl);
+        drawCard(g,handSpot4,dcl);
+        drawCard(g,handSpot5,dl);
+        drawCard(g,handSpot6,dcl);
+        drawCard(g,handSpot7,dl);
+        drawCard(g,handSpot8,dcl);
+        drawCard(g,handSpot9,dl);
+        drawCard(g,handSpot10,dcl);
+        drawCard(g,handSpot11,dl);
+        drawCard(g,handSpot12,dcl);
+        drawCard(g,handSpot13,dl);
 
     }
     /**
@@ -300,11 +341,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
+
     }
 
     public void onClick(View v){
         PlayCardAction action = new PlayCardAction(this, selectedCard);
         game.sendAction(action);
+
     }
 
     public void onStartTrackingTouch(SeekBar sb){
@@ -320,5 +363,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         float flIndex = myHand.getSize()*percent;
         //Log.i("Percent",""+percent);
         selectedCard = myHand.getCardByIndex((int)flIndex);
+
     }
 }

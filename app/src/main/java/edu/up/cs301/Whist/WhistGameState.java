@@ -19,7 +19,6 @@ public class WhistGameState extends GameState {
     public CardStack hotCards = new CardStack();
     public Deck mainDeck = new Deck();
 
-
     public GameInfo sendGameState(){
         return this;
     }
