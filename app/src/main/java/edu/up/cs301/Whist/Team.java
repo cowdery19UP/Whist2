@@ -13,18 +13,20 @@ public class Team {
     private GamePlayer[] thesePlayers = new GamePlayer[2];
     private int teamScore = 0;
     private boolean granded = false;
-    private ArrayList<CardStack> wonTricks = new ArrayList<CardStack>();
+    //wonTricks was originally an arrayList of CardStacks, but that was
+    //an inefficient use of memory considering it was only used as a number
+    public int wonTricks = 0;
 
     public Team(GamePlayer p1, GamePlayer p2){
         thesePlayers[0] = p1;
         thesePlayers[1] = p2;
     }
 
-    private void addPlayer(int indx, GamePlayer player){
+    public void addPlayer(int indx, GamePlayer player){
         thesePlayers[indx] = player;
     }
 
-    private void removePlayer(GamePlayer player){
+    public void removePlayer(GamePlayer player){
         if(thesePlayers[0].equals(player)){
             thesePlayers[0] = null;
         }
@@ -43,9 +45,9 @@ public class Team {
     }
 
     public int getTeamScore(){return teamScore;}
-    public int getWonTricks(){return wonTricks.size();}
+    public int getWonTricks(){return wonTricks;}
     public boolean isGranded(){return granded;}
     public void resetGrand(){granded = false;}
     public void addPoints(int points){teamScore = teamScore+points;}
-    public void clearTricks(){wonTricks.clear();}
+    public void clearTricks(){wonTricks = 0;}
 }

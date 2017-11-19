@@ -167,6 +167,8 @@ public class CardStack {
     public void remove(Card beGone){
         stack.remove(beGone);
     }
+
+    public void removeAll(){stack.clear();}
     /**
      * This method adds a card to the stack
      * @param addMe -- the card to be added
@@ -182,4 +184,6 @@ public class CardStack {
     public int getSize(){ return stack.size(); }
 
     public Card getCardByIndex(int index){ return stack.get(index); }
+
+
 }

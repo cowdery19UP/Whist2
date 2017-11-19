@@ -27,19 +27,45 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
  */
 
 public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnClickListener, OnSeekBarChangeListener {
+    //the main activity for the player
     private GameMainActivity myActivity;
+    //the unused background color
     private int backgroundColor = Color.BLACK;
+    //the hand of the player with all cards
     private Hand myHand = new Hand();
+    //the selected card of the player
     public Card selectedCard;
+    //the saved state to be accessed by the player
     private WhistGameState savedState;
+    //the animation surface for the user interface
     private AnimationSurface Tablesurface;
+    //the widgets to the gui
     private SeekBar handSeekBar;
     private Button playCardButton;
+
+    private RectF[] handSpots = new RectF[25];
+
 
 
 
     public WhistHumanPlayer(String name){
+
         super(name);
+        //testHand
+        myHand.add(Card.fromString("2C"));
+        myHand.add(Card.fromString("3D"));
+        myHand.add(Card.fromString("4D"));
+        myHand.add(Card.fromString("2S"));
+        myHand.add(Card.fromString("QC"));
+        myHand.add(Card.fromString("KD"));
+        myHand.add(Card.fromString("2C"));
+        myHand.add(Card.fromString("6H"));
+        myHand.add(Card.fromString("5C"));
+        myHand.add(Card.fromString("2S"));
+        myHand.add(Card.fromString("2C"));
+        myHand.add(Card.fromString("2C"));
+        myHand.add(Card.fromString("2H"));
+        myHand.add(Card.fromString("AS"));
     }
 
     public void setAsGui(GameMainActivity activity){
@@ -70,6 +96,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if (savedState != null) {
             receiveInfo(savedState);
         }
+
     }
 
     /**
@@ -79,16 +106,19 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     @Override
     public void receiveInfo(GameInfo info){
-        //check if state is not null
-        //update GUI and state
-        //could check if my turn..but that gets handled by the game framework
-
-        //
+        //check if the info is the correct type
         if(!(info instanceof WhistGameState)){
+            return;
+        }
+        //check if state is null
+        if(info==null){
             return;
         }
         //updates the player's gamestate
         savedState = (WhistGameState) info;
+        //updates the player hand from the new gamestate
+        myHand = savedState.getHand(playerNum);
+
 
 
     }
@@ -109,25 +139,14 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * @return -- returns true if the players are on the same team
      */
     public boolean sameTeam(GamePlayer otherplayer){
-        //if team 1 contains our player check to see if it also contains otherplayer
-        if(savedState.teams[0].hasPlayer(this)){
-            if(savedState.teams[0].hasPlayer(otherplayer)){
-                return true;
-            }
-            else return false;
-        }
-        //if team 2 contains our player check to see if it also contains otherplayer
-        else if (savedState.teams[1].hasPlayer(this)){
-            if(savedState.teams[1].hasPlayer(otherplayer)){
-                return true;
-            }
-            else return false;
-        }
-        else return false;
+
+         return false;
     }
 
 
     public void tick(Canvas g){
+        //set cards in hand spots
+        setHandSpots();
 
         Paint tableIn = new Paint();
         Paint tableOut = new Paint();
@@ -165,51 +184,19 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
         Card dcl = Card.fromString("2C");
         Card dl = Card.fromString("AH");
+        Card dd = Card.fromString("QH");
         drawCard(g,myCardSpot,dcl);
         drawCard(g,playerTopSpot,dcl);
         drawCard(g,playerRightSpot,dl);
         drawCard(g,playerLeftSpot,dl);
 
-        RectF handSpot1 = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot2 = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot3 = new RectF((Tablesurface.getWidth()/2)-100-530,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-530,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot4 = new RectF((Tablesurface.getWidth()/2)-100-560,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-560,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot5 = new RectF((Tablesurface.getWidth()/2)-100-590,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-590,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot6 = new RectF((Tablesurface.getWidth()/2)-100-620,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-620,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot7 = new RectF((Tablesurface.getWidth()/2)-100-650,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100-650,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot8 = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot9 = new RectF((Tablesurface.getWidth()/2)-100+530,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+530,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot10 = new RectF((Tablesurface.getWidth()/2)-100+560,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+560,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot11 = new RectF((Tablesurface.getWidth()/2)-100+590,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+590,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot12 = new RectF((Tablesurface.getWidth()/2)-100+620,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+620,(Tablesurface.getHeight()/2)+133+400);
-        RectF handSpot13 = new RectF((Tablesurface.getWidth()/2)-100+650,(Tablesurface.getHeight()/2)-133+400,
-                (Tablesurface.getWidth()/2)+100+650,(Tablesurface.getHeight()/2)+133+400);
-
-        drawCard(g,handSpot1,dl);
-        drawCard(g,handSpot2,dcl);
-        drawCard(g,handSpot3,dl);
-        drawCard(g,handSpot4,dcl);
-        drawCard(g,handSpot5,dl);
-        drawCard(g,handSpot6,dcl);
-        drawCard(g,handSpot7,dl);
-        drawCard(g,handSpot8,dcl);
-        drawCard(g,handSpot9,dl);
-        drawCard(g,handSpot10,dcl);
-        drawCard(g,handSpot11,dl);
-        drawCard(g,handSpot12,dcl);
-        drawCard(g,handSpot13,dl);
+        for(int i = 11; i>=0;i--){
+            drawCard(g,handSpots[i],dcl);
+        }
+        drawCard(g,handSpots[12],selectedCard);
+        for(int i = 24;i>=13;i--){
+            drawCard(g,handSpots[i],dd);
+        }
 
     }
     /**
@@ -243,14 +230,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     public boolean doQuit() {
         return false;
-    }
-
-    private RectF playerCardLocation(){
-        // get the height and width of the animation surface
-        int height = Tablesurface.getHeight();
-        int width = Tablesurface.getWidth();
-        return new RectF(width/2 -200,height/2-200,width/2+200,height/2+200);
-
     }
 
     /**
@@ -313,6 +292,23 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
     }
 
+    private void setHandSpots(){
+        int middle = Tablesurface.getWidth()/2;
+        int top = (Tablesurface.getHeight()/2)-133+400;
+        int bottom = (Tablesurface.getHeight()/2)+133+400;
+
+        handSpots[12]  = new RectF(middle-100,top,middle+100,bottom);
+
+        for(int i = 0; i<12;i++){
+            handSpots[i] = new RectF(middle-100-(450+(i*30)),top,middle+100-(450+(i*30)),bottom);
+        }
+        for(int i = 0; i<12; i++){
+            handSpots[i+13] = new RectF(middle-100+(450+(i*30)),top,middle+100+(450+(i*30)),bottom);
+
+        }
+
+    }
+
     /**
      * scales a rectangle, moving all edges with respect to its center
      *
@@ -345,8 +341,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     public void onClick(View v){
-        PlayCardAction action = new PlayCardAction(this, selectedCard);
-        game.sendAction(action);
+        if(v instanceof Button) {
+            Button b = (Button) v;
+            if (selectedCard != null) {
+                game.sendAction(new PlayCardAction(this, selectedCard));
+                b.setBackgroundColor(Color.DKGRAY);
+            }
+        }
 
     }
 
@@ -359,10 +360,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     public void onProgressChanged(SeekBar sb, int progress, boolean fromUser){
-        float percent = progress/100;
-        float flIndex = myHand.getSize()*percent;
-        //Log.i("Percent",""+percent);
-        selectedCard = myHand.getCardByIndex((int)flIndex);
+        if(myHand==null){flash(Color.RED,300);}
+        else {
+            float percent = progress / 100;
+            float flIndex = myHand.getSize() * percent;
+            //Log.i("Percent",""+percent);
+            selectedCard = myHand.getCardByIndex((int) flIndex);
+        }
 
     }
 }

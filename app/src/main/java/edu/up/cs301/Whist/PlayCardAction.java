@@ -25,4 +25,5 @@ public class PlayCardAction extends MoveAction {
 
     public boolean isCardPlayAction() { return true; }
     public boolean isBidAction() { return false; }
+    public Card getCard(){return card;}
 }

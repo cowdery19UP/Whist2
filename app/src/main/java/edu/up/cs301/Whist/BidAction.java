@@ -1,12 +1,13 @@
 package edu.up.cs301.Whist;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 
 /**
  * Created by Samuel on 11/10/2017.
  */
 
-public class BidAction extends MoveAction {
+public class BidAction extends PlayCardAction {
     // the player who generated the request
     private GamePlayer player;
 
@@ -16,8 +17,8 @@ public class BidAction extends MoveAction {
      * @param player
      * 		the player who created the action
      */
-    public BidAction(GamePlayer player) {
-        super(player);
+    public BidAction(GamePlayer player,Card c) {
+        super(player,c);
     }
 
     public boolean isCardPlayAction(){return false;}
