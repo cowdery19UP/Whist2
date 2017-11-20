@@ -160,13 +160,14 @@ public class CardStack {
         return theChosenOne;
     }
 
-    /*
-    public int getIndexOfCard(Card o){
-        for(int i=0;i<stack.size();i++){
 
+    public int getIndexOfCard(Card c){
+        for(int i=0;i<stack.size();i++){
+            if(c.equals(stack.get(i))) return i;
         }
+        return -1;
     }
-    */
+
 
     /**
      * This method removes a card from the stack

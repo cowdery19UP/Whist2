@@ -167,12 +167,15 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         setTableDisplay(g);
 
 
-        for(int i = 11; i>=0;i--){
-            drawCard(g,handSpots[i],myHand.getCardByIndex(i));
+        for(int i = 0; i<myHand.getIndexOfCard(selectedCard)-1;i++){
+            drawCard(g,handSpots[i],myHand.getCardByIndex(myHand.getIndexOfCard(selectedCard)-1-i));
         }
+
         drawCard(g,handSpots[12],selectedCard);
-        int i = 24;
-        int j = i-24;
+
+
+        int i;
+        int j = 0;
         for(i = 24;i>=13;i--){
             drawCard(g, handSpots[i], myHand.getCardByIndex(j));
             j++;
