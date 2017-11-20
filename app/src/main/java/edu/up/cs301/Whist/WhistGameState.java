@@ -51,6 +51,7 @@ public class WhistGameState extends GameState {
             }
         }
 
+
     }
     public GameInfo sendGameState(){
         return this;

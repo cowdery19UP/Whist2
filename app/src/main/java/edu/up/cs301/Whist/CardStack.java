@@ -185,5 +185,14 @@ public class CardStack {
 
     public Card getCardByIndex(int index){ return stack.get(index); }
 
+    public boolean hasCardInSuit(Suit s){
+        for(Card c: stack){
+            if(c.getSuit().equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

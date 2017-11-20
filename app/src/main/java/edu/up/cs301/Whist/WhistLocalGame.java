@@ -18,6 +18,8 @@ public class WhistLocalGame extends LocalGame {
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
+        if(players!=null){Log.i("players not null",""+players[0].toString());}
+        else Log.i("players null","sadface");
     }
 
     public void newRound(){

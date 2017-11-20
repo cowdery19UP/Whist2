@@ -81,7 +81,7 @@ public class Test1 {
     @Test
     public void testDealRandom(){
         Deck d = new Deck();
-        d.dealRandomCard(new WhistComputerPlayer(""));
+        //d.dealRandomCard(new WhistComputerPlayer("computer"));
         assertTrue("Card not removed from deck", d.getStack().size() < 52 );
     }
 

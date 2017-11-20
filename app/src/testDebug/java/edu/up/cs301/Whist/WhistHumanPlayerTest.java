@@ -5,6 +5,7 @@ import android.util.Log;
 import org.junit.Test;
 
 import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Suit;
 
 import static org.junit.Assert.*;
 
@@ -24,5 +25,12 @@ public class WhistHumanPlayerTest {
         p.onProgressChanged(null,60,true );
 
         assertTrue("wrong card selected"+p.selectedCard.shortName(), p.selectedCard.equals(Card.fromString("5c")));
+    }
+
+    @Test
+    public void testIfHasSuit(){
+        CardStack d = new CardStack();
+        d.add(Card.fromString("AC"));
+        assertTrue(d.hasCardInSuit(Suit.Club));
     }
 }

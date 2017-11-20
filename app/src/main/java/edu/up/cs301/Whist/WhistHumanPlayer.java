@@ -349,13 +349,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         Log.i("progress int:",""+progress);
         if(myHand.getSize()==0){
             flash(Color.RED,3000);
-            Log.i("nothing in hand","shiteee");
+
         }
         else {
-            float percent = progress / 100;
-
-            float flIndex = myHand.getSize() * percent;
-            //Log.i("Percent",""+percent);
+            float percent = (float)(progress) / 100;
+            float flIndex = (myHand.getSize()-1) * percent;
             selectedCard = myHand.getCardByIndex((int) flIndex);
         }
 
