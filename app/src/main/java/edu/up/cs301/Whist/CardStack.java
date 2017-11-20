@@ -160,6 +160,14 @@ public class CardStack {
         return theChosenOne;
     }
 
+    /*
+    public int getIndexOfCard(Card o){
+        for(int i=0;i<stack.size();i++){
+
+        }
+    }
+    */
+
     /**
      * This method removes a card from the stack
      * @param beGone -- the card to be removed

@@ -183,12 +183,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         drawCard(g,playerRightSpot,dl);
         drawCard(g,playerLeftSpot,dl);
 
+
         for(int i = 11; i>=0;i--){
-            drawCard(g,handSpots[i],dcl);
+            drawCard(g,handSpots[i],myHand.getCardByIndex(i));
         }
         drawCard(g,handSpots[12],selectedCard);
-        for(int i = 24;i>=13;i--){
-            drawCard(g,handSpots[i],dd);
+        int i = 24;
+        int j = i-24;
+        for(i = 24;i>=13;i--){
+            drawCard(g, handSpots[i], myHand.getCardByIndex(j));
+            j++;
+
         }
 
     }
