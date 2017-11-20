@@ -49,23 +49,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
 
     public WhistHumanPlayer(String name){
-
         super(name);
-        //testHand
-        myHand.add(Card.fromString("2C"));
-        myHand.add(Card.fromString("3D"));
-        myHand.add(Card.fromString("4D"));
-        myHand.add(Card.fromString("2S"));
-        myHand.add(Card.fromString("QC"));
-        myHand.add(Card.fromString("KD"));
-        myHand.add(Card.fromString("2C"));
-        myHand.add(Card.fromString("6H"));
-        myHand.add(Card.fromString("5C"));
-        myHand.add(Card.fromString("2S"));
-        myHand.add(Card.fromString("2C"));
-        myHand.add(Card.fromString("2C"));
-        myHand.add(Card.fromString("2H"));
-        myHand.add(Card.fromString("AS"));
+
     }
 
     public void setAsGui(GameMainActivity activity){
@@ -117,7 +102,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         //updates the player's gamestate
         savedState = (WhistGameState) info;
         //updates the player hand from the new gamestate
-        myHand = savedState.getHand(playerNum);
+        myHand = savedState.getHand();
 
 
 
@@ -347,12 +332,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 game.sendAction(new PlayCardAction(this, selectedCard));
                 b.setBackgroundColor(Color.DKGRAY);
             }
+            else flash(Color.RED,1000);
         }
 
     }
 
     public void onStartTrackingTouch(SeekBar sb){
-
+        Log.i("trackingtouch","money");
     }
 
     public void onStopTrackingTouch(SeekBar sb){
@@ -360,9 +346,14 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     public void onProgressChanged(SeekBar sb, int progress, boolean fromUser){
-        if(myHand==null){flash(Color.RED,300);}
+        Log.i("progress int:",""+progress);
+        if(myHand.getSize()==0){
+            flash(Color.RED,3000);
+            Log.i("nothing in hand","shiteee");
+        }
         else {
             float percent = progress / 100;
+
             float flIndex = myHand.getSize() * percent;
             //Log.i("Percent",""+percent);
             selectedCard = myHand.getCardByIndex((int) flIndex);

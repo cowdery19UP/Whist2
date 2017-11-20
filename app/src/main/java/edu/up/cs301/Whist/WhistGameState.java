@@ -42,7 +42,14 @@ public class WhistGameState extends GameState {
     public WhistGameState(){
         //initial gameState
         Log.i("CreatedNewState","new");
-
+        //deals the cards to the playerHands
+        ///////lesson learned: cannot use for each loops to instantiate items in an array./////
+        for(int i = 0; i<playerHands.length;i++){
+            playerHands[i] = new Hand();
+            for(int j = 0; j<13; j++){
+                playerHands[i].add(mainDeck.dealRandomCard());
+            }
+        }
 
     }
     public GameInfo sendGameState(){
@@ -51,8 +58,13 @@ public class WhistGameState extends GameState {
 
     public int getTurn(){return turn;}
 
-    public Hand getHand(int idx){
-        return playerHands[idx];
+    public Hand getHand(){
+        for(Hand d: playerHands){
+            if(d!=null){
+                return d;
+            }
+        }
+        return null;
     }
 
 

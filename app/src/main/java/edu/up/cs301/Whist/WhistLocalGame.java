@@ -164,11 +164,13 @@ public class WhistLocalGame extends LocalGame {
         //get the idx of the player p
         int idx = getPlayerIdx(p);
         //null out the other player's hands
+        /*
         for(int i = 0; i<mainGameState.playerHands.length;i++){
             if(i!=idx){
                 censoredState.playerHands[i]=null;
             }
         }
+        */
         p.sendInfo(censoredState);
     }
 

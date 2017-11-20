@@ -51,13 +51,25 @@ public class Deck extends CardStack {
     /**
      * This method deals a random card from the cardstack
      * contained in Deck from a random index from 0-stack.size()
-     * @param player -- the plater to deal the card to
+     * @param player -- the player to deal the card to
      */
-    public void dealRandomCard(WhistComputerPlayer player){
+    public void dealRandomCardToPlayer(WhistComputerPlayer player){
         int idx = (int)(Math.random()*stack.size());
         player.getMyHand().add(stack.get(idx));
         stack.remove(stack.get(idx));
     }
+    /**
+     * This method deals a random card from the cardstack
+     * contained in Deck from a random index from 0-stack.size()
+     *
+     */
+    public Card dealRandomCard(){
+        int idx = (int)(Math.random()*stack.size());
+        Card toReturn = stack.get(idx);
+        stack.remove(stack.get(idx));
+        return toReturn;
+    }
+
 
     public boolean contains(Card c){
         for(Card a: this.stack){
