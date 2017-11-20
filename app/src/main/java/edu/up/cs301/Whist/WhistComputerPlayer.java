@@ -10,7 +10,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistComputerPlayer extends GameComputerPlayer {
 
-    private double reactionTime = 5000;
+    private int reactionTime = 5000;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 
@@ -34,7 +34,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         //updates the cards on the table
         CardStack cardsOnTable = savedState.cardsInPlay;
 
-        sleep(5000);
+        sleep(reactionTime);
 
         //////////////////////////////////move handling//////////////////////////////
         //key off of what turn we are in
@@ -119,25 +119,5 @@ public class WhistComputerPlayer extends GameComputerPlayer {
     }
     public Hand getMyHand(){ return myHand;}
 
-    public boolean canWin(){
-        //key off of what turn we are in
-        int turnInTrick = savedState.getTurn()%4;
-        //new trick, no one has played yet
-        if(turnInTrick==1){
-            game.sendAction(new PlayCardAction(this,myHand.getHighest()));
-        }
-        //only one player has played on the other team
-        if(turnInTrick==2){
-            //if we cannot follow suit, play low
-            if(!myHand.hasCardInSuit(savedState.leadSuit)){
-                game.sendAction(new PlayCardAction(this,myHand.getLowest()));
-            }
-            Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
-
-        }
-
-
-        return false;
-    }
 }
 
