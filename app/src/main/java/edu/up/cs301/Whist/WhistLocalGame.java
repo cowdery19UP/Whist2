@@ -93,7 +93,7 @@ public class WhistLocalGame extends LocalGame {
         //////////////handle new round/////////////////
 
         /////////////handle new trick////////////////
-        if(mainGameState.getTurn()%4==0){
+        if(mainGameState.getTurn()%4==0&&mainGameState.getTurn()!=0){
             scoreTrick();
             mainGameState.turn++;
             return true;

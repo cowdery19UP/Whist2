@@ -31,9 +31,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         savedState = (WhistGameState) info;
         //updates the player's hand
         myHand = savedState.getHand();
-        //updates the cards on the table
-        CardStack cardsOnTable = savedState.cardsInPlay;
-
+        //sleep....shhhhh
         sleep(reactionTime);
 
         //////////////////////////////////move handling//////////////////////////////
@@ -112,11 +110,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                 else game.sendAction(new PlayCardAction(this,myHand.getLowestInSuit(savedState.leadSuit)));
             }
         }
+        ////////////////////////end move handling//////////////////////////////////////
 
-        //TODO figure out a way to determine if a card in the cardsInPlay CardStack belongs to partner
 
+    }//recieveInfo
 
-    }
     public Hand getMyHand(){ return myHand;}
 
 }

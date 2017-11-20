@@ -44,6 +44,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     private Button playCardButton;
 
     private RectF[] handSpots = new RectF[25];
+    private RectF[] tableSpots = new RectF[4];
 
 
 
@@ -68,6 +69,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
         handSeekBar = (SeekBar) myActivity.findViewById(R.id.hand_seek_bar);
         handSeekBar.setOnSeekBarChangeListener(this);
+        handSeekBar.setProgress(50);
 
         playCardButton = (Button) myActivity.findViewById(R.id.play_card_button);
         playCardButton.setOnClickListener(this);
@@ -103,6 +105,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         savedState = (WhistGameState) info;
         //updates the player hand from the new gamestate
         myHand = savedState.getHand();
+        if(myHand.getSize()==13){
+            selectedCard = myHand.getCardByIndex(myHand.getSize()/2);
+        }
+
 
 
 
@@ -167,6 +173,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
         RectF playerLeftSpot = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
+
+
         Card dcl = Card.fromString("2C");
         Card dl = Card.fromString("AH");
         Card dd = Card.fromString("QH");
@@ -262,9 +270,9 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             // - white, slightly smaller
             // - blue, even slightly smaller
             Paint white = new Paint();
-            white.setColor(Color.WHITE);
+            white.setColor(Color.BLACK);
             Paint blue = new Paint();
-            blue.setColor(Color.BLUE);
+            blue.setColor(Color.BLACK);
             RectF inner1 = scaledBy(rect, 0.96f); // scaled by 96%
             RectF inner2 = scaledBy(rect, 0.98f); // scaled by 98%
             g.drawRect(rect, blue); // outer rectangle: blue
