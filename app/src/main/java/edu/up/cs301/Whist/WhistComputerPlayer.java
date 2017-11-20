@@ -38,11 +38,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         //key off of what turn we are in
         int turnInTrick = savedState.getTurn()%4;
         //new trick, no one has played yet
-        if(turnInTrick==1){
+        if(turnInTrick==0){
             game.sendAction(new PlayCardAction(this,myHand.getHighest()));
         }
         //only one player has played on the other team
-        else if(turnInTrick==2){
+        else if(turnInTrick==1){
             //if we cannot follow suit, play low
             if(!myHand.hasCardInSuit(savedState.leadSuit)){
                 game.sendAction(new PlayCardAction(this,myHand.getLowest()));
@@ -61,7 +61,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
 
         }
         //only 2 players have played, an opponent and an allie
-        else if (turnInTrick==3){
+        else if (turnInTrick==2){
             //if we cannot follow suit, play low
             if(!myHand.hasCardInSuit(savedState.leadSuit)){
                 game.sendAction(new PlayCardAction(this,myHand.getLowest()));
@@ -85,7 +85,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
             }
         }
         //all 3 other players have played, and it is down to me...
-        else if (turnInTrick==0){
+        else if (turnInTrick==3){
             //if we cannot follow suit, play low
             if(!myHand.hasCardInSuit(savedState.leadSuit)){
                 game.sendAction(new PlayCardAction(this,myHand.getLowest()));

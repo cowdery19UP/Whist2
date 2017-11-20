@@ -129,7 +129,7 @@ public class WhistLocalGame extends LocalGame {
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
-            if(mainGameState.getTurn()%4==1){
+            if(mainGameState.getTurn()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
             //moves the played card onto the table and into the set of played cards
@@ -180,7 +180,7 @@ public class WhistLocalGame extends LocalGame {
         //determine which card and player won the trick
         Card winningCard = mainGameState.cardsInPlay.getCardByIndex(0);
         int winningPlayerIdx = 0;
-        for(int i = 0; i<mainGameState.cardsInPlay.stack.size();i++){
+        for(int i = 0; i<4;i++){
            if(winningCard.getRank().value(14)<mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)){
                winningCard =  mainGameState.cardsInPlay.getCardByIndex(i);
                i = winningPlayerIdx;
@@ -195,9 +195,12 @@ public class WhistLocalGame extends LocalGame {
         else{
             mainGameState.team1WonTricks++;
         }
-        //clears the
+        //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
+        mainGameState.leadPlayer = winningPlayerIdx;
     }
+
+    //TODO figure out how the heck 'teams' work
     private void setTeams(){
         if(mainGameState!=null) {
             mainGameState.teams[0] = new Team(players[0], players[2]);

@@ -136,8 +136,9 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
 
     public void tick(Canvas g){
-        //set cards in hand spots
+        //set rectangles for hand and table spots
         setHandSpots();
+        setTableSpots();
 
         Paint tableIn = new Paint();
         Paint tableOut = new Paint();
@@ -163,25 +164,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         g.drawText("Team 1:", 1750, 75, paint);
         g.drawText("Team 2:", 1750, 110, paint);
 
-
-        // get the height and width of the animation surface
-        RectF myCardSpot = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
-                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
-        RectF playerTopSpot = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
-                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133-330);
-        RectF playerRightSpot = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
-                (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
-        RectF playerLeftSpot = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
-                (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
-
-
-        Card dcl = Card.fromString("2C");
-        Card dl = Card.fromString("AH");
-        Card dd = Card.fromString("QH");
-        drawCard(g,myCardSpot,dcl);
-        drawCard(g,playerTopSpot,dcl);
-        drawCard(g,playerRightSpot,dl);
-        drawCard(g,playerLeftSpot,dl);
+        setTableDisplay(g);
 
 
         for(int i = 11; i>=0;i--){
@@ -290,6 +273,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
     }
 
+    private void setTableDisplay(Canvas g){
+        if(savedState.cardsInPlay!=null) {
+            int Startspot = savedState.leadPlayer;
+            for(Card c: savedState.cardsInPlay.stack){
+                drawCard(g,tableSpots[Startspot%4],c);
+                Startspot++;
+            }
+        }
+
+    }
+
     private void setHandSpots(){
         int middle = Tablesurface.getWidth()/2;
         int top = (Tablesurface.getHeight()/2)-133+400;
@@ -305,6 +299,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
         }
 
+    }
+    private void setTableSpots(){
+        // get the height and width of the animation surface
+        tableSpots[0] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
+                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
+        tableSpots[2] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
+                (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133-330);
+        tableSpots[3] = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
+                (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
+        tableSpots[1] = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
+                (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
     }
 
     /**

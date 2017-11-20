@@ -15,20 +15,21 @@ import edu.up.cs301.game.infoMsg.GameState;
 
 public class WhistGameState extends GameState {
     //turn integer incremented from 0-52 in a round
-    public int turn;
+    public int turn = 0;
     //a cardStack of the cards in play on the TABLE
-    public CardStack cardsInPlay = new CardStack();
+    public CardStack cardsInPlay;
     //a card stack of the cards that have been played in the ENTIRE ROUND
-    public CardStack cardsPlayed = new CardStack();
+    public CardStack cardsPlayed;
     //an array of hands one for each player
     public Hand[] playerHands = new Hand[4];
     //the cardStack of hot cards
-    public CardStack hotCards = new CardStack();
+    public CardStack hotCards;
     //the main deck the game is using
-    public Deck mainDeck = new Deck();
+    public Deck mainDeck;
     //the leadingSuit of the trick
     public Suit leadSuit;
-
+    //the index of the leading player
+    public int leadPlayer;
     //the array of 2 teams in the game
     public Team[] teams = new Team[2];
     ///////////////substitute for Team Class////////////
@@ -42,6 +43,10 @@ public class WhistGameState extends GameState {
     public WhistGameState(){
         //initial gameState
         Log.i("CreatedNewState","new");
+        cardsInPlay = new CardStack();
+        cardsPlayed = new CardStack();
+        hotCards = new CardStack();
+        mainDeck  = new Deck();
         //deals the cards to the playerHands
         ///////lesson learned: cannot use for each loops to instantiate items in an array./////
         for(int i = 0; i<playerHands.length;i++){
@@ -50,8 +55,6 @@ public class WhistGameState extends GameState {
                 playerHands[i].add(mainDeck.dealRandomCard());
             }
         }
-
-
     }
     public GameInfo sendGameState(){
         return this;

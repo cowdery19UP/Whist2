@@ -173,7 +173,9 @@ public class CardStack {
      * @param beGone -- the card to be removed
      */
     public void remove(Card beGone){
-        stack.remove(beGone);
+        synchronized (stack) {
+            stack.remove(beGone);
+        }
     }
 
     public void removeAll(){stack.clear();}
@@ -182,7 +184,9 @@ public class CardStack {
      * @param addMe -- the card to be added
      */
     public void add(Card addMe){
-        stack.add(addMe);
+        synchronized (stack) {
+            stack.add(addMe);
+        }
     }
 
     public ArrayList<Card> getStack(){
