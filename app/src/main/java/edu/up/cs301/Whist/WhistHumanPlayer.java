@@ -164,8 +164,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         g.drawText("Team 1:", 1750, 75, paint);
         g.drawText("Team 2:", 1750, 110, paint);
 
-        setTableDisplay(g);
+        if(savedState.cardsInPlay!=null){setTableDisplay(g);}
 
+
+        //TODO ANDREW: somewhere in here there is an IndexOutOfBoundsException that is off by just 1
+        //TODO ANDREW: the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
 
         for(int i = 0; i<myHand.getIndexOfCard(selectedCard)-1;i++){
             drawCard(g,handSpots[i],myHand.getCardByIndex(myHand.getIndexOfCard(selectedCard)-1-i));
@@ -277,13 +280,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     private void setTableDisplay(Canvas g){
-        if(savedState.cardsInPlay!=null) {
-            int Startspot = savedState.leadPlayer;
-            for(Card c: savedState.cardsInPlay.stack){
-                drawCard(g,tableSpots[Startspot%4],c);
-                Startspot++;
-            }
-        }
+        int Startspot = savedState.leadPlayer;
+         for(Card c: savedState.cardsInPlay.stack){
+              drawCard(g,tableSpots[Startspot%4],c);
+              Startspot++;
+         }
 
     }
 
