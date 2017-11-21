@@ -16,6 +16,7 @@ public class WhistLocalGame extends LocalGame {
 
     private WhistGameState mainGameState;
     private boolean newTrick = false;
+    private boolean grandingPhase = false;
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -26,23 +27,39 @@ public class WhistLocalGame extends LocalGame {
     public void newRound(){
         ///////handling points///////////
         //begin by adding points to the team that won the most tricks in the round
+
+        //if team 1 had more tricks, they get points
         if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
            //score is doubled for a team that wins without granding
             if(!mainGameState.team1Granded){
-                addPoints(1,mainGameState.team1WonTricks*2);
+                mainGameState.team1Points+=((mainGameState.team1WonTricks-6)*2);
             }
             else{
-                addPoints(1,mainGameState.team1WonTricks);
+                mainGameState.team1Points+=((mainGameState.team1WonTricks-6));
             }
         }
+        //else team 2 had more tricks, so they get points
         else{
-            if(!mainGameState.team1Granded){
-                addPoints(2,mainGameState.team1WonTricks*2);
+            //score is doubled if team 2 wins when team 1 granded
+            if(mainGameState.team1Granded){
+                mainGameState.team2Points+=((mainGameState.team1WonTricks-6)*2);
             }
             else{
-                addPoints(2,mainGameState.team1WonTricks);
+                mainGameState.team2Points+=((mainGameState.team2WonTricks-6));
             }
         }
+        /////////////////////////////////Points Handled/////////////////////////////
+        //get a new deck and deal new hands
+        mainGameState.mainDeck = new Deck();
+        for(Hand h: mainGameState.playerHands){
+            h.removeAll();
+            for(int i = 0; i<13;i++){
+                h.add(mainGameState.mainDeck.dealRandomCard());
+            }
+        }
+        //clears out the cards played and cards in play
+        mainGameState.cardsPlayed.removeAll();
+        mainGameState.cardsInPlay.removeAll();
         //sets the turn back to zero
         mainGameState.turn = 0;
         //sets the grand back to false
@@ -51,7 +68,7 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.team1WonTricks = 0;
         mainGameState.team2WonTricks = 0;
 
-        /////////////////////////////////
+
 
     }
 
@@ -63,7 +80,7 @@ public class WhistLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx){
-        if(mainGameState.getTurn()%4==playerIdx) return true;
+        if(mainGameState.getTurn()==playerIdx) return true;
         else return false;
     }
 
@@ -99,13 +116,13 @@ public class WhistLocalGame extends LocalGame {
             return false;
         }
         //check to see who's turn it is
-        else if(thisPlayerIdx!=mainGameState.turn%4){
+        else if(thisPlayerIdx!=mainGameState.turn){
             //if it isn't technically that player's turn, but we are in bid phase
             if(action instanceof BidAction){
                 //check to see if we are still within the bidding stage of the round
                 if(mainGameState.getTurn()<4){
                     //lastly, increment the turn
-                    mainGameState.turn++;
+                    incrementTurn();
                     sendAllUpdatedState();
                     return true;
                 }
@@ -135,9 +152,9 @@ public class WhistLocalGame extends LocalGame {
             }
             else return false;
             //lastly, set the turn
-            mainGameState.turn++;
-            //after 4 moves, set new trick to true
-            if(mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.turn!=0){newTrick = true;}
+            incrementTurn();
+            //after 4 moves, and not at the start of the round, set new trick to true
+            if(mainGameState.cardsPlayed.getSize()%4==0){newTrick = true;}
             sendAllUpdatedState();
             return true;
         }
@@ -185,10 +202,11 @@ public class WhistLocalGame extends LocalGame {
      * This method is called anytime the turn reaches a multiple of 4
      */
     public void scoreTrick(){
+
         //determine which card and player won the trick
         Card winningCard = mainGameState.cardsInPlay.getCardByIndex(0);
         int winningPlayerIdx = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < mainGameState.cardsInPlay.getSize(); i++) {
             if (winningCard.getRank().value(14) < mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)) {
                 winningCard = mainGameState.cardsInPlay.getCardByIndex(i);
                 winningPlayerIdx = i;
@@ -196,11 +214,13 @@ public class WhistLocalGame extends LocalGame {
         }
         //if the winning player was on team 2 (meaning it was either player 2 or 4)
         //add to their wonTricks
-        if((winningPlayerIdx+1)%2==0){
+        if(winningPlayerIdx%2==1){
+            Log.i("scoreTrick","Team 2");
             mainGameState.team2WonTricks++;
         }
         //add to other team's wonTricks
         else{
+            Log.i("scoreTrick","Team 1");
             mainGameState.team1WonTricks++;
         }
         //sleep thread to allow the user to get one last look at the completed trick
@@ -231,6 +251,10 @@ public class WhistLocalGame extends LocalGame {
             case 2: mainGameState.team2Points = mainGameState.team2Points+points;
                 break;
         }
+    }
+    public void incrementTurn(){
+        mainGameState.turn ++;
+        mainGameState.turn%=4;
     }
 }
 

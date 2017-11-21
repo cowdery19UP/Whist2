@@ -175,12 +175,53 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             refresh.post(new Runnable() {
                 public void run()
                 {
-                    if(savedState.getTurn()%4==playerNum) playCardButton.setBackgroundColor(Color.GREEN);
-                    else  playCardButton.setBackgroundColor(Color.DKGRAY);
+                    //if the leadSuit has been established and we have the suit
+                    if(savedState.cardsInPlay.getSize()!=0){
+                        if(savedState.getTurn()%4==playerNum&&myHand.hasCardInSuit(savedState.leadSuit)){
+                            //button turn green to indicate legal card play
+                            if(selectedCard!=null) {
+                                if (selectedCard.getSuit().equals(savedState.leadSuit)) {
+                                    playCardButton.setBackgroundColor(Color.GREEN);
+                                    playCardButton.setEnabled(true);
+                                }
+                                else {
+                                    playCardButton.setBackgroundColor(Color.RED);
+                                    playCardButton.setEnabled(false);
+                                }
+                            }
+                            else {
+                                playCardButton.setBackgroundColor(Color.GREEN);
+                                playCardButton.setEnabled(false);
+                            }
+
+                        }
+                        //if we do not have the suit of the leadSuit, set button to a darker, sadder green
+                        else if(savedState.getTurn()%4==playerNum&&!myHand.hasCardInSuit(savedState.leadSuit)){
+                            playCardButton.setBackgroundColor(Color.rgb(34,139,34));
+                            playCardButton.setEnabled(true);
+                        }
+                        //for all other times, it is not our turn and it is not legal to play
+                        else  {
+                            playCardButton.setBackgroundColor(Color.DKGRAY);
+                            playCardButton.setEnabled(false);
+                        }
+                    }
+                    //there are no cards in play, the hand has just started
+                    else{
+                        //if it is our turn, all cards will be good to lead
+                        if(savedState.getTurn()%4==playerNum){
+                            playCardButton.setBackgroundColor(Color.GREEN);
+                            playCardButton.setEnabled(true);
+                        }
+                        //it is not our turn, do not play
+                        else  {
+                            playCardButton.setBackgroundColor(Color.DKGRAY);
+                            playCardButton.setEnabled(false);
+                        }
+                    }
+
                 }
             });
-
-
 
             //assigns and paints the cards in play that will appear on the table
             if (savedState.cardsInPlay != null) {
