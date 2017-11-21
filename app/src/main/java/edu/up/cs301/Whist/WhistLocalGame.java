@@ -193,8 +193,6 @@ public class WhistLocalGame extends LocalGame {
                 censoredState.playerHands[i]=null;
             }
         }
-        //TODO Patrick: need to re-work your sorting algorithm. Currently it crashes the game...
-        //mainGameState.playerHands[idx].organizeBySuit();
         p.sendInfo(censoredState);
     }
 

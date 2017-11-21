@@ -24,6 +24,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by PatrickMaloney on 11/7/17.
@@ -344,18 +346,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
     private void setTableDisplay(Canvas g){
            int Startspot = savedState.leadPlayer;
-           for (Card c : savedState.cardsInPlay.stack) {
+           ArrayList<Card> stackCopy = (ArrayList<Card>)savedState.cardsInPlay.stack.clone();
+           for (Card c : stackCopy) {
                drawCard(g, tableSpots[Startspot % 4], c);
                Startspot++;
            }
-
-
     }
 
     private void setHandSpots(){
         int middle = Tablesurface.getWidth()/2;
-        int top = (Tablesurface.getHeight()/2)-133+400;
-        int bottom = (Tablesurface.getHeight()/2)+133+400;
+        int top = (Tablesurface.getHeight()/2)-133+450;
+        int bottom = (Tablesurface.getHeight()/2)+133+450;
 
         handSpots[12]  = new RectF(middle-100,top,middle+100,bottom);
 
