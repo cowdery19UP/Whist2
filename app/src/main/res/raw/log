@@ -45,7 +45,7 @@ SOLUTION: used a boolean and corrected the if statements to prevent scoreTrick &
 
 11/20/2017 - Samuel Cowdery
 PROBLEM: the scoreTrick method occasionally assigns the wrong "winningPlayerIdx" for the scored trick
-            and adds points to the wrong team
+            and adds points to the wrong team and assigns the wrong leadPlayer to the mainState
 
 11/21/2017 - Samuel Cowdery
 PROBLEM: the last card in the round sometimes cannot be played by the human player -----------RESOLVED?
