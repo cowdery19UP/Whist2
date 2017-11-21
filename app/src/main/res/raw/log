@@ -44,14 +44,11 @@ SOLUTION: used a boolean and corrected the if statements to prevent scoreTrick &
 /////////////////UNRESOLVED////////////////////////////
 
 11/20/2017 - Samuel Cowdery
-PROBLEM: the "lead" after a new trick is assigned incorrectly
-
-
-11/21/2017 - Samuel Cowdery
-PROBLEM: the wonTricks for the wrong team is occasionally incremented
+PROBLEM: the scoreTrick method occasionally assigns the wrong "winningPlayerIdx" for the scored trick
+            and adds points to the wrong team
 
 11/21/2017 - Samuel Cowdery
-PROBLEM: the last card in the round sometimes cannot be played by the human player
+PROBLEM: the last card in the round sometimes cannot be played by the human player -----------RESOLVED?
 
 11/21/2017 - Samuel Cowdery
-PROBLEM: after creating a new round, the GUI is off for the first play for the human and a duplicate card is created
+PROBLEM: after creating a new round, the GUI is incorrect for the first play for the human and a duplicate card is created
