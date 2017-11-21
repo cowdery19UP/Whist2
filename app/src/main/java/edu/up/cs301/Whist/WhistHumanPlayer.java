@@ -187,6 +187,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                                     playCardButton.setEnabled(true);
                                 }
                                 else {
+                                    playCardButton.setBackgroundColor(Color.DKGRAY);
                                     playCardButton.setEnabled(false);
                                 }
                             }
@@ -416,6 +417,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Button b = (Button) v;
             if (selectedCard != null) {
                 game.sendAction(new PlayCardAction(this, selectedCard));
+                myHand.remove(selectedCard);
+                selectedCard = null;
                 b.setBackgroundColor(Color.DKGRAY);
             }
             else flash(Color.RED,1000);

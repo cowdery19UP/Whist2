@@ -16,6 +16,7 @@ public class WhistLocalGame extends LocalGame {
 
     private WhistGameState mainGameState;
     private boolean newTrick = false;
+    private boolean newRound = false;
     private boolean grandingPhase = false;
 
     public WhistLocalGame(){
@@ -24,7 +25,7 @@ public class WhistLocalGame extends LocalGame {
         else Log.i("players null","sadface");
     }
 
-    public void newRound(){
+    public void beginNewRound(){
         ///////handling points///////////
         //begin by adding points to the team that won the most tricks in the round
 
@@ -49,6 +50,11 @@ public class WhistLocalGame extends LocalGame {
             }
         }
         /////////////////////////////////Points Handled/////////////////////////////
+        //sleep for a little....shhhhh
+        try{
+            Thread.sleep(5000);
+        } catch (InterruptedException e){}
+
         //get a new deck and deal new hands
         mainGameState.mainDeck = new Deck();
         for(Hand h: mainGameState.playerHands){
@@ -67,7 +73,8 @@ public class WhistLocalGame extends LocalGame {
         //sets the tricks back to zero
         mainGameState.team1WonTricks = 0;
         mainGameState.team2WonTricks = 0;
-
+        //reset the new round boolean
+        newRound = false;
 
 
     }
@@ -141,20 +148,15 @@ public class WhistLocalGame extends LocalGame {
             //moves the played card onto the table and into the set of played cards
             mainGameState.cardsInPlay.add(playedCard);
             mainGameState.cardsPlayed.add(playedCard);
-            //removes the card from the player's hand (regardles of CPU or human)
-            if(theAction.getPlayer()instanceof WhistHumanPlayer){
-                mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
-                ((WhistHumanPlayer) players[0]).selectedCard = null;
 
-            }
-            else if(theAction.getPlayer()instanceof WhistComputerPlayer){
-                mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
-            }
-            else return false;
+
+            //removes the card from the player's hand (regardles of CPU or human)
+            mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             //lastly, set the turn
             incrementTurn();
             //after 4 moves, and not at the start of the round, set new trick to true
             if(mainGameState.cardsPlayed.getSize()%4==0){newTrick = true;}
+            if(mainGameState.cardsPlayed.getSize()==52){newRound = true;}
             sendAllUpdatedState();
             return true;
         }
@@ -170,8 +172,8 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
         ////////////////handle new Round//////////////
-        if(mainGameState.cardsPlayed.getSize()==52){
-            newRound();
+        if(newRound){
+            beginNewRound();
         }
         //////////////handle new round/////////////////
 
@@ -210,6 +212,7 @@ public class WhistLocalGame extends LocalGame {
                 winningPlayerIdx = i;
             }
         }
+        Log.i("winningPlayerIdx",""+winningPlayerIdx);
         //if the winning player was on team 2 (meaning it was either player 2 or 4)
         //add to their wonTricks
         if(winningPlayerIdx%2==1){
@@ -253,6 +256,7 @@ public class WhistLocalGame extends LocalGame {
     public void incrementTurn(){
         mainGameState.turn ++;
         mainGameState.turn%=4;
+        Log.i("gameTurn= ", ""+mainGameState.turn);
     }
 }
 

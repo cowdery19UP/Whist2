@@ -32,10 +32,21 @@ SOLUTION: via modular arithmetic, the turn of the trick is determined by somethi
 PROBLEM: if the human player does not move his/her seekbar after playing a card, the card played is NOT removed from the hand
 SOLUTION: Samuel set the selectedCard in the human player to null after playing a card
 
+11/20/2017 - Samuel Cowdery
+PROBLEM: there is a concurrent modification exception in the HumanPlayer tick method
+SOLUTION: Patrick used a better method to increment through the stack of cardsInPlay
+
 /////////////////UNRESOLVED////////////////////////////
 
 11/20/2017 - Samuel Cowdery
-PROBLEM: there is a concurrent modification exception in the HumanPlayer tick method
-
-11/20/2017 - Samuel Cowdery
 PROBLEM: the "lead" after a new trick is assigned incorrectly
+
+
+11/21/2017 - Samuel Cowdery
+PROBLEM: the wonTricks for the wrong team is occasionally incremented
+
+11/21/2017 - Samuel Cowdery
+PROBLEM: the last card in the round sometimes cannot be played by the human player
+
+11/21/2017 - Samuel Cowdery
+PROBLEM: Crashes after new round ---- try using same methodology for trick with boolean
