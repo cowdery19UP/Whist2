@@ -67,21 +67,25 @@ public class Hand extends CardStack {
     }
 
     private void sortCards(){
-        Card[] arr = new Card[stack.size()];
-        for(int i = 0; i < arr.length; i++){
+        Card[] arr = new Card[stack.size()]; //array used to sort
+
+        for(int i = 0; i < arr.length; i++){ //copying stack to new array
             arr[i] = stack.get(i);
         }
-        for(int i = 1; i < arr.length; i++){
+
+        for(int i = 1; i < arr.length; i++){ //performing insertion sort
             Card key = arr[i];
             int j = i-1;
-            while (j>=0 && arr[j].getRank().value(14) > key.getRank().value(14)){
+            while (j>=0 && arr[j].getRank().value(14) > key.getRank().value(14)){ //bumping all cards forward one after an insertion
                 arr[j+1] = arr[j];
                 j--;
             }
             arr[j+1] = key;
         }
-        stack.clear();
-        for(int i = 0; i < arr.length; i++){
+
+        stack.clear(); //clear stack to copy array back in
+
+        for(int i = 0; i < arr.length; i++){ //copying array back into CardStack
             stack.add(arr[i]);
         }
     }
