@@ -62,7 +62,7 @@ public class WhistLocalGame extends LocalGame {
      */
     @Override
     protected boolean canMove(int playerIdx){
-        if(mainGameState.getTurn()==playerIdx) return true;
+        if(mainGameState.getTurn()%4==playerIdx) return true;
         else return false;
     }
 
@@ -98,7 +98,7 @@ public class WhistLocalGame extends LocalGame {
             return false;
         }
         //check to see who's turn it is
-        else if(thisPlayerIdx!=mainGameState.turn){
+        else if(thisPlayerIdx!=mainGameState.turn%4){
             //if it isn't technically that player's turn, but we are in bid phase
             if(action instanceof BidAction){
                 //check to see if we are still within the bidding stage of the round
@@ -116,8 +116,8 @@ public class WhistLocalGame extends LocalGame {
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
-            //this method assigns the lead suit of that trick --works!
-            if(mainGameState.getTurn()%4==0){
+            //this method assigns the lead suit of that trick
+            if(mainGameState.cardsPlayed.getSize()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
             //moves the played card onto the table and into the set of played cards
@@ -131,12 +131,10 @@ public class WhistLocalGame extends LocalGame {
                 mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             }
             else return false;
-            //TODO need to code in all the cases for playing a card
-
-            //lastly, increment the turn
-            mainGameState.turn = mainGameState.cardsPlayed.getSize();
+            //lastly, set the turn
+            mainGameState.turn++;
             //after 4 moves, set new trick to true
-            if(mainGameState.turn%4==0&&mainGameState.turn!=0){newTrick = true;}
+            if(mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.turn!=0){newTrick = true;}
             sendAllUpdatedState();
             return true;
         }
@@ -159,7 +157,9 @@ public class WhistLocalGame extends LocalGame {
 
         /////////////handle new trick////////////////
         if(newTrick){
-            scoreTrick();
+            synchronized (mainGameState) {
+                scoreTrick();
+            }
         }
         //////////////new Trick handled////////////////
 
@@ -173,24 +173,27 @@ public class WhistLocalGame extends LocalGame {
                 censoredState.playerHands[i]=null;
             }
         }
-
+        //TODO Patrick: need to re-work your sorting algorithm. Currently it crashes the game...
+        //mainGameState.playerHands[idx].organizeBySuit();
         p.sendInfo(censoredState);
     }
 
+    /**
+     * This method is called anytime the turn reaches a multiple of 4
+     */
     public void scoreTrick(){
         //determine which card and player won the trick
         Card winningCard = mainGameState.cardsInPlay.getCardByIndex(0);
         int winningPlayerIdx = 0;
-
-        for(int i = 0; i<4;i++){
-           if(winningCard.getRank().value(14)<mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)){
-               winningCard =  mainGameState.cardsInPlay.getCardByIndex(i);
-               i = winningPlayerIdx;
-           }
+        for (int i = 0; i < 4; i++) {
+            if (winningCard.getRank().value(14) < mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)) {
+                winningCard = mainGameState.cardsInPlay.getCardByIndex(i);
+                winningPlayerIdx = i;
+            }
         }
         //if the winning player was on team 2 (meaning it was either player 2 or 4)
         //add to their wonTricks
-        if(winningPlayerIdx+1%2==0){
+        if((winningPlayerIdx+1)%2==0){
             mainGameState.team2WonTricks++;
         }
         //add to other team's wonTricks
@@ -203,8 +206,10 @@ public class WhistLocalGame extends LocalGame {
 
         //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
-        mainGameState.leadPlayer = winningPlayerIdx;
+        mainGameState.turn = winningPlayerIdx;
         newTrick = false;
+        mainGameState.leadPlayer = winningPlayerIdx;
+
     }
 
     //TODO figure out how the heck 'teams' work

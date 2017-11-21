@@ -12,7 +12,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistComputerPlayer extends GameComputerPlayer {
 
-    private int reactionTime = 3000;
+    private int reactionTime = 1500;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 
@@ -41,8 +41,8 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
             //key off of what turn we are in
-            int turnInTrick = savedState.getTurn() % 4;
-            //new trick, no one has played yet
+            int turnInTrick = savedState.cardsInPlay.getSize();
+            //new trick, no one has played yet I am the lead player
             if (turnInTrick == 0) {
                 game.sendAction(new PlayCardAction(this, myHand.getHighest()));
             }
@@ -80,7 +80,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                     //if we can win
                     if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                         //if our allie is already winning the hand, play low to avoid wasting good cards
-                        if (allieCard.getRank().value(14) > myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
+                        if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)){
                             game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
                         }
                         //if our allie is not already winning the hand, win it for the glory of Mother Russia
@@ -108,7 +108,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                     if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)
                             && opponent2Card.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                         //if our allie is already winning the hand, play low to avoid wasting good cards
-                        if (allieCard.getRank().value(14) > myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
+                        if (allieCard.getRank().value(14) > Math.max(opponent2Card.getRank().value(14),opponentCard.getRank().value(14))) {
                             game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
                         }
                         //if our allie is not already winning the hand, win it for the glory of Mother Russia

@@ -1,9 +1,34 @@
-11/3/2017
+11/3/2017 - Samuel Cowdery
 PROBLEM: Needed a way to sort cards effectively by rank value
 SOLUTION: Patrick used a mergeSort function that he learned in data structures v.impressive
 
+11/15/2017 - Samuel Cowdery
+PROBLEM: the player hands were being instantiated but then registered as null when sent through send info
+SOLUTION: It turns out you can't use a for each loop to instantiate objects, but must instead use a regular for loop
+            the hands were being only instantiated in the limited scope of the for each loop and were not being permenantly
+            instantiated in the gameState
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: sometimes the computerplayer will be making its first move but will have 12 cards instead of 13
+SOLVED:  Samuel corrected the logic for Computer players determining if it was their turn to play a card
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: switching the "leading player" is challenging because sometimes the computer player will sometimes think it is
+        playing second or third if it is supposed to be leading.
+SOLUTION Samuel made the turnInTrick variable equal to the number of cards in play
 
 /////////////////UNRESOLVED////////////////////////////
-11/20/2017
-PROBLEM: sometimes the computerplayer will be making its first move but will have 12 cards instead of 13
 
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: the computer player gets a little jumpy and doesn't wait for the human player and tries to play a second time
+         resulting in an index out of bounds exception
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: if the human player does not move his/her seekbar after playing a card, the card played is NOT removed from the hand
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: there is a concurrent modification exception in the HumanPlayer tick method
+
+11/20/2017 - Samuel Cowdery
+PROBLEM: for new tricks where the human player is not leading, he/she cannot play a card
