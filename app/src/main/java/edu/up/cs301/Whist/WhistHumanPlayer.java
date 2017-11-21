@@ -170,15 +170,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
             //in order to make the GUI more user friendly, I addded a handler to make the playCard button
             //light up green when it is this player's turn to play
-            if(savedState.getTurn()%4 == 0){
-                Handler refresh = new Handler(Looper.getMainLooper());
-                refresh.post(new Runnable() {
-                    public void run()
-                    {
-                        playCardButton.setBackgroundColor(Color.GREEN);
-                    }
-                });
-            }
+
+            Handler refresh = new Handler(Looper.getMainLooper());
+            refresh.post(new Runnable() {
+                public void run()
+                {
+                    if(savedState.getTurn()%4==playerNum) playCardButton.setBackgroundColor(Color.GREEN);
+                    else  playCardButton.setBackgroundColor(Color.DKGRAY);
+                }
+            });
+
+
 
             //assigns and paints the cards in play that will appear on the table
             if (savedState.cardsInPlay != null) {

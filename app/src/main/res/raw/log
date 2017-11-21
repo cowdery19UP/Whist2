@@ -17,18 +17,25 @@ PROBLEM: switching the "leading player" is challenging because sometimes the com
         playing second or third if it is supposed to be leading.
 SOLUTION Samuel made the turnInTrick variable equal to the number of cards in play
 
-/////////////////UNRESOLVED////////////////////////////
+11/20/2017 - Samuel Cowdery
+PROBLEM: needed to modify the playCard Button to appear green when it was the human player's turn to play
+SOLUTION: Samuel found a resource online (StackOverflow) that detailed how to use a handler to manage widgets in threads
 
 
 11/20/2017 - Samuel Cowdery
 PROBLEM: the computer player gets a little jumpy and doesn't wait for the human player and tries to play a second time
          resulting in an index out of bounds exception
+SOLUTION: via modular arithmetic, the turn of the trick is determined by something other than the # of cards on the table
+
 
 11/20/2017 - Samuel Cowdery
 PROBLEM: if the human player does not move his/her seekbar after playing a card, the card played is NOT removed from the hand
+SOLUTION: Samuel set the selectedCard in the human player to null after playing a card
+
+/////////////////UNRESOLVED////////////////////////////
 
 11/20/2017 - Samuel Cowdery
 PROBLEM: there is a concurrent modification exception in the HumanPlayer tick method
 
 11/20/2017 - Samuel Cowdery
-PROBLEM: for new tricks where the human player is not leading, he/she cannot play a card
+PROBLEM: the "lead" after a new trick is assigned incorrectly

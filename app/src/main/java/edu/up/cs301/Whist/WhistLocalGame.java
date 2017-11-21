@@ -24,8 +24,6 @@ public class WhistLocalGame extends LocalGame {
     }
 
     public void newRound(){
-        //sets the turn back to zero
-        mainGameState.turn = 0;
         ///////handling points///////////
         //begin by adding points to the team that won the most tricks in the round
         if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
@@ -45,10 +43,13 @@ public class WhistLocalGame extends LocalGame {
                 addPoints(2,mainGameState.team1WonTricks);
             }
         }
-        for(Team t: mainGameState.teams){
-            t.resetGrand();
-            t.clearTricks();
-        }
+        //sets the turn back to zero
+        mainGameState.turn = 0;
+        //sets the grand back to false
+        mainGameState.team1Granded = false;
+        //sets the tricks back to zero
+        mainGameState.team1WonTricks = 0;
+        mainGameState.team2WonTricks = 0;
 
         /////////////////////////////////
 
@@ -126,6 +127,8 @@ public class WhistLocalGame extends LocalGame {
             //removes the card from the player's hand (regardles of CPU or human)
             if(theAction.getPlayer()instanceof WhistHumanPlayer){
                 mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
+                ((WhistHumanPlayer) players[0]).selectedCard = null;
+
             }
             else if(theAction.getPlayer()instanceof WhistComputerPlayer){
                 mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
