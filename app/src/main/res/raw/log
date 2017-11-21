@@ -36,6 +36,11 @@ SOLUTION: Samuel set the selectedCard in the human player to null after playing 
 PROBLEM: there is a concurrent modification exception in the HumanPlayer tick method
 SOLUTION: Patrick used a better method to increment through the stack of cardsInPlay
 
+
+11/21/2017 - Samuel Cowdery
+PROBLEM: Crashes after new round ---- try using same methodology for trick with boolean
+SOLUTION: used a boolean and corrected the if statements to prevent scoreTrick & beginNewRound() from both being called
+
 /////////////////UNRESOLVED////////////////////////////
 
 11/20/2017 - Samuel Cowdery
@@ -49,4 +54,4 @@ PROBLEM: the wonTricks for the wrong team is occasionally incremented
 PROBLEM: the last card in the round sometimes cannot be played by the human player
 
 11/21/2017 - Samuel Cowdery
-PROBLEM: Crashes after new round ---- try using same methodology for trick with boolean
+PROBLEM: after creating a new round, the GUI is off for the first play for the human and a duplicate card is created

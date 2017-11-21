@@ -145,7 +145,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(savedState!=null) {
             //set rectangles for hand and table spots
             setHandSpots();
-            setTableSpots();
+            setTableSpots(playerNum);
             //drawing the table on the GUI
             Paint tableIn = new Paint();
             Paint tableOut = new Paint();
@@ -170,6 +170,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Team 1: " + savedState.team1WonTricks, 1750, 75, paint);
             g.drawText("Team 2: " + savedState.team2WonTricks, 1750, 110, paint);
 
+            //////////////Button Color/enable handler////////////////////////////////////////////////////
             //in order to make the GUI more user friendly, I addded a handler to make the playCard button
             //light up green when it is this player's turn to play
 
@@ -224,6 +225,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
                 }
             });
+            ////////////////////////Button Color/enable handler ---end///////////////////////////////////////////////
 
             //assigns and paints the cards in play that will appear on the table
             if (savedState.cardsInPlay != null) {
@@ -348,7 +350,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
            int Startspot = savedState.leadPlayer;
            ArrayList<Card> stackCopy = (ArrayList<Card>)savedState.cardsInPlay.stack.clone();
            for (Card c : stackCopy) {
-               drawCard(g, tableSpots[Startspot % 4], c);
+               drawCard(g, tableSpots[Startspot%4], c);
                Startspot++;
            }
     }
@@ -369,15 +371,18 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
 
     }
-    private void setTableSpots(){
-        // get the height and width of the animation surface
-        tableSpots[0] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
+    private void setTableSpots(int myPlayerId){
+        //human player playerSpot
+        tableSpots[myPlayerId] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
                 (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
-        tableSpots[2] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
+        //across from humanPlayer
+        tableSpots[(myPlayerId+2)%4] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
                 (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133-330);
-        tableSpots[3] = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
+        //to the left of the player
+        tableSpots[(myPlayerId+3)%4] = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
-        tableSpots[1] = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
+        //to the right of the player
+        tableSpots[(myPlayerId+1)%4] = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
     }
 
