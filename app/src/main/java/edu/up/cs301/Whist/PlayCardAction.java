@@ -9,7 +9,6 @@ import edu.up.cs301.game.GamePlayer;
 
 public class PlayCardAction extends MoveAction {
     // the player who generated the request
-    private GamePlayer player;
     private Card card;
 
     /**

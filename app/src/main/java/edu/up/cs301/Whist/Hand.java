@@ -1,6 +1,7 @@
 package edu.up.cs301.Whist;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Suit;
@@ -35,6 +36,7 @@ public class Hand extends CardStack {
      *  by using Patrick's mergeSort function
      */
     public void organizeBySuit(){
+        sortCards();
         for(Card c: stack){
             switch(c.getSuit()){
                 case Club: clubs.add(c);
@@ -46,10 +48,6 @@ public class Hand extends CardStack {
                 case Spade: spades.add(c);
             }
         }
-        mergeSortCards(diamonds,0,diamonds.size());
-        mergeSortCards(clubs,0,clubs.size());
-        mergeSortCards(spades,0,spades.size());
-        mergeSortCards(hearts,0,hearts.size());
         //clear the stack of cards to null
         stack.clear();
         //rebuild the stack from the ashes
@@ -68,42 +66,23 @@ public class Hand extends CardStack {
 
     }
 
-
-
-    /**
-     * This is Patrick's high-minded mergeSort function for cards. Eat it.
-     * @param list -- the arraylist of cards to be sorted
-     * @param lo -- the lowest parameter of length
-     * @param hi -- the highest parameter of length
-     */
-    private void mergeSortCards(ArrayList<Card> list, int lo, int hi){
-        int mid = lo+hi/2;
-
-        mergeSortCards(list, lo, mid);
-        mergeSortCards(list, mid+1, hi);
-
-        merge(list, lo, mid, hi);
-    }
-
-    /**
-     * this is the rest of Patrick's high-minded mergsort for cards
-     * @param list -- the arrayList of cards to be sorted
-     * @param lo -- the low parameter of length
-     * @param mid -- the mid parameter of length
-     * @param hi -- the high paremeter of length
-     */
-    private void merge(ArrayList<Card> list, int lo, int mid, int hi){
-        int i = lo;
-        int j = mid+1;
-        int k = lo;
-
-        while(i<=mid || j<=hi){
-            if(i>mid) T[k++] = list.get(j++);
-            else if(j>hi) T[k++] = list.get(i++);
-            else if(list.get(i).getRank().value(14) < list.get(j).getRank().value(14))T[k++] = list.get(i++);
-            else T[k++] = list.get(j++);
+    private void sortCards(){
+        Card[] arr = new Card[stack.size()];
+        for(int i = 0; i < arr.length; i++){
+            arr[i] = stack.get(i);
         }
-
-        for(i = lo; i<=hi; i++)list.add(i, T[i]);
+        for(int i = 1; i < arr.length; i++){
+            Card key = arr[i];
+            int j = i-1;
+            while (j>=0 && arr[j].getRank().value(14) > key.getRank().value(14)){
+                arr[j+1] = arr[j];
+                j--;
+            }
+            arr[j+1] = key;
+        }
+        stack.clear();
+        for(int i = 0; i < arr.length; i++){
+            stack.add(arr[i]);
+        }
     }
 }

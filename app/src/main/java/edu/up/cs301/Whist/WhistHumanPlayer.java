@@ -1,5 +1,6 @@
 package edu.up.cs301.Whist;
 
+import android.app.ActionBar;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -107,11 +108,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         savedState = (WhistGameState) info;
         //updates the player hand from the new gamestate
         myHand = savedState.getHand();
+        myHand.organizeBySuit();
         if(myHand.getSize()==13){
             selectedCard = myHand.getCardByIndex(myHand.getSize()/2);
         }
-
-
 
 
 
@@ -149,8 +149,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Paint tableOut = new Paint();
             tableOut.setColor(Color.rgb(42, 111, 0));
             tableIn.setColor(Color.rgb(104, 69, 0));
-            RectF rectIn = new RectF(180, 70, 1840, 780);
-            RectF rectOut = new RectF(200, 90, 1820, 760);
+            RectF rectIn = new RectF(40, 50, Tablesurface.getWidth()-40, (int)(Tablesurface.getBottom()*0.69));
+            RectF rectOut = new RectF(70, 80, Tablesurface.getWidth()-70, (int)(Tablesurface.getBottom()*0.66));
             g.drawOval(rectIn, tableIn);
             g.drawOval(rectOut, tableOut);
             //drawing text on the GUI
@@ -192,7 +192,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             drawCard(g, handSpots[12], selectedCard);
 
             //TODO ANDREW: somewhere in here there is an IndexOutOfBoundsException that is off by just 1
-            //TODO ANDREW:  the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
+            //TODO ANDREW: the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
 
             /*
             for (int i = 0; i < myHand.getIndexOfCard(selectedCard) - 1; i++) {

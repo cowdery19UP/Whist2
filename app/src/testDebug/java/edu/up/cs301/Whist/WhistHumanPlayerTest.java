@@ -24,7 +24,7 @@ public class WhistHumanPlayerTest {
 
         p.onProgressChanged(null,60,true );
 
-        assertTrue("wrong card selected"+p.selectedCard.shortName(), p.selectedCard.equals(Card.fromString("5c")));
+        assertTrue("wrong card selected"+p.selectedCard.shortName()+" index: "+p.i+" percent: "+p.p+"", p.selectedCard.equals(Card.fromString("5c")));
     }
 
     @Test
