@@ -33,4 +33,12 @@ public class WhistHumanPlayerTest {
         d.add(Card.fromString("AC"));
         assertTrue(d.hasCardInSuit(Suit.Club));
     }
+    @Test
+    public void testCopyCtor(){
+        WhistGameState state1 = new WhistGameState();
+        WhistGameState state2 = new WhistGameState(state1);
+        Card card1 = state1.playerHands[2].getCardByIndex(2);
+        Card card2 = state2.playerHands[2].getCardByIndex(2);
+        assertTrue("cards don't match",card1.equals(card2));
+    }
 }

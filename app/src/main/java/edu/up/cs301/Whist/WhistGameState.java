@@ -3,6 +3,9 @@ package edu.up.cs301.Whist;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
+import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Suit;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
@@ -56,6 +59,32 @@ public class WhistGameState extends GameState {
             }
         }
     }
+    public WhistGameState(WhistGameState orig){
+        //copy constructor
+        Log.i("CreatedNewState","copy");
+        //assigning basic instance variables as the same
+        cardsInPlay = orig.cardsInPlay;
+        cardsPlayed = orig.cardsPlayed;
+        hotCards = orig.hotCards;
+        mainDeck  = orig.mainDeck;
+        turn = orig.getTurn();
+        leadSuit = orig.leadSuit;
+        leadPlayer = orig.leadPlayer;
+        team1Granded = orig.team1Granded;
+        team1Points = orig.team1Points;
+        team1WonTricks = orig.team1WonTricks;
+        team2Points = orig.team2Points;
+        team2WonTricks = orig.team2WonTricks;
+
+        //assigns hands to be separate in memory to avoid nulling out the mainState's hands
+        for(int i = 0; i<playerHands.length;i++){
+            playerHands[i] = new Hand();
+            playerHands[i].stack = (ArrayList<Card>) orig.playerHands[i].stack.clone();
+        }
+
+
+    }//copyCtor
+
     public GameInfo sendGameState(){
         return this;
     }

@@ -15,6 +15,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 public class WhistLocalGame extends LocalGame {
 
     private WhistGameState mainGameState;
+    private boolean newTrick = false;
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -85,20 +86,6 @@ public class WhistLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action){
-        ////////////////handle new Round//////////////
-        if(mainGameState.cardsPlayed.getSize()==52){
-            newRound();
-            return true;
-        }
-        //////////////handle new round/////////////////
-
-        /////////////handle new trick////////////////
-        if(mainGameState.getTurn()%4==0&&mainGameState.getTurn()!=0){
-            scoreTrick();
-            mainGameState.turn++;
-            return true;
-        }
-        //////////////new Trick handled////////////////
 
         if(!(action instanceof MoveAction)){
             return false;
@@ -129,6 +116,7 @@ public class WhistLocalGame extends LocalGame {
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
+            //this method assigns the lead suit of that trick --works!
             if(mainGameState.getTurn()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
@@ -137,16 +125,18 @@ public class WhistLocalGame extends LocalGame {
             mainGameState.cardsPlayed.add(playedCard);
             //removes the card from the player's hand (regardles of CPU or human)
             if(theAction.getPlayer()instanceof WhistHumanPlayer){
-                ((WhistHumanPlayer) theAction.getPlayer()).getMyHand().remove(playedCard);
+                mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             }
             else if(theAction.getPlayer()instanceof WhistComputerPlayer){
-                ((WhistComputerPlayer) theAction.getPlayer()).getMyHand().remove(playedCard);
+                mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             }
             else return false;
             //TODO need to code in all the cases for playing a card
 
             //lastly, increment the turn
-            mainGameState.turn++;
+            mainGameState.turn = mainGameState.cardsPlayed.getSize();
+            //after 4 moves, set new trick to true
+            if(mainGameState.turn%4==0&&mainGameState.turn!=0){newTrick = true;}
             sendAllUpdatedState();
             return true;
         }
@@ -156,23 +146,34 @@ public class WhistLocalGame extends LocalGame {
 
     /**
      * This method needs to null out all information that isn't supposed to be known
-     * by certain players
+     * by certain players - TESTED--SUCCESS
      * @param p
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
+        ////////////////handle new Round//////////////
+        if(mainGameState.cardsPlayed.getSize()==52){
+            newRound();
+        }
+        //////////////handle new round/////////////////
+
+        /////////////handle new trick////////////////
+        if(newTrick){
+            scoreTrick();
+        }
+        //////////////new Trick handled////////////////
+
         //copy the state to edit and null information
-        WhistGameState censoredState = mainGameState;
+        WhistGameState censoredState = new WhistGameState(mainGameState);
         //get the idx of the player p
         int idx = getPlayerIdx(p);
-        //null out the other player's hands
-        /*
+        //null out the other player's hands --works!
         for(int i = 0; i<mainGameState.playerHands.length;i++){
             if(i!=idx){
                 censoredState.playerHands[i]=null;
             }
         }
-        */
+
         p.sendInfo(censoredState);
     }
 
@@ -180,6 +181,7 @@ public class WhistLocalGame extends LocalGame {
         //determine which card and player won the trick
         Card winningCard = mainGameState.cardsInPlay.getCardByIndex(0);
         int winningPlayerIdx = 0;
+
         for(int i = 0; i<4;i++){
            if(winningCard.getRank().value(14)<mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)){
                winningCard =  mainGameState.cardsInPlay.getCardByIndex(i);
@@ -195,9 +197,14 @@ public class WhistLocalGame extends LocalGame {
         else{
             mainGameState.team1WonTricks++;
         }
+        //sleep thread to allow the user to get one last look at the completed trick
+        try{Thread.sleep(3000);}
+        catch (InterruptedException e){}
+
         //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
         mainGameState.leadPlayer = winningPlayerIdx;
+        newTrick = false;
     }
 
     //TODO figure out how the heck 'teams' work
@@ -208,6 +215,7 @@ public class WhistLocalGame extends LocalGame {
         }
         else Log.d("SetTeams","null GameState");
     }
+
     public void addPoints(int teamIncx, int points){
         switch (teamIncx){
             case 1: mainGameState.team1Points = mainGameState.team1Points+points;

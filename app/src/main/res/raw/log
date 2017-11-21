@@ -3,4 +3,7 @@ PROBLEM: Needed a way to sort cards effectively by rank value
 SOLUTION: Patrick used a mergeSort function that he learned in data structures v.impressive
 
 
+/////////////////UNRESOLVED////////////////////////////
+11/20/2017
+PROBLEM: sometimes the computerplayer will be making its first move but will have 12 cards instead of 13
 

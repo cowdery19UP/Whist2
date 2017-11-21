@@ -112,6 +112,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
 
 
+
     }
 
     @Override
@@ -136,53 +137,72 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
 
     public void tick(Canvas g){
-        //set rectangles for hand and table spots
-        setHandSpots();
-        setTableSpots();
 
-        Paint tableIn = new Paint();
-        Paint tableOut = new Paint();
-        tableOut.setColor(Color.rgb(42,111,0));
-        tableIn.setColor(Color.rgb(104,69,0));
-        RectF rectIn = new RectF(180,70,1840,780);
-        RectF rectOut = new RectF(200,90,1820,760);
+        if(savedState!=null) {
+            //set rectangles for hand and table spots
+            setHandSpots();
+            setTableSpots();
+            //drawing the table on the GUI
+            Paint tableIn = new Paint();
+            Paint tableOut = new Paint();
+            tableOut.setColor(Color.rgb(42, 111, 0));
+            tableIn.setColor(Color.rgb(104, 69, 0));
+            RectF rectIn = new RectF(180, 70, 1840, 780);
+            RectF rectOut = new RectF(200, 90, 1820, 760);
+            g.drawOval(rectIn, tableIn);
+            g.drawOval(rectOut, tableOut);
+            //drawing text on the GUI
+            Paint paint = new Paint();
+            paint.setColor(Color.WHITE);
+            paint.setTextSize(40);
+            g.drawText("Overall Scores", 10, 40, paint);
+            paint.setTextSize(35);
 
-        g.drawOval(rectIn,tableIn);
-        g.drawOval(rectOut,tableOut);
-        //TODO need to draw cards onto 4 different RectF's for all 4 Blayers
-        Paint paint = new Paint();
-        paint.setColor(Color.WHITE);
-        paint.setTextSize(40);
-        g.drawText("Overall Scores", 10, 40, paint);
-        paint.setTextSize(35);
-        g.drawText("Team 1:", 10, 75, paint);
-        g.drawText("Team 2:", 10, 110, paint);
+            g.drawText("Team 1: " + savedState.team1Points, 10, 75, paint);
+            g.drawText("Team 2: " + savedState.team2Points, 10, 110, paint);
+            paint.setTextSize(40);
+            g.drawText("Current Tricks", 1750, 40, paint);
+            paint.setTextSize(35);
+            g.drawText("Team 1: " + savedState.team1WonTricks, 1750, 75, paint);
+            g.drawText("Team 2: " + savedState.team2WonTricks, 1750, 110, paint);
 
-        paint.setTextSize(40);
-        g.drawText("Current Tricks", 1750, 40, paint);
-        paint.setTextSize(35);
-        g.drawText("Team 1:", 1750, 75, paint);
-        g.drawText("Team 2:", 1750, 110, paint);
-
-        if(savedState.cardsInPlay!=null){setTableDisplay(g);}
-
-
-        //TODO ANDREW: somewhere in here there is an IndexOutOfBoundsException that is off by just 1
-        //TODO ANDREW: the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
-
-        for(int i = 0; i<myHand.getIndexOfCard(selectedCard)-1;i++){
-            drawCard(g,handSpots[i],myHand.getCardByIndex(myHand.getIndexOfCard(selectedCard)-1-i));
-        }
-
-        drawCard(g,handSpots[12],selectedCard);
+            if(savedState.turn==playerNum){
+                try {
+                    synchronized (playCardButton) {
+                        playCardButton.setBackgroundColor(Color.GREEN);
+                    }
+                }
+                catch (Exception e){
+                    try{
+                        Thread.sleep(2);
+                    } catch (InterruptedException r){
+                        Log.e("WhistHumanPlayer","changing button background");
+                    }
+                }
+            }
+            //assigns and paints the cards in play that will appear on the table
+            if (savedState.cardsInPlay != null) {
+                setTableDisplay(g);
+            }
 
 
-        int i;
-        int j = 0;
-        for(i = 24;i>=13;i--){
-            drawCard(g, handSpots[i], myHand.getCardByIndex(j));
-            j++;
+            //TODO ANDREW: somewhere in here there is an IndexOutOfBoundsException that is off by just 1
+            //TODO ANDREW:  the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
 
+            for (int i = 0; i < myHand.getIndexOfCard(selectedCard) - 1; i++) {
+                drawCard(g, handSpots[i], myHand.getCardByIndex(myHand.getIndexOfCard(selectedCard) - 1 - i));
+            }
+
+            drawCard(g, handSpots[12], selectedCard);
+
+
+            int i;
+            int j = 0;
+            for (i = 24; i >= 13; i--) {
+                drawCard(g, handSpots[i], myHand.getCardByIndex(j));
+                j++;
+
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 package WhistTesting;
 
 
+import android.util.Log;
 import android.widget.SeekBar;
 
 import org.junit.Test;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import edu.up.cs301.Whist.CardStack;
 import edu.up.cs301.Whist.Deck;
 import edu.up.cs301.Whist.WhistComputerPlayer;
+import edu.up.cs301.Whist.WhistGameState;
 import edu.up.cs301.Whist.WhistHumanPlayer;
 import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Rank;
@@ -97,5 +99,11 @@ public class Test1 {
         p.onProgressChanged(null,60,true );
 
         assertTrue("wrong card selected", p.selectedCard.equals(Card.fromString("5c")));
+    }
+    @Test
+    public void testCopyCtor(){
+        WhistGameState state1 = new WhistGameState();
+        WhistGameState state2 = new WhistGameState(state1);
+        assertTrue("cards don't match",state1.playerHands[2].getCardByIndex(2).equals(state2.playerHands[2].getCardByIndex(2)));
     }
 }
