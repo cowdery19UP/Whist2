@@ -3,21 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Andrew\StudioProjects\Whist2\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\Samuel\Desktop\Whist2\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="e78373c8f55446cf85ebfc35100980dadc24f36b">
-        <dex dex="C:\Users\Andrew\StudioProjects\Whist2\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_eba1e7363c8485b9f4b4f432ab2edc3175950c4a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Andrew\StudioProjects\Whist2\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\Andrew\StudioProjects\Whist2\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_054f6fe7b0a68927942acbc38e6432c5f66e5d7c\classes.dex" />
+        sha1="affc269df4b3d5e12d60399809d6b3a104937621">
+        <dex dex="C:\Users\Samuel\Desktop\Whist2\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_19ae8d2070ed13d0512fad07c584b4bd4a30ea23\classes.dex" />
     </item>
 
 </items>
