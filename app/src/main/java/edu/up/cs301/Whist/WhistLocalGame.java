@@ -140,7 +140,6 @@ public class WhistLocalGame extends LocalGame {
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
-            if(playedCard.getSuit() != mainGameState.ledSuit && mainGameState.ledSuit != null) return false;
             if(mainGameState.cardsPlayed.contains(playedCard)) return false;
             //this method assigns the lead suit of that trick
             if(mainGameState.cardsPlayed.getSize()%4==0){
@@ -156,10 +155,10 @@ public class WhistLocalGame extends LocalGame {
             mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             //lastly, set the turn
             incrementTurn();
-            //after 4 moves, and not at the start of the round, set new trick to true
-            if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
             //after reaching 52 cards played, create a new round
             if(mainGameState.cardsPlayed.getSize()==52){newRound = true;}
+            //after 4 moves, and not at the start of the round, set new trick to true
+            else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
 
             sendAllUpdatedState();
             return true;
@@ -175,18 +174,19 @@ public class WhistLocalGame extends LocalGame {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p){
-        ////////////////handle new Round//////////////
-        if(newRound){
-            beginNewRound();
-        }
-        //////////////handle new round/////////////////
-
         /////////////handle new trick////////////////
-        else if(newTrick){
+        if(newTrick){
             scoreTrick();
 
         }
         //////////////new Trick handled////////////////
+
+        ////////////////handle new Round//////////////
+        else if(newRound){
+            beginNewRound();
+        }
+        //////////////handle new round/////////////////
+
 
         //copy the state to edit and null information
         WhistGameState censoredState = new WhistGameState(mainGameState);
@@ -211,10 +211,9 @@ public class WhistLocalGame extends LocalGame {
         Integer winningPlayerIdx = 0;
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
-                if ((winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14)) && (cardsByPlayerIdx[i].getSuit() == mainGameState.leadSuit)) {
+                if ((winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14)) && (cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
                     winningCard = cardsByPlayerIdx[i];
                     winningPlayerIdx = i;
-
                 }
             }
 
