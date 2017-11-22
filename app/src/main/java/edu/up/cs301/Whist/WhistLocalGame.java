@@ -25,13 +25,15 @@ public class WhistLocalGame extends LocalGame {
     }
 
     public void beginNewRound(){
-        ///////handling points///////////
-        //begin by adding points to the team that won the most tricks in the round
+
+        ///runs one last scoreTrick on the last trick in play
         scoreTrick();
-        //sleep for a little....shhhhh
+        //sleep for a little....shhhhh see the scored trick
         try{
-            Thread.sleep(1000);
+            Thread.sleep(2500);
         } catch (InterruptedException e){}
+        ///////handling points///////////
+        //adding points to the team that won the most tricks in the round
         //if team 1 had more tricks, they get points
         if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
            //score is doubled for a team that wins without granding
