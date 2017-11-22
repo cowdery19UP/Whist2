@@ -179,7 +179,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 {
                     //if the leadSuit has been established and we have the suit
                     if(savedState.cardsInPlay.getSize()!=0){
-                        if(savedState.getTurn()%4==playerNum&&myHand.hasCardInSuit(savedState.leadSuit)){
+                        if(savedState.getTurn()==playerNum&&myHand.hasCardInSuit(savedState.leadSuit)){
                             //button turn green to indicate legal card play
                             if(selectedCard!=null) {
                                 if (selectedCard.getSuit().equals(savedState.leadSuit)) {
@@ -187,6 +187,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                                     playCardButton.setEnabled(true);
                                 }
                                 else {
+                                    playCardButton.setBackgroundColor(Color.DKGRAY);
                                     playCardButton.setEnabled(false);
                                 }
                             }
