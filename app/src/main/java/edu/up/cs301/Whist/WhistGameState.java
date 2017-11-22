@@ -23,6 +23,8 @@ public class WhistGameState extends GameState {
     public CardStack cardsInPlay;
     //a card stack of the cards that have been played in the ENTIRE ROUND
     public CardStack cardsPlayed;
+    //the suit that was led
+    public Suit ledSuit = null;
     //an array of hands one for each player
     public Hand[] playerHands = new Hand[4];
     //the cardStack of hot cards

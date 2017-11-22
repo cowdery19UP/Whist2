@@ -18,6 +18,7 @@ public class WhistLocalGame extends LocalGame {
     private boolean newTrick = false;
     private boolean newRound = false;
     private boolean grandingPhase = false;
+    private Card[] cardsByPlayerIdx = new Card[4];
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -141,12 +142,14 @@ public class WhistLocalGame extends LocalGame {
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
+            if(playedCard.getSuit() != mainGameState.ledSuit && mainGameState.ledSuit != null) return false;
             //this method assigns the lead suit of that trick
             if(mainGameState.cardsPlayed.getSize()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
             //moves the played card onto the table and into the set of played cards
             mainGameState.cardsInPlay.add(playedCard);
+            cardsByPlayerIdx[thisPlayerIdx] = playedCard;
             mainGameState.cardsPlayed.add(playedCard);
 
 
@@ -205,17 +208,20 @@ public class WhistLocalGame extends LocalGame {
     public void scoreTrick(){
 
         //determine which card and player won the trick
-        Card winningCard = mainGameState.cardsInPlay.getCardByIndex(0);
+        Card winningCard = cardsByPlayerIdx[0];
         Integer winningPlayerIdx = 0;
         synchronized (winningPlayerIdx) {
-            for (int i = 0; i < mainGameState.cardsInPlay.getSize(); i++) {
-                if (winningCard.getRank().value(14) < mainGameState.cardsInPlay.getCardByIndex(i).getRank().value(14)) {
-                    winningCard = mainGameState.cardsInPlay.getCardByIndex(i);
+            for (int i = 0; i < 4; i++) {
+                if (winningCard.getRank().value(14) < cardsByPlayerIdx[i].getRank().value(14)) {
+                    winningCard = cardsByPlayerIdx[i];
+                    Log.i("Winning card",""+winningCard.toString());
                     winningPlayerIdx = i;
+                    Log.i(".......winningPlayerIdx", "" + winningPlayerIdx);
+
                 }
             }
-            Log.i(".......winningPlayerIdx", "" + winningPlayerIdx);
-            Log.i(".........winningCard", "" + winningCard.toString());
+
+            //Log.i(".........winningCard", "" + winningCard.toString());
             //if the winning player was on team 2 (meaning it was either player 2 or 4)
             //add to their wonTricks
             if (winningPlayerIdx % 2 == 1) {
@@ -235,6 +241,8 @@ public class WhistLocalGame extends LocalGame {
         //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
         mainGameState.turn = winningPlayerIdx;
+        Log.i("scoreTrick","winning player index: "+winningPlayerIdx);
+        Log.i("scoreTrick","turn: "+mainGameState.turn);
         newTrick = false;
         mainGameState.leadPlayer = winningPlayerIdx;
         Log.i("......TurnSetto",""+mainGameState.turn);
