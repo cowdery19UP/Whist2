@@ -74,6 +74,8 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.team2WonTricks = 0;
         //reset the new round boolean
         newRound = false;
+        //reset the leadPlayer to zero
+        mainGameState.leadPlayer = 0;
 
 
     }
