@@ -52,3 +52,6 @@ PROBLEM: the last card in the round sometimes cannot be played by the human play
 
 11/21/2017 - Samuel Cowdery
 PROBLEM: after creating a new round, the GUI is incorrect for the first play for the human and a duplicate card is created
+
+11/21/2017 - Patrick Maloney
+PROBLEM: Computer players can lead with a card they just used to win the previous trick

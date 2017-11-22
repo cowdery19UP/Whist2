@@ -207,5 +207,12 @@ public class CardStack {
         return false;
     }
 
+    public boolean contains(Card c){
+        for(Card d : stack){
+            if(d.equals(c)) return true;
+        }
+        return false;
+    }
+
 
 }

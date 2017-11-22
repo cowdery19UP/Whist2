@@ -141,6 +141,7 @@ public class WhistLocalGame extends LocalGame {
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
             if(playedCard.getSuit() != mainGameState.ledSuit && mainGameState.ledSuit != null) return false;
+            if(mainGameState.cardsPlayed.contains(playedCard)) return false;
             //this method assigns the lead suit of that trick
             if(mainGameState.cardsPlayed.getSize()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();

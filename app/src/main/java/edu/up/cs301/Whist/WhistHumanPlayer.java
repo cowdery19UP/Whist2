@@ -165,10 +165,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Team 1: " + savedState.team1Points, 10, 75, paint);
             g.drawText("Team 2: " + savedState.team2Points, 10, 110, paint);
             paint.setTextSize(40);
-            g.drawText("Current Tricks", 1750, 40, paint);
+            g.drawText("Current Tricks", Tablesurface.getWidth()-260, 40, paint);
             paint.setTextSize(35);
-            g.drawText("Team 1: " + savedState.team1WonTricks, 1750, 75, paint);
-            g.drawText("Team 2: " + savedState.team2WonTricks, 1750, 110, paint);
+            g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth()-260, 75, paint);
+            g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth()-260, 110, paint);
 
             //in order to make the GUI more user friendly, I addded a handler to make the playCard button
             //light up green when it is this player's turn to play
@@ -421,6 +421,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             if (selectedCard != null) {
                 game.sendAction(new PlayCardAction(this, selectedCard));
                 b.setBackgroundColor(Color.DKGRAY);
+                selectedCard = null;
             }
             else flash(Color.RED,1000);
         }
