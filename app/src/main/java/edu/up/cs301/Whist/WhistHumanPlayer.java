@@ -344,7 +344,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
 
-        handSpots[13] = new RectF(middle+700, top, middle + 900, bottom);
+        handSpots[13] = new RectF(middle+700, top, middle+900 , bottom);
         for(int i = 0; i<=12;i++){
             handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }

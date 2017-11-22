@@ -41,17 +41,19 @@ SOLUTION: Patrick used a better method to increment through the stack of cardsIn
 PROBLEM: Crashes after new round ---- try using same methodology for trick with boolean
 SOLUTION: used a boolean and corrected the if statements to prevent scoreTrick & beginNewRound() from both being called
 
-/////////////////UNRESOLVED////////////////////////////
+11/21/2017 - Samuel Cowdery
+PROBLEM: the last card in the round sometimes cannot be played by the human player
+SOLUTION: beginNewRound() was re-engineered and the bug went away
 
 11/20/2017 - Samuel Cowdery
 PROBLEM: the scoreTrick method occasionally assigns the wrong "winningPlayerIdx" for the scored trick
             and adds points to the wrong team and assigns the wrong leadPlayer to the mainState
+SOLUTION: Patrick used a simple array to track which player card matches each player and properly
+            assigns the winningPlayerIdx
+/////////////////UNRESOLVED////////////////////////////
 
 11/21/2017 - Samuel Cowdery
-PROBLEM: the last card in the round sometimes cannot be played by the human player -----------RESOLVED?
-
-11/21/2017 - Samuel Cowdery
-PROBLEM: after creating a new round, the GUI is incorrect for the first play for the human and a duplicate card is created
+PROBLEM: after creating a new round, the GUI is incorrect for the first play for the human
 
 11/21/2017 - Patrick Maloney
 PROBLEM: Computer players can lead with a card they just used to win the previous trick
