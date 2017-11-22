@@ -42,7 +42,7 @@ public class WhistLocalGame extends LocalGame {
         else{
             //score is doubled if team 2 wins when team 1 granded
             if(mainGameState.team1Granded){
-                mainGameState.team2Points+=((mainGameState.team1WonTricks-6)*2);
+                mainGameState.team2Points+=((mainGameState.team2WonTricks-6)*2);
             }
             else{
                 mainGameState.team2Points+=((mainGameState.team2WonTricks-6));
@@ -156,10 +156,10 @@ public class WhistLocalGame extends LocalGame {
             mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             //lastly, set the turn
             incrementTurn();
+            //after 4 moves, and not at the start of the round, set new trick to true
+            if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
             //after reaching 52 cards played, create a new round
             if(mainGameState.cardsPlayed.getSize()==52){newRound = true;}
-            //after 4 moves, and not at the start of the round, set new trick to true
-            else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
 
             sendAllUpdatedState();
             return true;
@@ -211,7 +211,7 @@ public class WhistLocalGame extends LocalGame {
         Integer winningPlayerIdx = 0;
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
-                if (winningCard.getRank().value(14) < cardsByPlayerIdx[i].getRank().value(14)) {
+                if (winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14) && cardsByPlayerIdx[i].getSuit() == mainGameState.ledSuit) {
                     winningCard = cardsByPlayerIdx[i];
                     winningPlayerIdx = i;
 
@@ -220,6 +220,7 @@ public class WhistLocalGame extends LocalGame {
 
             //if the winning player was on team 2 (meaning it was either player 2 or 4)
             //add to their wonTricks
+
             if (winningPlayerIdx % 2 == 1) {
                 mainGameState.team2WonTricks++;
             }

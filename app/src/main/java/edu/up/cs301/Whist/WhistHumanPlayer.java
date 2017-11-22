@@ -48,7 +48,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     private SeekBar handSeekBar;
     private Button playCardButton;
 
-    private RectF[] handSpots = new RectF[25];
+    private RectF[] handSpots = new RectF[14];
     private RectF[] tableSpots = new RectF[4];
 
 
@@ -151,8 +151,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Paint tableOut = new Paint();
             tableOut.setColor(Color.rgb(42, 111, 0));
             tableIn.setColor(Color.rgb(104, 69, 0));
-            RectF rectIn = new RectF(40, 50, Tablesurface.getWidth()-40, (int)(Tablesurface.getBottom()*0.69));
-            RectF rectOut = new RectF(70, 80, Tablesurface.getWidth()-70, (int)(Tablesurface.getBottom()*0.66));
+            RectF rectIn = new RectF(40, 50, Tablesurface.getWidth() - 40, (int) (Tablesurface.getBottom() * 0.69));
+            RectF rectOut = new RectF(70, 80, Tablesurface.getWidth() - 70, (int) (Tablesurface.getBottom() * 0.66));
             g.drawOval(rectIn, tableIn);
             g.drawOval(rectOut, tableOut);
             //drawing text on the GUI
@@ -165,58 +165,55 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Team 1: " + savedState.team1Points, 10, 75, paint);
             g.drawText("Team 2: " + savedState.team2Points, 10, 110, paint);
             paint.setTextSize(40);
-            g.drawText("Current Tricks", Tablesurface.getWidth()-260, 40, paint);
+            g.drawText("Current Tricks", Tablesurface.getWidth() - 260, 40, paint);
             paint.setTextSize(35);
-            g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth()-260, 75, paint);
-            g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth()-260, 110, paint);
+            g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paint);
+            g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paint);
 
             //in order to make the GUI more user friendly, I addded a handler to make the playCard button
             //light up green when it is this player's turn to play
 
             Handler refresh = new Handler(Looper.getMainLooper());
             refresh.post(new Runnable() {
-                public void run()
-                {
+                public void run() {
                     //if the leadSuit has been established and we have the suit
-                    if(savedState.cardsInPlay.getSize()!=0){
-                        if(savedState.getTurn()==playerNum&&myHand.hasCardInSuit(savedState.leadSuit)){
+                    if (savedState.cardsInPlay.getSize() != 0) {
+                        if (savedState.getTurn() == playerNum && myHand.hasCardInSuit(savedState.leadSuit)) {
                             //button turn green to indicate legal card play
-                            if(selectedCard!=null) {
+                            if (selectedCard != null) {
                                 if (selectedCard.getSuit().equals(savedState.leadSuit)) {
                                     playCardButton.setBackgroundColor(Color.GREEN);
                                     playCardButton.setEnabled(true);
-                                }
-                                else {
+                                } else {
                                     playCardButton.setBackgroundColor(Color.DKGRAY);
                                     playCardButton.setEnabled(false);
                                 }
-                            }
-                            else {
+                            } else {
                                 playCardButton.setBackgroundColor(Color.GREEN);
                                 playCardButton.setEnabled(false);
                             }
 
                         }
                         //if we do not have the suit of the leadSuit, set button to a darker, sadder green
-                        else if(savedState.getTurn()%4==playerNum&&!myHand.hasCardInSuit(savedState.leadSuit)){
-                            playCardButton.setBackgroundColor(Color.rgb(34,139,34));
+                        else if (savedState.getTurn() % 4 == playerNum && !myHand.hasCardInSuit(savedState.leadSuit)) {
+                            playCardButton.setBackgroundColor(Color.rgb(34, 139, 34));
                             playCardButton.setEnabled(true);
                         }
                         //for all other times, it is not our turn and it is not legal to play
-                        else  {
+                        else {
                             playCardButton.setBackgroundColor(Color.DKGRAY);
                             playCardButton.setEnabled(false);
                         }
                     }
                     //there are no cards in play, the hand has just started
-                    else{
+                    else {
                         //if it is our turn, all cards will be good to lead
-                        if(savedState.getTurn()%4==playerNum){
+                        if (savedState.getTurn() % 4 == playerNum) {
                             playCardButton.setBackgroundColor(Color.GREEN);
                             playCardButton.setEnabled(true);
                         }
                         //it is not our turn, do not play
-                        else  {
+                        else {
                             playCardButton.setBackgroundColor(Color.DKGRAY);
                             playCardButton.setEnabled(false);
                         }
@@ -232,17 +229,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 }
             }
 
-            drawCard(g, handSpots[12], selectedCard);
+            drawCard(g, handSpots[13], selectedCard);
 
-
-            for (int i = 0; i <= myHand.getIndexOfCard(selectedCard) - 1; i++) {
-                drawCard(g, handSpots[myHand.getIndexOfCard(selectedCard)-1-i], myHand.getCardByIndex(i));
+            for (int i = 0; i < myHand.getSize(); i++) {
+                drawCard(g, handSpots[12 - i], myHand.getCardByIndex(i));
             }
-
-            for (int j = 24; j > myHand.getIndexOfCard(selectedCard)+12; j--) {
-                drawCard(g, handSpots[j-myHand.getIndexOfCard(selectedCard)], myHand.getCardByIndex(j-12));
-            }
-
         }
 
     }
@@ -353,16 +344,16 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
 
-        handSpots[12]  = new RectF(middle-100,top,middle+100,bottom);
-
-        for(int i = 0; i<12;i++){
-            handSpots[i] = new RectF(middle-100-(450+(i*30)),top,middle+100-(450+(i*30)),bottom);
+        handSpots[13] = new RectF(middle+700, top, middle + 900, bottom);
+        for(int i = 0; i<=12;i++){
+            handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
+        /*
         for(int i = 0; i<12; i++){
             handSpots[i+13] = new RectF(middle-100+(450+(i*30)),top,middle+100+(450+(i*30)),bottom);
 
         }
-
+*/
     }
     private void setTableSpots(int mySpot){
         //the spot in front of the human player
