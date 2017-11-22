@@ -145,7 +145,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(savedState!=null) {
             //set rectangles for hand and table spots
             setHandSpots();
-            setTableSpots();
+            setTableSpots(playerNum);
             //drawing the table on the GUI
             Paint tableIn = new Paint();
             Paint tableOut = new Paint();
@@ -368,15 +368,18 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
 
     }
-    private void setTableSpots(){
-        // get the height and width of the animation surface
-        tableSpots[0] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
+    private void setTableSpots(int mySpot){
+        //the spot in front of the human player
+        tableSpots[mySpot] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133,
                 (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133);
-        tableSpots[2] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
+        //the spot across from the humanPlayer
+        tableSpots[(mySpot+2)%4] = new RectF((Tablesurface.getWidth()/2)-100,(Tablesurface.getHeight()/2)-133-330,
                 (Tablesurface.getWidth()/2)+100,(Tablesurface.getHeight()/2)+133-330);
-        tableSpots[3] = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
+        //the spot to the left of the human player
+        tableSpots[(mySpot+3)%4] = new RectF((Tablesurface.getWidth()/2)-100-500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100-500,(Tablesurface.getHeight()/2)+133-150);
-        tableSpots[1] = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
+        //the spot to the right of the human player
+        tableSpots[(mySpot+1)%4] = new RectF((Tablesurface.getWidth()/2)-100+500,(Tablesurface.getHeight()/2)-133-150,
                 (Tablesurface.getWidth()/2)+100+500,(Tablesurface.getHeight()/2)+133-150);
     }
 
