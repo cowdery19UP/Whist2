@@ -28,6 +28,10 @@ public class WhistLocalGame extends LocalGame {
         ///////handling points///////////
         //begin by adding points to the team that won the most tricks in the round
         scoreTrick();
+        //sleep for a little....shhhhh
+        try{
+            Thread.sleep(1000);
+        } catch (InterruptedException e){}
         //if team 1 had more tricks, they get points
         if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
            //score is doubled for a team that wins without granding
@@ -49,11 +53,6 @@ public class WhistLocalGame extends LocalGame {
             }
         }
         /////////////////////////////////Points Handled/////////////////////////////
-        //sleep for a little....shhhhh
-        try{
-            Thread.sleep(5000);
-        } catch (InterruptedException e){}
-
         //get a new deck and deal new hands
         mainGameState.mainDeck = new Deck();
         for(Hand h: mainGameState.playerHands){
