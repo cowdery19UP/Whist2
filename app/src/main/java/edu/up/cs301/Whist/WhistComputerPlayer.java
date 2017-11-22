@@ -40,17 +40,18 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
+            Card cardToPlay = null;
             //key off of what turn we are in
             int turnInTrick = savedState.cardsInPlay.getSize();
             //new trick, no one has played yet I am the lead player
             if (turnInTrick == 0) {
-                game.sendAction(new PlayCardAction(this, myHand.getHighest()));
+               cardToPlay = myHand.getHighest();
             }
             //only one player has played on the other team
             else if (turnInTrick == 1) {
                 //if we cannot follow suit, play low
                 if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                    game.sendAction(new PlayCardAction(this, myHand.getLowest()));
+                    cardToPlay = myHand.getLowest();
                 }
                 //else if we can follow suit, either try to win or play low
                 else {
@@ -58,11 +59,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                     Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
                     //if we can win
                     if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                        game.sendAction(new PlayCardAction(this, myHand.getHighestInSuit(savedState.leadSuit)));
+                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                     }
                     //if we cannot win
                     else
-                        game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
+                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                 }
 
             }
@@ -70,7 +71,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
             else if (turnInTrick == 2) {
                 //if we cannot follow suit, play low
                 if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                    game.sendAction(new PlayCardAction(this, myHand.getLowest()));
+                    cardToPlay = myHand.getLowest();
                 }
                 //else if we can follow suit, either try to win or play low
                 else {
@@ -81,22 +82,22 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                     if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                         //if our allie is already winning the hand, play low to avoid wasting good cards
                         if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)){
-                            game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                         }
                         //if our allie is not already winning the hand, win it for the glory of Mother Russia
                         else
-                            game.sendAction(new PlayCardAction(this, myHand.getHighestInSuit(savedState.leadSuit)));
+                            cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                     }
                     //if we cannot win, play low to save valuable cards
                     else
-                        game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
+                       cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                 }
             }
             //all 3 other players have played, and it is down to me...
             else if (turnInTrick == 3) {
                 //if we cannot follow suit, play low
                 if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                    game.sendAction(new PlayCardAction(this, myHand.getLowest()));
+                   cardToPlay = myHand.getLowest();
                 }
                 //else if we can follow suit, either try to win or play low
                 else {
@@ -109,17 +110,20 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                             && opponent2Card.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                         //if our allie is already winning the hand, play low to avoid wasting good cards
                         if (allieCard.getRank().value(14) > Math.max(opponent2Card.getRank().value(14),opponentCard.getRank().value(14))) {
-                            game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                         }
                         //if our allie is not already winning the hand, win it for the glory of Mother Russia
                         else
-                            game.sendAction(new PlayCardAction(this, myHand.getHighestInSuit(savedState.leadSuit)));
+                            cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                     }
                     //if we cannot win, play low to save valuable cards
                     else
-                        game.sendAction(new PlayCardAction(this, myHand.getLowestInSuit(savedState.leadSuit)));
+                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                 }
             }
+            //after deciding which card to play, play the card and remove it from hand
+            myHand.remove(cardToPlay);
+            game.sendAction(new PlayCardAction(this,cardToPlay));
         }
         ////////////////////////end move handling//////////////////////////////////////
 

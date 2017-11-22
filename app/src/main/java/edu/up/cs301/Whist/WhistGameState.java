@@ -35,8 +35,6 @@ public class WhistGameState extends GameState {
     public Suit leadSuit;
     //the index of the leading player
     public int leadPlayer;
-    //the array of 2 teams in the game
-    public Team[] teams = new Team[2];
     ///////////////substitute for Team Class////////////
     public int team1WonTricks = 0;
     public int team2WonTricks = 0;

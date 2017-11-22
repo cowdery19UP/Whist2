@@ -22,8 +22,6 @@ public class WhistLocalGame extends LocalGame {
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
-        if(players!=null){Log.i("players not null",""+players[0].toString());}
-        else Log.i("players null","sadface");
     }
 
     public void beginNewRound(){
@@ -99,10 +97,10 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver(){
         if(mainGameState.team1Points>=7){
-            return "Team 1 Wins!";
+            return "Team 1 Wins "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
         }
         else if(mainGameState.team2Points>=7){
-            return "Team 2 Wins!";
+            return "Team 2 Wins "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
         }
         else return null;
     }
@@ -214,23 +212,18 @@ public class WhistLocalGame extends LocalGame {
             for (int i = 0; i < 4; i++) {
                 if (winningCard.getRank().value(14) < cardsByPlayerIdx[i].getRank().value(14)) {
                     winningCard = cardsByPlayerIdx[i];
-                    Log.i("Winning card",""+winningCard.toString());
                     winningPlayerIdx = i;
-                    Log.i(".......winningPlayerIdx", "" + winningPlayerIdx);
 
                 }
             }
 
-            //Log.i(".........winningCard", "" + winningCard.toString());
             //if the winning player was on team 2 (meaning it was either player 2 or 4)
             //add to their wonTricks
             if (winningPlayerIdx % 2 == 1) {
-                Log.i(".......TrickWonBy:", "Team 2");
                 mainGameState.team2WonTricks++;
             }
             //add to other team's wonTricks
             else {
-                Log.i(".......TrickWonBy:", "Team 1");
                 mainGameState.team1WonTricks++;
             }
         }
@@ -240,32 +233,15 @@ public class WhistLocalGame extends LocalGame {
 
         //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
+        //sets the turn to establish who  is leading the next trick
         mainGameState.turn = winningPlayerIdx;
-        Log.i("scoreTrick","winning player index: "+winningPlayerIdx);
-        Log.i("scoreTrick","turn: "+mainGameState.turn);
+        //sets new trick to false
         newTrick = false;
+        //sets the leadPlayer to the winningPlayerIdx
         mainGameState.leadPlayer = winningPlayerIdx;
-        Log.i("......TurnSetto",""+mainGameState.turn);
 
     }
 
-    //TODO figure out how the heck 'teams' work
-    private void setTeams(){
-        if(mainGameState!=null) {
-            mainGameState.teams[0] = new Team(players[0], players[2]);
-            mainGameState.teams[1] = new Team(players[1], players[3]);
-        }
-        else Log.d("SetTeams","null GameState");
-    }
-
-    public void addPoints(int teamIncx, int points){
-        switch (teamIncx){
-            case 1: mainGameState.team1Points = mainGameState.team1Points+points;
-                break;
-            case 2: mainGameState.team2Points = mainGameState.team2Points+points;
-                break;
-        }
-    }
     public void incrementTurn(){
         mainGameState.turn ++;
         mainGameState.turn%=4;
