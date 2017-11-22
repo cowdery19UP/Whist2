@@ -211,7 +211,7 @@ public class WhistLocalGame extends LocalGame {
         Integer winningPlayerIdx = 0;
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
-                if (winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14) && cardsByPlayerIdx[i].getSuit() == mainGameState.ledSuit) {
+                if ((winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14)) && (cardsByPlayerIdx[i].getSuit() == mainGameState.leadSuit)) {
                     winningCard = cardsByPlayerIdx[i];
                     winningPlayerIdx = i;
 
