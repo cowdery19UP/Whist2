@@ -234,9 +234,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
             drawCard(g, handSpots[12], selectedCard);
 
-            //TODO ANDREW: somewhere in here there is an IndexOutOfBoundsException that is off by just 1
-            //TODO ANDREW: the display of the hand should cycle on BOTH sides, not just one, and should display all cards at one time
-
 
             for (int i = 0; i <= myHand.getIndexOfCard(selectedCard) - 1; i++) {
                 drawCard(g, handSpots[myHand.getIndexOfCard(selectedCard)-1-i], myHand.getCardByIndex(i));
