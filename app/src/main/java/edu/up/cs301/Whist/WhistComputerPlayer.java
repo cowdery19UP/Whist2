@@ -35,7 +35,6 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         myHand = savedState.getHand();
         //sleep....shhhhh
         sleep(reactionTime);
-        Log.i("PlayerName",""+allPlayerNames[playerNum]);
 
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn

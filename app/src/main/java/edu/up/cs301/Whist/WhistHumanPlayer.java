@@ -423,7 +423,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     public void onProgressChanged(SeekBar sb, int progress, boolean fromUser){
-        Log.i("progress int:",""+progress);
         if(myHand.getSize()==0){
             flash(Color.RED,3000);
 

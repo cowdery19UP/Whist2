@@ -1,5 +1,7 @@
 package edu.up.cs301.Whist;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 
 import edu.up.cs301.card.Card;
@@ -19,6 +21,9 @@ public class WhistLocalGame extends LocalGame {
     private boolean newRound = false;
     private boolean grandingPhase = false;
     private Card[] cardsByPlayerIdx = new Card[4];
+    //fun stuff! soundPool for playing superfluous audio
+    public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+    public static int soundId;
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -100,10 +105,10 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver(){
         if(mainGameState.team1Points>=7){
-            return "Team 1 Wins "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
+            return ""+playerNames[0]+" and "+playerNames[2]+" win "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
         }
         else if(mainGameState.team2Points>=7){
-            return "Team 2 Wins "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
+            return ""+playerNames[1]+" and "+playerNames[3]+" win "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
         }
         else return null;
     }
@@ -207,18 +212,12 @@ public class WhistLocalGame extends LocalGame {
     public void scoreTrick(){
         //determine which card and player won the trick
         //establish the starting card to increment up off of
-        Card winningCard = cardsByPlayerIdx[0];
-        for(Card d: cardsByPlayerIdx){
-            if(d.getSuit()==mainGameState.leadSuit){
-                winningCard = d;
-            }
-            else winningCard = cardsByPlayerIdx[0];
-        }
-        //increment through the cards on the table and find the winning card and player number
+        Card winningCard = Card.fromString("2C");
         Integer winningPlayerIdx = 0;
+        //increment through the cards on the table and find the winning card and player number
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
-                if ((winningCard.getRank().value(14)<
+                if ((winningCard.getRank().value(14)<=
                         cardsByPlayerIdx[i].getRank().value(14))&&
                         (cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
                     winningCard = cardsByPlayerIdx[i];
@@ -227,6 +226,7 @@ public class WhistLocalGame extends LocalGame {
             }
             //if the winning player was on team 2 (meaning it was either player 2 or 4)
             //add to their wonTricks
+            Log.i("winningCard",""+winningCard.toString());
             if (winningPlayerIdx % 2 == 1) {
                 mainGameState.team2WonTricks++;
             }
