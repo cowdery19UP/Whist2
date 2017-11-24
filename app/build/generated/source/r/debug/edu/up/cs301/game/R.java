@@ -79,13 +79,14 @@ public final class R {
         public static final int card_td=0x7f020033;
         public static final int card_th=0x7f020034;
         public static final int card_ts=0x7f020035;
-        public static final int ic_action_search=0x7f020036;
-        public static final int ic_launcher=0x7f020037;
-        public static final int purple_delete_button=0x7f020038;
-        public static final int suit_c=0x7f020039;
-        public static final int suit_d=0x7f02003a;
-        public static final int suit_h=0x7f02003b;
-        public static final int suit_s=0x7f02003c;
+        public static final int cardback=0x7f020036;
+        public static final int ic_action_search=0x7f020037;
+        public static final int ic_launcher=0x7f020038;
+        public static final int purple_delete_button=0x7f020039;
+        public static final int suit_c=0x7f02003a;
+        public static final int suit_d=0x7f02003b;
+        public static final int suit_h=0x7f02003c;
+        public static final int suit_s=0x7f02003d;
     }
     public static final class id {
         public static final int addPlayerButton=0x7f0a000d;
@@ -135,7 +136,8 @@ public final class R {
         public static final int freerealestate=0x7f040001;
         public static final int log=0x7f040002;
         public static final int stopitgethelp=0x7f040003;
-        public static final int wow=0x7f040004;
+        public static final int timetoduel=0x7f040004;
+        public static final int wow=0x7f040005;
     }
     public static final class string {
         public static final int add_player=0x7f080000;

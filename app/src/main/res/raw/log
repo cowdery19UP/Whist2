@@ -50,10 +50,16 @@ PROBLEM: the scoreTrick method occasionally assigns the wrong "winningPlayerIdx"
             and adds points to the wrong team and assigns the wrong leadPlayer to the mainState
 SOLUTION: Patrick used a simple array to track which player card matches each player and properly
             assigns the winningPlayerIdx
-/////////////////UNRESOLVED////////////////////////////
 
 11/21/2017 - Samuel Cowdery
 PROBLEM: after creating a new round, the GUI is incorrect for the first play for the human
+SOLUTION: updated the beginNewRound() method
 
 11/21/2017 - Patrick Maloney
 PROBLEM: Computer players can lead with a card they just used to win the previous trick
+SOLUTION: Patrick removed the played card locally for each player
+/////////////////UNRESOLVED////////////////////////////
+
+11/23/2017
+PROBLEM: occasionally, there is no delay between the first 2 computer players playing cards to start a new trick
+

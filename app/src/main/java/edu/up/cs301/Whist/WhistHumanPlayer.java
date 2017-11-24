@@ -1,9 +1,12 @@
 package edu.up.cs301.Whist;
 
 import android.app.ActionBar;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
@@ -75,6 +78,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         handSeekBar = (SeekBar) myActivity.findViewById(R.id.hand_seek_bar);
         handSeekBar.setOnSeekBarChangeListener(this);
         handSeekBar.setProgress(50);
+        handSeekBar.setBackgroundColor(Color.BLACK);
 
         playCardButton = (Button) myActivity.findViewById(R.id.play_card_button);
         playCardButton.setOnClickListener(this);
@@ -308,6 +312,15 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     private static void drawCard(Canvas g, RectF rect, Card c) {
         if (c == null) {
+            // create the paint object
+            Paint p = new Paint();
+            p.setColor(Color.BLACK);
+            // create the source rectangle
+            Rect r = new Rect(0,0,WhistMainActivity.cardback.getWidth(),WhistMainActivity.cardback.getHeight());
+            // draw the bitmap into the target rectangle
+            g.drawBitmap(WhistMainActivity.cardback, r, rect, p);
+
+            /*
             // null: draw a card-back, consisting of a blue card
             // with a white line near the border. We implement this
             // by drawing 3 concentric rectangles:
@@ -323,6 +336,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawRect(rect, blue); // outer rectangle: blue
             g.drawRect(inner2, white); // middle rectangle: white
             g.drawRect(inner1, blue); // inner rectangle: blue
+            */
         }
         else {
             // just draw the card
@@ -402,14 +416,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(v instanceof Button) {
             Button b = (Button) v;
             if (selectedCard != null) {
-                game.sendAction(new PlayCardAction(this, selectedCard));
                 if(selectedCard.getRank().value(14)==2){
                     WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[2], 1, 1, 1, 0, 1.0f);
                 }
                 else if(selectedCard.getRank().value(14)==14) {
                     WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[1], 1, 1, 1, 0, 1.0f);
                 }
-
+                game.sendAction(new PlayCardAction(this, selectedCard));
                 b.setBackgroundColor(Color.DKGRAY);
                 selectedCard = null;
 

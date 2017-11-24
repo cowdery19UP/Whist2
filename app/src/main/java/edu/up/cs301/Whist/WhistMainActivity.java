@@ -1,5 +1,7 @@
 package edu.up.cs301.Whist;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
@@ -22,6 +24,7 @@ public class WhistMainActivity extends GameMainActivity {
     //fun stuff! soundPool for playing superfluous audio
     public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
     public static int[] soundId = new int[6];
+    public static Bitmap cardback;
     @Override
     public GameConfig createDefaultConfig(){
         // Define the allowed player types
@@ -45,8 +48,6 @@ public class WhistMainActivity extends GameMainActivity {
         defaultConfig.addPlayer("Andrew",1);
         defaultConfig.addPlayer("Patrick",1);
         defaultConfig.setRemoteData("Sam", "", 0);
-
-
         return defaultConfig;
 
     }
@@ -58,6 +59,9 @@ public class WhistMainActivity extends GameMainActivity {
         soundId[2] = mySoundpool.load(this, R.raw.stopitgethelp,1);
         soundId[1] = mySoundpool.load(this, R.raw.wow,1);
         soundId[3] = mySoundpool.load(this, R.raw.freerealestate,1);
+        soundId[4] = mySoundpool.load(this, R.raw.timetoduel,1);
+        // get the bitmap for the card
+        cardback = BitmapFactory.decodeResource(this.getResources(),R.drawable.cardback);
         return new WhistLocalGame();
     }
 }
