@@ -214,6 +214,8 @@ public class WhistLocalGame extends LocalGame {
             }
             else winningCard = cardsByPlayerIdx[0];
         }
+
+
         //increment through the cards on the table and find the winning card and player number
         Integer winningPlayerIdx = 0;
         synchronized (winningPlayerIdx) {
