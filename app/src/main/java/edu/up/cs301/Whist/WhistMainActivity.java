@@ -1,10 +1,14 @@
 package edu.up.cs301.Whist;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.config.GameConfig;
 import edu.up.cs301.game.config.GamePlayerType;
 
@@ -15,7 +19,9 @@ import edu.up.cs301.game.config.GamePlayerType;
 public class WhistMainActivity extends GameMainActivity {
 
     public static final int PORT_NUMBER = 2278;
-
+    //fun stuff! soundPool for playing superfluous audio
+    public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+    public static int[] soundId = new int[6];
     @Override
     public GameConfig createDefaultConfig(){
         // Define the allowed player types
@@ -47,6 +53,12 @@ public class WhistMainActivity extends GameMainActivity {
 
     @Override
     public LocalGame createLocalGame() {
+        //sets the int value for the sound
+        soundId[0] = mySoundpool.load(this, R.raw.airhorn,1);
+        soundId[2] = mySoundpool.load(this, R.raw.stopit,1);
+        soundId[1] = mySoundpool.load(this, R.raw.wow,1);
+        soundId[3] = mySoundpool.load(this, R.raw.freerealestate,1);
+        mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
         return new WhistLocalGame();
     }
 }

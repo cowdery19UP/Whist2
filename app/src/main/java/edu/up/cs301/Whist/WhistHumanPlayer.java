@@ -395,19 +395,24 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         right = right*factor + midX;
         top = top*factor + midY;
         bottom = bottom*factor + midY;
-
         // create/return the new rectangle
         return new RectF(left, top, right, bottom);
-
     }
-
     public void onClick(View v){
         if(v instanceof Button) {
             Button b = (Button) v;
             if (selectedCard != null) {
                 game.sendAction(new PlayCardAction(this, selectedCard));
+                if(selectedCard.getRank().value(14)==2){
+                    WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[2], 1, 1, 1, 0, 1.0f);
+                }
+                else if(selectedCard.getRank().value(14)==14) {
+                    WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[1], 1, 1, 1, 0, 1.0f);
+                }
+
                 b.setBackgroundColor(Color.DKGRAY);
                 selectedCard = null;
+
             }
             else flash(Color.RED,1000);
         }

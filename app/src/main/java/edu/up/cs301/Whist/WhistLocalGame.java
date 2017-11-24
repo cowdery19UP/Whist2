@@ -7,6 +7,7 @@ import android.util.Log;
 import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
@@ -21,9 +22,7 @@ public class WhistLocalGame extends LocalGame {
     private boolean newRound = false;
     private boolean grandingPhase = false;
     private Card[] cardsByPlayerIdx = new Card[4];
-    //fun stuff! soundPool for playing superfluous audio
-    public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-    public static int soundId;
+
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
@@ -105,9 +104,12 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver(){
         if(mainGameState.team1Points>=7){
+            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
             return ""+playerNames[0]+" and "+playerNames[2]+" win "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
+
         }
         else if(mainGameState.team2Points>=7){
+            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
             return ""+playerNames[1]+" and "+playerNames[3]+" win "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
         }
         else return null;
