@@ -55,7 +55,7 @@ public class WhistMainActivity extends GameMainActivity {
     public LocalGame createLocalGame() {
         //sets the int value for the sound
         soundId[0] = mySoundpool.load(this, R.raw.airhorn,1);
-        soundId[2] = mySoundpool.load(this, R.raw.stopit,1);
+        soundId[2] = mySoundpool.load(this, R.raw.stopitgethelp,1);
         soundId[1] = mySoundpool.load(this, R.raw.wow,1);
         soundId[3] = mySoundpool.load(this, R.raw.freerealestate,1);
         mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);

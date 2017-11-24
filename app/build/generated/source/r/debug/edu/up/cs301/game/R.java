@@ -134,7 +134,8 @@ public final class R {
         public static final int airhorn=0x7f040000;
         public static final int freerealestate=0x7f040001;
         public static final int log=0x7f040002;
-        public static final int wow=0x7f040003;
+        public static final int stopitgethelp=0x7f040003;
+        public static final int wow=0x7f040004;
     }
     public static final class string {
         public static final int add_player=0x7f080000;
