@@ -26,19 +26,19 @@ public class WhistMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name) {
                 return new WhistHumanPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Computer Player") {
+        playerTypes.add(new GamePlayerType("Bomputer Player") {
             public GamePlayer createPlayer(String name) {
                 return new WhistComputerPlayer(name);
             }});
 
 
         // Create a game configuration class for Pig:
-        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Whist", PORT_NUMBER);
-        defaultConfig.addPlayer("Human", 0); // player 1: a human player
-        defaultConfig.addPlayer("Computer1", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Computer2",1);
-        defaultConfig.addPlayer("Computer3",1);
-        defaultConfig.setRemoteData("Remote Human Player", "", 0);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Minnesota Whist", PORT_NUMBER);
+        defaultConfig.addPlayer("Steve", 0); // player 1: a human player
+        defaultConfig.addPlayer("Kevin", 1); // player 2: a computer player
+        defaultConfig.addPlayer("Andrew",1);
+        defaultConfig.addPlayer("Patrick",1);
+        defaultConfig.setRemoteData("Sam", "", 0);
 
 
         return defaultConfig;
