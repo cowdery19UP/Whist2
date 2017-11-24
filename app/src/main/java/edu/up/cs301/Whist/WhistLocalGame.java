@@ -29,7 +29,7 @@ public class WhistLocalGame extends LocalGame {
     }
 
     public void beginNewRound(){
-
+        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
         ///runs one last scoreTrick on the last trick in play
         scoreTrick();
         //sleep for a little....shhhhh see the scored trick
