@@ -145,6 +145,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
 
     public void tick(Canvas g){
+
     //checks to make sure there is a state to pull information from
         if(savedState!=null) {
             //set rectangles for hand and table spots

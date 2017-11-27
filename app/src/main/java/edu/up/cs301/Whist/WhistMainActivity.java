@@ -35,7 +35,7 @@ public class WhistMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name) {
                 return new WhistHumanPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Bomputer Player") {
+            playerTypes.add(new GamePlayerType("Bomputer Player") {
             public GamePlayer createPlayer(String name) {
                 return new WhistComputerPlayer(name);
             }});

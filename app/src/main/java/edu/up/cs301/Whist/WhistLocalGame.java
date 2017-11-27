@@ -26,7 +26,6 @@ public class WhistLocalGame extends LocalGame {
 
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
-        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
     }
 
     public void beginNewRound(){
