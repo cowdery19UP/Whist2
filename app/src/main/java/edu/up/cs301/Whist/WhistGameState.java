@@ -90,11 +90,12 @@ public class WhistGameState extends GameState {
     public int getTurn(){return turn;}
 
     public Hand getHand(){
-        for(Hand d: playerHands){
-            if(d!=null){
+        for(Hand d: playerHands) {
+            if (d != null) {
                 return d;
             }
         }
+
         return null;
     }
 
