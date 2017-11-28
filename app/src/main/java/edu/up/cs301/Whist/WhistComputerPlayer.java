@@ -17,7 +17,6 @@ public class WhistComputerPlayer extends GameComputerPlayer {
     private int reactionTime = 1500;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
-    private GameConfig playerType;
 
     public WhistComputerPlayer(String name){
         super(name);
@@ -48,10 +47,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
 
 
     }//recieveInfo
-    public void setHotCards(){
+    public Card setHotCards(){
         for(Card c: savedState.cardsPlayed.stack){
 
         }
+        return null;
     }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
