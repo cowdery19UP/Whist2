@@ -8,7 +8,8 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  */
 
 public class WhistHardComputerPlayer extends WhistComputerPlayer {
-
+    //the cardStack of hot cards
+    public CardStack hotCards;
     private int reactionTime = 1500;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
@@ -42,25 +43,28 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
 
 
     }//recieveInfo
-    public Card setHotCards(){
+    public void setHotCards(){
+        Card hotCard = null;
+        Card[] otherPlayerCards = new Card[2];
+        for(int i = 0; i<savedState.cardsInPlay.getSize();i++){
+            if(playerNum%2==0){//this player is on team 1 (either player 0 or player 2)
+               // otherPlayerCards[i%2] = ;
+            }
 
+        }
         for(Card c: savedState.cardsPlayed.stack) {
-            Card hotCard = null;
             if (c.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                 hotCard = myHand.getHighestInSuit(savedState.leadSuit);
             }
-            return hotCard;
         }
+        hotCards.add(hotCard);
 
-        return null;
     }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
         //key off of what turn we are in
         int turnInTrick = numCardsPlayed;
         //new trick, no one has played yet I am the lead player
-
-
 
         if (turnInTrick == 0) {
             cardToPlay = myHand.getHighest();
@@ -79,12 +83,8 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                 if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                     cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                 }
-                else if(myHand.getHighestInSuit(savedState.leadSuit) == setHotCards()){
-                    cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
-                }
-                //if we cannot win
-                else
-                    cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+               //if we cannot win
+                else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
             }
 
         }
@@ -105,12 +105,8 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)) {
                         cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                     }
-                    else if(myHand.getHighestInSuit(savedState.leadSuit) == setHotCards()){
-                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
-                    }
                     //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                    else
-                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                    else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                 }
                 //if we cannot win, play low to save valuable cards
                 else
@@ -136,12 +132,8 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     if (allieCard.getRank().value(14) > Math.max(opponent2Card.getRank().value(14), opponentCard.getRank().value(14))) {
                         cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                     }
-                    else if(myHand.getHighestInSuit(savedState.leadSuit) == setHotCards()){
-                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
-                    }
                     //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                    else
-                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                    else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                 }
                 //if we cannot win, play low to save valuable cards
                 else

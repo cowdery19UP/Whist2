@@ -45,13 +45,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         }
         ////////////////////////end move handling//////////////////////////////////////
 
-
     }//recieveInfo
-    public Card setHotCards(){
+    public void setHotCards(){
         for(Card c: savedState.cardsPlayed.stack){
 
         }
-        return null;
     }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;

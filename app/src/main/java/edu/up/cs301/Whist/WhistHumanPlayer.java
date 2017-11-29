@@ -421,10 +421,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(v instanceof Button) {
             Button b = (Button) v;
             if (selectedCard != null) {
-                if(selectedCard.getRank().value(14)==2){
+                if(selectedCard.getRank().value(14)==2){//played a 2, get some help!
                     WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[2], 1, 1, 1, 0, 1.0f);
                 }
-                else if(selectedCard.getRank().value(14)==14) {
+                else if(selectedCard.getRank().value(14)==14) {//played an ace! WoW!
                     WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[1], 1, 1, 1, 0, 1.0f);
                 }
                 game.sendAction(new PlayCardAction(this, selectedCard));

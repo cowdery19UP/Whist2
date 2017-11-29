@@ -23,7 +23,7 @@ public class WhistMainActivity extends GameMainActivity {
     public static final int PORT_NUMBER = 2278;
     //fun stuff! soundPool for playing superfluous audio
     public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
-    public static int[] soundId = new int[6];
+    public static int[] soundId = new int[8];
     public static Bitmap cardback;
 
 
@@ -68,6 +68,8 @@ public class WhistMainActivity extends GameMainActivity {
         soundId[1] = mySoundpool.load(this, R.raw.wow,1);
         soundId[3] = mySoundpool.load(this, R.raw.freerealestate,1);
         soundId[4] = mySoundpool.load(this, R.raw.timetoduel,1);
+        soundId[5] = mySoundpool.load(this, R.raw.thatsaten,1);
+        soundId[6] = mySoundpool.load(this, R.raw.yee,1);
         // get the bitmap for the card
         cardback = BitmapFactory.decodeResource(this.getResources(),R.drawable.cardback);
         return new WhistLocalGame();

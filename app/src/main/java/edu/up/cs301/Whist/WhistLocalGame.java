@@ -21,7 +21,7 @@ public class WhistLocalGame extends LocalGame {
     private boolean newTrick = false;
     private boolean newRound = false;
     private boolean grandingPhase = false;
-    private Card[] cardsByPlayerIdx = new Card[4];
+    //private Card[] cardsByPlayerIdx = new Card[4];
 
 
     public WhistLocalGame(){
@@ -154,9 +154,14 @@ public class WhistLocalGame extends LocalGame {
             if(mainGameState.cardsPlayed.getSize()%4==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
+            //fun stuff! Audio sounds!
+            if(playedCard.getRank().value(14)==10){//thats a ten
+                WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[5], 1, 1, 1, 0, 1.0f);
+            }
+
             //moves the played card onto the table and into the set of played cards
             mainGameState.cardsInPlay.add(playedCard);
-            cardsByPlayerIdx[thisPlayerIdx] = playedCard;
+            mainGameState.cardsByPlayerIdx[thisPlayerIdx] = playedCard;
             mainGameState.cardsPlayed.add(playedCard);
 
 
@@ -213,16 +218,16 @@ public class WhistLocalGame extends LocalGame {
      */
     public void scoreTrick(){
         //determine which card and player won the trick
-        //establish the starting card to increment up off of
+        //establish the starting card to increment up from
         Card winningCard = Card.fromString("2C");
         Integer winningPlayerIdx = 0;
         //increment through the cards on the table and find the winning card and player number
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
                 if ((winningCard.getRank().value(14)<=
-                        cardsByPlayerIdx[i].getRank().value(14))&&
-                        (cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
-                    winningCard = cardsByPlayerIdx[i];
+                        mainGameState.cardsByPlayerIdx[i].getRank().value(14))&&
+                        (mainGameState.cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
+                    winningCard = mainGameState.cardsByPlayerIdx[i];
                     winningPlayerIdx = i;
                 }
             }

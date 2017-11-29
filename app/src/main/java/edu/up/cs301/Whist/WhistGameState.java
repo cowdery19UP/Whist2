@@ -21,12 +21,12 @@ public class WhistGameState extends GameState {
     public int turn = 0;
     //a cardStack of the cards in play on the TABLE
     public CardStack cardsInPlay;
+    //an array of cards based on the player indexes
+    public Card[] cardsByPlayerIdx = new Card[4];
     //a card stack of the cards that have been played in the ENTIRE ROUND
     public CardStack cardsPlayed;
     //an array of hands one for each player
     public Hand[] playerHands = new Hand[4];
-    //the cardStack of hot cards
-    public CardStack hotCards;
     //the main deck the game is using
     public Deck mainDeck;
     //the leadingSuit of the trick
@@ -41,14 +41,13 @@ public class WhistGameState extends GameState {
     public boolean team1Granded = false;
     ///////////////substitute for Team Class/////////////
     //deciding for high and low round
-    public boolean highround = true;
+    public boolean highGround = true;
 
     public WhistGameState(){
         //initial gameState
         Log.i("CreatedNewState","new");
         cardsInPlay = new CardStack();
         cardsPlayed = new CardStack();
-        hotCards = new CardStack();
         mainDeck  = new Deck();
         //deals the cards to the playerHands
         ///////lesson learned: cannot use for each loops to instantiate items in an array./////
@@ -65,7 +64,6 @@ public class WhistGameState extends GameState {
         //assigning basic instance variables as the same
         cardsInPlay = orig.cardsInPlay;
         cardsPlayed = orig.cardsPlayed;
-        hotCards = orig.hotCards;
         mainDeck  = orig.mainDeck;
         turn = orig.getTurn();
         leadSuit = orig.leadSuit;
