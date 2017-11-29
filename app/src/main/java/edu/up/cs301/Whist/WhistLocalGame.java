@@ -1,10 +1,13 @@
 package edu.up.cs301.Whist;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 
 import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
+import edu.up.cs301.game.R;
 import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
@@ -20,12 +23,14 @@ public class WhistLocalGame extends LocalGame {
     private boolean grandingPhase = false;
     private Card[] cardsByPlayerIdx = new Card[4];
 
+
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
+        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
     }
 
     public void beginNewRound(){
-
+        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
         ///runs one last scoreTrick on the last trick in play
         scoreTrick();
         //sleep for a little....shhhhh see the scored trick
@@ -100,10 +105,13 @@ public class WhistLocalGame extends LocalGame {
     @Override
     protected String checkIfGameOver(){
         if(mainGameState.team1Points>=7){
-            return "Team 1 Wins "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
+            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
+            return ""+playerNames[0]+" and "+playerNames[2]+" win "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
+
         }
         else if(mainGameState.team2Points>=7){
-            return "Team 2 Wins "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
+            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
+            return ""+playerNames[1]+" and "+playerNames[3]+" win "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
         }
         else return null;
     }
@@ -130,7 +138,7 @@ public class WhistLocalGame extends LocalGame {
             if(action instanceof BidAction){
                 //check to see if we are still within the bidding stage of the round
                 if(mainGameState.getTurn()<4){
-                    //lastly, increment the turn
+                    //lastly, increment the turn and send updated states
                     incrementTurn();
                     sendAllUpdatedState();
                     return true;
@@ -138,7 +146,6 @@ public class WhistLocalGame extends LocalGame {
                 //if we are past the bidding phase and it is not your turn
                 else return false;
             }
-
         }
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
@@ -180,7 +187,6 @@ public class WhistLocalGame extends LocalGame {
         /////////////handle new trick////////////////
         if(newTrick){
             scoreTrick();
-
         }
         //////////////new Trick handled////////////////
 
@@ -189,7 +195,6 @@ public class WhistLocalGame extends LocalGame {
             beginNewRound();
         }
         //////////////handle new round/////////////////
-
 
         //copy the state to edit and null information
         WhistGameState censoredState = new WhistGameState(mainGameState);
@@ -208,21 +213,23 @@ public class WhistLocalGame extends LocalGame {
      * This method is called anytime the turn reaches a multiple of 4
      */
     public void scoreTrick(){
-
         //determine which card and player won the trick
-        Card winningCard = cardsByPlayerIdx[0];
+        //establish the starting card to increment up off of
+        Card winningCard = Card.fromString("2C");
         Integer winningPlayerIdx = 0;
+        //increment through the cards on the table and find the winning card and player number
         synchronized (winningPlayerIdx) {
             for (int i = 0; i < 4; i++) {
-                if ((winningCard.getRank().value(14)  < cardsByPlayerIdx[i].getRank().value(14)) && (cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
+                if ((winningCard.getRank().value(14)<=
+                        cardsByPlayerIdx[i].getRank().value(14))&&
+                        (cardsByPlayerIdx[i].getSuit().equals(mainGameState.leadSuit))) {
                     winningCard = cardsByPlayerIdx[i];
                     winningPlayerIdx = i;
                 }
             }
-
             //if the winning player was on team 2 (meaning it was either player 2 or 4)
             //add to their wonTricks
-
+            Log.i("winningCard",""+winningCard.toString());
             if (winningPlayerIdx % 2 == 1) {
                 mainGameState.team2WonTricks++;
             }
@@ -249,7 +256,6 @@ public class WhistLocalGame extends LocalGame {
     public void incrementTurn(){
         mainGameState.turn ++;
         mainGameState.turn%=4;
-        Log.i("gameTurn= ", ""+mainGameState.turn);
     }
 }
 
