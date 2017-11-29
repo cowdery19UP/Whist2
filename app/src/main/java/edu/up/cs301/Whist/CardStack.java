@@ -3,6 +3,7 @@ package edu.up.cs301.Whist;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.up.cs301.card.Card;
 import edu.up.cs301.card.Suit;
@@ -101,6 +102,22 @@ public class CardStack {
         return lowCard;
     }
 
+    public Card getRandomCard(){
+        //assigns the first card in the stack to be
+        //the card to be returned
+        Card RandCard = stack.get(0);
+        //indexes through the stack and if the c card is a higher
+        //value, it becomes the highCard
+        for(Card c: stack) {
+            Random random = new Random();
+            int listSize = stack.size();
+            int randomIndex = random.nextInt(listSize);
+                RandCard = stack.get(randomIndex);
+
+        }
+        return RandCard;
+    }
+
     /**
      * This method returns the highest value card
      * of a particular suit
@@ -159,6 +176,40 @@ public class CardStack {
         }
         return theChosenOne;
     }
+
+    /**
+     * This method returns the random value card
+     * of a particular suit
+     * @param suit -- the suit in which to get the random card
+     * @return -- returns the random card of that suit
+     */
+
+    public Card getRandomInSuit(Suit suit){
+        if(stack.size()==0){
+            Log.e("getLowestInSuit","cardStack stack is empty");
+            return null;
+        }
+        //this is our array list of cards of a specific suit
+        ArrayList<Card> cardsOfSuit = new ArrayList<Card>();
+        //index through the stack and pull out the cards of the right suit
+        for(Card c: stack){
+            if(c.getSuit()==suit){
+                cardsOfSuit.add(c);
+            }
+        }
+        Card RandCard = cardsOfSuit.get(0);
+        for(Card c: cardsOfSuit) {
+            Random random = new Random();
+            int listSize = cardsOfSuit.size();
+            int randomIndex = random.nextInt(listSize);
+            RandCard = cardsOfSuit.get(randomIndex);
+        }
+
+
+        return RandCard;
+    }
+
+
 
 
     public int getIndexOfCard(Card c){

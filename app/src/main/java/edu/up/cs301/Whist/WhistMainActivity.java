@@ -25,17 +25,26 @@ public class WhistMainActivity extends GameMainActivity {
     public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
     public static int[] soundId = new int[6];
     public static Bitmap cardback;
+
+
     @Override
     public GameConfig createDefaultConfig(){
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
-
-        // Pig has two player types:  human and computer
+        // whist has two player types:  human and computer
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
                 return new WhistHumanPlayer(name);
             }});
-            playerTypes.add(new GamePlayerType("Bomputer Player") {
+        playerTypes.add(new GamePlayerType("Easy Computer Player") {
+            public GamePlayer createPlayer(String name) {
+                return new WhistEasyComputerPlayer(name);
+            }});
+        playerTypes.add(new GamePlayerType("Hard Computer Player") {
+            public GamePlayer createPlayer(String name) {
+                return new WhistHardComputerPlayer(name);
+            }});
+        playerTypes.add(new GamePlayerType("Normal Computer Player") {
             public GamePlayer createPlayer(String name) {
                 return new WhistComputerPlayer(name);
             }});
@@ -45,11 +54,10 @@ public class WhistMainActivity extends GameMainActivity {
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Minnesota Whist", PORT_NUMBER);
         defaultConfig.addPlayer("Steve", 0); // player 1: a human player
         defaultConfig.addPlayer("Kevin", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Andrew",1);
-        defaultConfig.addPlayer("Patrick",1);
+        defaultConfig.addPlayer("Andrew",3);
+        defaultConfig.addPlayer("Patrick",2);
         defaultConfig.setRemoteData("Sam", "", 0);
         return defaultConfig;
-
     }
 
     @Override

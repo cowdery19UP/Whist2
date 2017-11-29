@@ -131,7 +131,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
     //returns the player hand
     public Hand getMyHand(){ return myHand;}
-
     /**
      * This method checks to see if this player is on the same
      * team as the other player fed into the method
