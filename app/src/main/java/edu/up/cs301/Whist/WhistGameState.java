@@ -40,6 +40,8 @@ public class WhistGameState extends GameState {
     public int team2Points = 0;
     public boolean team1Granded = false;
     ///////////////substitute for Team Class/////////////
+    //deciding for high and low round
+    public boolean highround = true;
 
     public WhistGameState(){
         //initial gameState
