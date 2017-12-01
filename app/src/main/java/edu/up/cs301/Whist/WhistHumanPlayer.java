@@ -177,9 +177,35 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paint);
             paint.setColor(Color.RED);
             g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paint);
+            paint.setColor(Color.BLACK);
+            RectF player0 = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,(Tablesurface.getHeight()/20)*13-65,
+                    Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*18+40,(Tablesurface.getHeight()/20)*13+40);
+
+            RectF player1 = new RectF(Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)-40,((Tablesurface.getHeight()/20)*11)-95,
+                    Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)+allPlayerNames[1].length()*18+40,((Tablesurface.getHeight()/20)*11)+10);
+
+            RectF player2 = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,Tablesurface.getHeight()/10-65,
+                    Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*20+40,Tablesurface.getHeight()/10+40);
+
+            RectF player3 = new RectF(Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)-40,((Tablesurface.getHeight()/20)*11)-95,
+                    Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)+allPlayerNames[1].length()*20+40,((Tablesurface.getHeight()/20)*11)+10);
+
+                if(savedState.getTurn()==0) g.drawRect(player0, paint);
+                if(savedState.getTurn()==1) g.drawRect(player1, paint);
+                if(savedState.getTurn()==2) g.drawRect(player2, paint);
+                if(savedState.getTurn()==3) g.drawRect(player3, paint);
+
+
+            paint.setColor(Color.rgb(102,204,255));
+            g.drawText(allPlayerNames[0],Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10),(Tablesurface.getHeight()/20)*13,paint);
+            g.drawText(allPlayerNames[2],Tablesurface.getWidth()/2-(allPlayerNames[2].length()*10),Tablesurface.getHeight()/10,paint);
+            paint.setColor(Color.RED);
+            g.drawText(allPlayerNames[1],Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9),(Tablesurface.getHeight()/20)*11-30,paint);
+            g.drawText(allPlayerNames[3],Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6),(Tablesurface.getHeight()/20)*11-30,paint);
             paint.setColor(Color.WHITE);
 
-            //in order to make the GUI more user friendly, I addded a handler to make the playCard button
+
+            //in order to make the GUI more user friendly, I added a handler to make the playCard button
             //light up green when it is this player's turn to play
 
             Handler refresh = new Handler(Looper.getMainLooper());
