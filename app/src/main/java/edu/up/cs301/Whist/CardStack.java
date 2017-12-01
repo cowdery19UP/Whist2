@@ -170,6 +170,10 @@ public class CardStack {
                 cardsOfSuit.add(c);
             }
         }
+        //if we didn't have any cards in that suit in this cardStack
+        if(cardsOfSuit.size()==0){
+            return null;
+        }
         //this is the card we will be returning
         Card theChosenOne = cardsOfSuit.get(0);
         //index through the array of suited cards and find the lowest one
@@ -212,9 +216,6 @@ public class CardStack {
 
         return RandCard;
     }
-
-
-
 
     public int getIndexOfCard(Card c){
         for(int i=0;i<stack.size();i++){
