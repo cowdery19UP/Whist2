@@ -137,6 +137,10 @@ public class CardStack {
                 cardsOfSuit.add(c);
             }
         }
+        //if there are no cards of that suit return null
+        if(cardsOfSuit.size()==0){
+            return null;
+        }
         //this is the card we will be returning
         Card theChosenOne = cardsOfSuit.get(0);
         //index through the array of suited cards and find the highest one
@@ -237,7 +241,8 @@ public class CardStack {
      */
     public void add(Card addMe){
         synchronized (stack) {
-            stack.add(addMe);
+            //if we actually have a card to add, add it
+            if(addMe != null) stack.add(addMe);
         }
     }
 
