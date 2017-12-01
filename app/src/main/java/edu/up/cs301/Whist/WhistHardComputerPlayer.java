@@ -1,6 +1,9 @@
 package edu.up.cs301.Whist;
 
+import java.util.ArrayList;
+
 import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Suit;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
@@ -9,15 +12,26 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 public class WhistHardComputerPlayer extends WhistComputerPlayer {
     //the cardStack of hot cards
-    public CardStack hotCards;
+    public CardStack hotCards = new CardStack();
+    //the reaction time of the player
     private int reactionTime = 1500;
+    //the player hand
     private Hand myHand = new Hand();
+    //the saved state
     private WhistGameState savedState;
 
+    /**
+     * The constructor for the player
+     * @param name - the string name for the player
+     */
     public WhistHardComputerPlayer(String name) {
         super(name);
     }
 
+    /**
+     * This method is called whenever the game sends an updated state to this player
+     * @param info - this is the object received from the game
+     */
     public void receiveInfo(GameInfo info){
         //check for null state
         if(info==null){
@@ -31,34 +45,76 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         savedState = (WhistGameState) info;
         //updates the player's hand
         myHand = savedState.getHand();
-        //sleep....shhhhh
-        sleep(reactionTime);
 
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
+            //sets the hotCards!
+            setHotCards();
+            //sleep....shhhhh
+            sleep(reactionTime);
             makeMyMove(savedState.cardsInPlay.getSize());
         }
         ////////////////////////end move handling//////////////////////////////////////
 
-
     }//recieveInfo
+
+    /**
+     * This
+     */
     public void setHotCards(){
-        Card hotCard = null;
-        Card[] otherPlayerCards = new Card[2];
-        for(int i = 0; i<savedState.cardsInPlay.getSize();i++){
-            if(playerNum%2==0){//this player is on team 1 (either player 0 or player 2)
-               // otherPlayerCards[i%2] = ;
+        //create a new deck
+        Deck cardsLeft = new Deck();
+        //remove the cards that have been played this round to leave just the cards left
+        ArrayList<Card> stackCopy = (ArrayList<Card>)cardsLeft.stack.clone();
+        if(savedState.cardsPlayed.getSize()!=0) {
+            for (Card d : savedState.cardsPlayed.stack) {
+                for (Card c : stackCopy) {
+                    if (d.equals(c)) {
+                        cardsLeft.remove(d);
+                        break;
+                    }
+                }
             }
-
         }
-        for(Card c: savedState.cardsPlayed.stack) {
-            if (c.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                hotCard = myHand.getHighestInSuit(savedState.leadSuit);
+        ////////////adds the highest remaining card in each suit/////////////
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Club));
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Heart));
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Spade));
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Diamond));
+        ////////////adds the highest remaining card in each suit/////////////
+
+        //////////if both opponents are out of a suit, add cards in that suit//////////
+        //finds my opponent's cards
+        if(savedState.cardsByPlayerIdx[(playerNum+3)%4]!=null&&savedState.cardsByPlayerIdx[(playerNum+1)%4]!=null){
+            Card[] oppCards = new Card[2];
+            oppCards[0] = savedState.cardsByPlayerIdx[(playerNum+1)%4];
+            oppCards[1] = savedState.cardsByPlayerIdx[(playerNum+3)%4];
+            //if both opponents did not follow suit (therefore are out of that suit)
+            //add all of the cards of that suit to hotCards
+            if(!oppCards[0].getSuit().equals(savedState.leadSuit)&&!oppCards[1].getSuit().equals(savedState.leadSuit)){
+                for(Card d: cardsLeft.stack){
+                    if(d.getSuit().equals(savedState.leadSuit)){
+                        hotCards.add(d);
+                    }
+                }
             }
         }
-        hotCards.add(hotCard);
+        //////////if both opponents are out of a suit, add cards in that suit//////////
 
+    }
+    public boolean hasAHotCard(){
+        //goes through the entire hotCard stack and compares to hand
+        for(Card f: hotCards.stack){
+            for (Card d: myHand.stack) {
+                //if we do have a hot card return true
+                if(f.equals(d)){
+                    return true;
+                }
+            }
+        }
+        //else if we don't have a single hot card return false
+        return false;
     }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
@@ -67,7 +123,10 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //new trick, no one has played yet I am the lead player
 
         if (turnInTrick == 0) {
-            cardToPlay = myHand.getHighest();
+            if(hasAHotCard()){
+                cardToPlay = hotCards.getRandomCard();
+            }
+            else cardToPlay = myHand.getHighest();
         }
         //only one player has played on the other team
         else if (turnInTrick == 1) {

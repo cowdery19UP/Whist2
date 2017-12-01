@@ -42,11 +42,6 @@ public class WhistEasyComputerPlayer extends GameComputerPlayer {
 
 
     }//recieveInfo
-    public void setHotCards(){
-        for(Card c: savedState.cardsPlayed.stack){
-
-        }
-    }
 
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;

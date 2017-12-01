@@ -33,7 +33,7 @@ public class Hand extends CardStack {
 
     /**
      * This method organizes the cards in the hand by their suit
-     *  by using Patrick's mergeSort function
+     *  by using Patrick's Sort function
      */
     public void organizeBySuit(){
         sortCards();

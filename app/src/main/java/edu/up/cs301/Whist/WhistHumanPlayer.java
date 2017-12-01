@@ -431,7 +431,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
 
     public void onStartTrackingTouch(SeekBar sb){
-        Log.i("trackingtouch","money");
     }
 
     public void onStopTrackingTouch(SeekBar sb){

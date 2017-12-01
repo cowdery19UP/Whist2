@@ -66,6 +66,7 @@ public class WhistGameState extends GameState {
         cardsPlayed = orig.cardsPlayed;
         mainDeck  = orig.mainDeck;
         turn = orig.getTurn();
+        cardsByPlayerIdx = orig.cardsByPlayerIdx;
         leadSuit = orig.leadSuit;
         leadPlayer = orig.leadPlayer;
         team1Granded = orig.team1Granded;

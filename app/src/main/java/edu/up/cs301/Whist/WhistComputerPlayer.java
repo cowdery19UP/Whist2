@@ -46,11 +46,6 @@ public class WhistComputerPlayer extends GameComputerPlayer {
         ////////////////////////end move handling//////////////////////////////////////
 
     }//recieveInfo
-    public void setHotCards(){
-        for(Card c: savedState.cardsPlayed.stack){
-
-        }
-    }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
         //key off of what turn we are in
