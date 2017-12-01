@@ -83,14 +83,16 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         hotCards.add(cardsLeft.getHighestInSuit(Suit.Diamond));
         ////////////adds the highest remaining card in each suit/////////////
 
-        //////////if both opponents are out of a suit, add cards in that suit//////////
-        //finds my opponent's cards
+
+        /////////////////finds my opponent's cards///////////////////////////
+        //// fires only if both opponents have played
         if(savedState.cardsByPlayerIdx[(playerNum+3)%4]!=null&&savedState.cardsByPlayerIdx[(playerNum+1)%4]!=null){
+            //creates an array of 2 cards to hold the opponents' cards
             Card[] oppCards = new Card[2];
             oppCards[0] = savedState.cardsByPlayerIdx[(playerNum+1)%4];
             oppCards[1] = savedState.cardsByPlayerIdx[(playerNum+3)%4];
-            //if both opponents did not follow suit (therefore are out of that suit)
-            //add all of the cards of that suit to hotCards
+            ///////////if both opponents did not follow suit (therefore are out of that suit)///////////////////
+            //add all of the cards of that suit to hotCards////////////////////
             if(!oppCards[0].getSuit().equals(savedState.leadSuit)&&!oppCards[1].getSuit().equals(savedState.leadSuit)){
                 for(Card d: cardsLeft.stack){
                     if(d.getSuit().equals(savedState.leadSuit)){
@@ -98,8 +100,31 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     }
                 }
             }
+            //////////END if both opponents are out of a suit, add cards in that suit//////////
+
+            ///////if one opponent is out of a suit and another played high in that suit but could not win////////////
+            else if (!oppCards[0].getSuit().equals(savedState.leadSuit)&&
+                    (oppCards[1].getRank().value(14)>10 &&
+                            oppCards[1].getRank().value(14)<savedState.cardsByPlayerIdx[(playerNum+2)%4].getRank().value(14))){
+                //if it looks like those players are running out of that suit, add all the cards of that suit to hotCards
+                for(Card d: cardsLeft.stack){
+                    if(d.getSuit().equals(savedState.leadSuit)){
+                        hotCards.add(d);
+                    }
+                }
+            }
+            else if (!oppCards[1].getSuit().equals(savedState.leadSuit)&&
+                    (oppCards[0].getRank().value(14)>10 &&
+                            oppCards[0].getRank().value(14)<savedState.cardsByPlayerIdx[(playerNum+2)%4].getRank().value(14))){
+                //if it looks like those players are running out of that suit, add all the cards of that suit to hotCards
+                for(Card d: cardsLeft.stack){
+                    if(d.getSuit().equals(savedState.leadSuit)){
+                        hotCards.add(d);
+                    }
+                }
+            }
         }
-        //////////if both opponents are out of a suit, add cards in that suit//////////
+        ///////if one opponent is out of a suit and another played high in that suit////////////
 
     }
     public boolean hasAHotCard(){
