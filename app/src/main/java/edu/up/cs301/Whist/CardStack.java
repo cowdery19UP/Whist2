@@ -205,6 +205,7 @@ public class CardStack {
                 cardsOfSuit.add(c);
             }
         }
+
         Card RandCard = cardsOfSuit.get(0);
         for(Card c: cardsOfSuit) {
             Random random = new Random();
