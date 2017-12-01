@@ -45,7 +45,6 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         savedState = (WhistGameState) info;
         //updates the player's hand
         myHand = savedState.getHand();
-
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
@@ -116,6 +115,16 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //else if we don't have a single hot card return false
         return false;
     }
+    public Card getHotCard(){
+        for(Card c: myHand.stack){
+            for(Card d: hotCards.stack){
+                if(c.equals(d)){
+                    return c;
+                }
+            }
+        }
+        return null;
+    }
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
         //key off of what turn we are in
@@ -124,7 +133,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
 
         if (turnInTrick == 0) {
             if(hasAHotCard()){
-                cardToPlay = hotCards.getRandomCard();
+                cardToPlay = getHotCard();
             }
             else cardToPlay = myHand.getHighest();
         }
