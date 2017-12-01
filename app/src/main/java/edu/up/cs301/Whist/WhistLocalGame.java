@@ -265,6 +265,8 @@ public class WhistLocalGame extends LocalGame {
         newRound = false;
         //reset the leadPlayer to zero
         mainGameState.leadPlayer = 0;
+        //reset the lead suit to null
+        mainGameState.leadSuit = null;
     }
 
     /**
