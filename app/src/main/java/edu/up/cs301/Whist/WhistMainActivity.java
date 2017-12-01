@@ -25,6 +25,7 @@ public class WhistMainActivity extends GameMainActivity {
     public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
     public static int[] soundId = new int[8];
     public static Bitmap cardback;
+    public String string;
 
 
     @Override
@@ -58,6 +59,7 @@ public class WhistMainActivity extends GameMainActivity {
         defaultConfig.addPlayer("Patrick",2);
         defaultConfig.setRemoteData("Sam", "", 0);
         return defaultConfig;
+
     }
 
     @Override
