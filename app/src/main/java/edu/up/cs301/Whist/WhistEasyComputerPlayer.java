@@ -1,6 +1,7 @@
 package edu.up.cs301.Whist;
 
 import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Suit;
 import edu.up.cs301.game.GameComputerPlayer;
 import edu.up.cs301.game.infoMsg.GameInfo;
 
@@ -100,4 +101,28 @@ public class WhistEasyComputerPlayer extends WhistComputerPlayer{
     }
 
     public Hand getMyHand(){ return myHand;}
+
+    public void makeBid(){
+        //establishes an int for the average card value
+        int avg = 0;
+        //gets the average card value by summing and dividing by 13
+        for(Card d: myHand.stack){
+            avg+=d.getRank().value(14);
+        }
+        avg/=13;
+        //gets either a low club or a low spade for a high bid
+        CardStack bidders = new CardStack();
+        if(avg>7){
+            bidders.add(myHand.getLowestInSuit(Suit.Club));
+            bidders.add(myHand.getLowestInSuit(Suit.Spade));
+            game.sendAction(new BidAction(this,bidders.getLowest()));
+        }
+        //gets either a low heart or a low diamond for a low bid
+        else{
+            bidders.add(myHand.getLowestInSuit(Suit.Heart));
+            bidders.add(myHand.getLowestInSuit(Suit.Diamond));
+            game.sendAction(new BidAction(this,bidders.getLowest()));
+        }
+    }
+
 }
