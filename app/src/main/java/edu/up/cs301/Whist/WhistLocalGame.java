@@ -157,7 +157,10 @@ public class WhistLocalGame extends LocalGame {
             //lastly, set the turn
             incrementTurn();
             //after reaching 52 cards played, create a new round
-            if(mainGameState.cardsPlayed.getSize()==52){newRound = true;}
+            if(mainGameState.cardsPlayed.getSize()==52){
+                newRound = true;
+                mainGameState.grandingPhase = true;
+            }
             //after 4 moves, and not at the start of the round, set new trick to true
             else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
             sendAllUpdatedState();
