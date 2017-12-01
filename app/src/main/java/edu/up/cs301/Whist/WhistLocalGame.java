@@ -65,14 +65,15 @@ public class WhistLocalGame extends LocalGame {
         //index through each card on the table and find if there are any high bids
         int grandedPlayer = 0;
         for(Card c: mainGameState.cardsInPlay.stack){
-            grandedPlayer++;
             if(c.getSuit().equals(Suit.Club)||c.getSuit().equals(Suit.Spade)){
                 //if we find any high bids, the round is played high
                 mainGameState.highGround = true;
                 //set the turn to the player to the right of whoever granded
                 mainGameState.turn = (grandedPlayer+1)%4;
+                mainGameState.leadPlayer = (grandedPlayer+1)%4;
                 break;//function of the loop is over. Break out
             }
+            grandedPlayer++;
         }
         //sleep...shhhh
         try{
@@ -101,14 +102,14 @@ public class WhistLocalGame extends LocalGame {
         /////////////////////////////GRANDING/////////////////////////
         if(theAction instanceof BidAction){
             if(!mainGameState.grandingPhase){
-                //no granding allowed!
+                //no granding allowed outside of granding phase!
                 return false;
             }
             //we received a high bid action within granding phase
             else if(((BidAction) action).getCard().getSuit().equals(Suit.Club)||
                     ((BidAction) action).getCard().getSuit().equals(Suit.Spade)){
                 //if we receive a high bid card, grand the appropriate team
-                if(mainGameState.getTurn()%2==1){
+                if(mainGameState.getTurn()%2==1&&!mainGameState.team1Granded){
                     mainGameState.team2Granded = true;
                 }
                 else mainGameState.team1Granded = true;
@@ -124,8 +125,7 @@ public class WhistLocalGame extends LocalGame {
             //send updated states and return true
             sendAllUpdatedState();
             return true;
-
-        }
+        }//end instanceof BidAction
         /////////////////////////////END  GRANDING/////////////////////////
 
         /////////////////////////////PLAYCARD ACTIONS/////////////////////////
@@ -213,6 +213,7 @@ public class WhistLocalGame extends LocalGame {
         try{
             Thread.sleep(2500);
         } catch (InterruptedException e){}
+
         ///////handling points///////////
         //adding points to the team that won the most tricks in the round
         //if team 1 had more tricks, they get points
@@ -295,10 +296,10 @@ public class WhistLocalGame extends LocalGame {
                 mainGameState.team1WonTricks++;
             }
         }
-        //sleep thread to allow the user to get one last look at the completed trick
-        try{Thread.sleep(3000);}
-        catch (InterruptedException e){}
-
+        //sleep to let the player see the completed trick
+        try{
+            Thread.sleep(3000);
+        }catch(InterruptedException e){}
         //clears the cards in play
         mainGameState.cardsInPlay.removeAll();
         //sets the turn to establish who  is leading the next trick

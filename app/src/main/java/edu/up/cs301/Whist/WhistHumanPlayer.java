@@ -119,8 +119,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             selectedCard = myHand.getCardByIndex(myHand.getSize()/2);
         }
 
-
-
     }
 
     @Override
@@ -131,18 +129,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     }
     //returns the player hand
     public Hand getMyHand(){ return myHand;}
+
     /**
-     * This method checks to see if this player is on the same
-     * team as the other player fed into the method
-     * @param otherplayer -- the other player to compare this player to
-     * @return -- returns true if the players are on the same team
+     * This is the main animation method in the class that draws the GUI for
+     * the human player. It includes methods that handle the text colors on screen
+     * and the color of the playcard button for the user.
+     * @param g - the canvas object to be used
      */
-    public boolean sameTeam(GamePlayer otherplayer){
-
-         return false;
-    }
-
-
     public void tick(Canvas g){
 
     //checks to make sure there is a state to pull information from
@@ -177,33 +170,37 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paint);
             paint.setColor(Color.RED);
             g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paint);
-            paint.setColor(Color.BLACK);
-            RectF player0 = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,(Tablesurface.getHeight()/20)*13-65,
+
+            //establishes the RectF's for each player's spot
+            RectF bottomRectIndicator = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,(Tablesurface.getHeight()/20)*13-65,
                     Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*18+40,(Tablesurface.getHeight()/20)*13+40);
 
-            RectF player1 = new RectF(Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)-40,((Tablesurface.getHeight()/20)*11)-95,
+            RectF rightRectIndicator = new RectF(Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)-40,((Tablesurface.getHeight()/20)*11)-95,
                     Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)+allPlayerNames[1].length()*18+40,((Tablesurface.getHeight()/20)*11)+10);
 
-            RectF player2 = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,Tablesurface.getHeight()/10-65,
+            RectF topRectIndicator = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,Tablesurface.getHeight()/10-65,
                     Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*20+40,Tablesurface.getHeight()/10+40);
 
-            RectF player3 = new RectF(Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)-40,((Tablesurface.getHeight()/20)*11)-95,
+            RectF leftRectIndicator = new RectF(Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)-40,((Tablesurface.getHeight()/20)*11)-95,
                     Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)+allPlayerNames[1].length()*20+40,((Tablesurface.getHeight()/20)*11)+10);
 
-                if(savedState.getTurn()==0) g.drawRect(player0, paint);
-                if(savedState.getTurn()==1) g.drawRect(player1, paint);
-                if(savedState.getTurn()==2) g.drawRect(player2, paint);
-                if(savedState.getTurn()==3) g.drawRect(player3, paint);
+            ////places a black box around the player name whose turn it is
+            paint.setColor(Color.BLACK);
+            if(savedState.getTurn()==playerNum) g.drawRect(bottomRectIndicator, paint);
+            else if(savedState.getTurn()==(playerNum+1)%4) g.drawRect(rightRectIndicator, paint);
+            else if(savedState.getTurn()==(playerNum+2)%4) g.drawRect(topRectIndicator, paint);
+            else if(savedState.getTurn()==(playerNum+3)%4) g.drawRect(leftRectIndicator, paint);
 
-
+            //paints the player names with team colors
             paint.setColor(Color.rgb(102,204,255));
             g.drawText(allPlayerNames[0],Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10),(Tablesurface.getHeight()/20)*13,paint);
             g.drawText(allPlayerNames[2],Tablesurface.getWidth()/2-(allPlayerNames[2].length()*10),Tablesurface.getHeight()/10,paint);
             paint.setColor(Color.RED);
             g.drawText(allPlayerNames[1],Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9),(Tablesurface.getHeight()/20)*11-30,paint);
             g.drawText(allPlayerNames[3],Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6),(Tablesurface.getHeight()/20)*11-30,paint);
+            //resets the paint object to white to begin the next tick
             paint.setColor(Color.WHITE);
-
+            //Paints a nice reminder of Granding phase for the player
             if(savedState.grandingPhase){
             g.drawText("GRANDING PHASE",Tablesurface.getWidth()/2-150,Tablesurface.getHeight()/10*4-30,paint);
             }
@@ -212,7 +209,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
             //in order to make the GUI more user friendly, I added a handler to make the playCard button
             //light up green when it is this player's turn to play
-
+            //////////////////////////////Button Handled////////////////////////////////////////
             Handler refresh = new Handler(Looper.getMainLooper());
             refresh.post(new Runnable() {
                 public void run() {
@@ -236,8 +233,16 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                         }
                         //if we do not have the suit of the leadSuit, set button to a darker, sadder green
                         else if (savedState.getTurn() % 4 == playerNum && !myHand.hasCardInSuit(savedState.leadSuit)) {
-                            playCardButton.setBackgroundColor(Color.rgb(34, 139, 34));
-                            playCardButton.setEnabled(true);
+                            //if it is granding phase, any card will do
+                            if(savedState.grandingPhase){
+                                playCardButton.setBackgroundColor(Color.GREEN);
+                                playCardButton.setEnabled(true);
+                            }
+                            //it isn't granding phase, and you can't follow suit
+                            else {
+                                playCardButton.setBackgroundColor(Color.rgb(34, 139, 34));
+                                playCardButton.setEnabled(true);
+                            }
                         }
                         //for all other times, it is not our turn and it is not legal to play
                         else {
@@ -261,6 +266,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
                 }
             });
+            ////////////////////////Button Handled/////////////////////////////
 
             //assigns and paints the cards in play that will appear on the table
             if (savedState.cardsInPlay != null) {
@@ -318,15 +324,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     public void onTouch(MotionEvent event) {
 
-        // ignore everything except down-touch events
-        if (event.getAction() != MotionEvent.ACTION_DOWN) return;
-
-        // get the location of the touch on the surface
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-
-
-
     }
 
     /**
@@ -348,24 +345,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Rect r = new Rect(0,0,WhistMainActivity.cardback.getWidth(),WhistMainActivity.cardback.getHeight());
             // draw the bitmap into the target rectangle
             g.drawBitmap(WhistMainActivity.cardback, r, rect, p);
-
-            /*
-            // null: draw a card-back, consisting of a blue card
-            // with a white line near the border. We implement this
-            // by drawing 3 concentric rectangles:
-            // - blue, full-size
-            // - white, slightly smaller
-            // - blue, even slightly smaller
-            Paint white = new Paint();
-            white.setColor(Color.BLACK);
-            Paint blue = new Paint();
-            blue.setColor(Color.BLACK);
-            RectF inner1 = scaledBy(rect, 0.96f); // scaled by 96%
-            RectF inner2 = scaledBy(rect, 0.98f); // scaled by 98%
-            g.drawRect(rect, blue); // outer rectangle: blue
-            g.drawRect(inner2, white); // middle rectangle: white
-            g.drawRect(inner1, blue); // inner rectangle: blue
-            */
         }
         else {
             // just draw the card
