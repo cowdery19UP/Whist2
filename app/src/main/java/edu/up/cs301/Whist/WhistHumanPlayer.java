@@ -204,6 +204,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText(allPlayerNames[3],Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6),(Tablesurface.getHeight()/20)*11-30,paint);
             paint.setColor(Color.WHITE);
 
+            if(savedState.grandingPhase){
+            g.drawText("GRANDING PHASE",Tablesurface.getWidth()/2-150,Tablesurface.getHeight()/10*4-30,paint);
+            }
+
+
 
             //in order to make the GUI more user friendly, I added a handler to make the playCard button
             //light up green when it is this player's turn to play
