@@ -43,6 +43,7 @@ public class WhistGameState extends GameState {
     public boolean grandingPhase = true;
     //whomst granded?
     public boolean team1Granded = false;
+    public boolean team2Granded = false;
 
     //deciding for high and low round
     public boolean highGround = true;
@@ -74,6 +75,7 @@ public class WhistGameState extends GameState {
         leadSuit = orig.leadSuit;
         leadPlayer = orig.leadPlayer;
         team1Granded = orig.team1Granded;
+        team2Granded = orig.team2Granded;
         team1Points = orig.team1Points;
         team1WonTricks = orig.team1WonTricks;
         team2Points = orig.team2Points;

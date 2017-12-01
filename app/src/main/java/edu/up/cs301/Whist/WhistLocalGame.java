@@ -28,62 +28,6 @@ public class WhistLocalGame extends LocalGame {
         mainGameState = new WhistGameState();
     }
 
-    public void beginNewRound(){
-        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
-        ///runs one last scoreTrick on the last trick in play
-        scoreTrick();
-        //sleep for a little....shhhhh see the scored trick
-        try{
-            Thread.sleep(2500);
-        } catch (InterruptedException e){}
-        ///////handling points///////////
-        //adding points to the team that won the most tricks in the round
-        //if team 1 had more tricks, they get points
-        if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
-           //score is doubled for a team that wins without granding
-            if(!mainGameState.team1Granded){
-                mainGameState.team1Points+=((mainGameState.team1WonTricks-6)*2);
-            }
-            else{
-                mainGameState.team1Points+=((mainGameState.team1WonTricks-6));
-            }
-        }
-        //else team 2 had more tricks, so they get points
-        else{
-            //score is doubled if team 2 wins when team 1 granded
-            if(mainGameState.team1Granded){
-                mainGameState.team2Points+=((mainGameState.team2WonTricks-6)*2);
-            }
-            else{
-                mainGameState.team2Points+=((mainGameState.team2WonTricks-6));
-            }
-        }
-        /////////////////////////////////Points Handled/////////////////////////////
-        //get a new deck and deal new hands
-        mainGameState.mainDeck = new Deck();
-        for(Hand h: mainGameState.playerHands){
-            h.removeAll();
-            for(int i = 0; i<13;i++){
-                h.add(mainGameState.mainDeck.dealRandomCard());
-            }
-        }
-        //clears out the cards played and cards in play
-        mainGameState.cardsPlayed.removeAll();
-        mainGameState.cardsInPlay.removeAll();
-        //sets the turn back to zero
-        mainGameState.turn = 0;
-        //sets the grand back to false
-        mainGameState.team1Granded = false;
-        //sets the tricks back to zero
-        mainGameState.team1WonTricks = 0;
-        mainGameState.team2WonTricks = 0;
-        //reset the new round boolean
-        newRound = false;
-        //reset the leadPlayer to zero
-        mainGameState.leadPlayer = 0;
-
-
-    }
 
     /**
      * this method is called first to see if a move is legal.
@@ -115,76 +59,79 @@ public class WhistLocalGame extends LocalGame {
         else return null;
     }
 
+    public void handleGranding(){
+            //assumes a low round at first
+        mainGameState.highGround = false;
+        //index through each card on the table and find if there are any high bids
+        int grandedPlayer = 0;
+        for(Card c: mainGameState.cardsInPlay.stack){
+            grandedPlayer++;
+            if(c.getSuit().equals(Suit.Club)||c.getSuit().equals(Suit.Spade)){
+                //if we find any high bids, the round is played high
+                mainGameState.highGround = true;
+                //set the turn to the player to the right of whoever granded
+                mainGameState.turn = (grandedPlayer+1)%4;
+                break;//function of the loop is over. Break out
+            }
+        }
+        //sleep...shhhh
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        //remove all the cards in play
+        mainGameState.cardsInPlay.removeAll();
+        mainGameState.grandingPhase = false;
+        Log.i("Team1Granded? ",""+mainGameState.team1Granded);
+    }
     /**
      * This method alters the state based on the action received
      */
     @Override
     protected boolean makeMove(GameAction action){
-
         if(!(action instanceof MoveAction)){
             return false;
         }
         //safe casting of the sent in action into a MoveAction
         MoveAction theAction = (MoveAction) action;
-
         // get the index of the player making the move; return false
         int thisPlayerIdx = getPlayerIdx(theAction.getPlayer());
         if (thisPlayerIdx < 0) { // illegal player
             return false;
         }
-
-        //check to see who's turn it is
-        else if(mainGameState.grandingPhase&&action instanceof BidAction){
-
-            ///////if we have all 4 bid cards in play//////
-            if(mainGameState.cardsInPlay.getSize()==4){
-                mainGameState.highGround = false;
-                //index through each card on the table and find if there are any high bids
-                int grandedPlayer = 0;
-                for(Card c: mainGameState.cardsInPlay.stack){
-                    grandedPlayer++;
-                    if(c.getSuit().equals(Suit.Club)||c.getSuit().equals(Suit.Spade)){
-                        //if we find any high bids, the round is played high
-                        mainGameState.highGround = true;
-                        //set the turn to the player to the right of whoever granded
-                        mainGameState.turn = (grandedPlayer+1)%4;
-                    }
-                }
-                //no longer in granding phase
-                mainGameState.grandingPhase = false;
-                //sleep...shhhhhh
-                try{
-                    Thread.sleep(3000);
-                }catch (InterruptedException e){}
-
-                mainGameState.cardsInPlay.removeAll();
-                Log.i("Team1Granded? ",""+mainGameState.team1Granded);
-                sendAllUpdatedState();
-                return true;
-
+        /////////////////////////////GRANDING/////////////////////////
+        if(theAction instanceof BidAction){
+            if(!mainGameState.grandingPhase){
+                //no granding allowed!
+                return false;
             }
             //we received a high bid action within granding phase
             else if(((BidAction) action).getCard().getSuit().equals(Suit.Club)||
                     ((BidAction) action).getCard().getSuit().equals(Suit.Spade)){
                 //if we receive a high bid card, grand the appropriate team
                 if(mainGameState.getTurn()%2==1){
-                    mainGameState.team1Granded = false;
+                    mainGameState.team2Granded = true;
                 }
                 else mainGameState.team1Granded = true;
-
             }
             //add the card to cards in play
             mainGameState.cardsInPlay.add(((BidAction) action).getCard());
             //finally, increment the turn
             incrementTurn();
+            //if we have reached all cards in play, handle it.
+            if(mainGameState.cardsInPlay.getSize()==4){
+                handleGranding();
+            }
             //send updated states and return true
             sendAllUpdatedState();
             return true;
 
         }
+        /////////////////////////////END  GRANDING/////////////////////////
+
+        /////////////////////////////PLAYCARD ACTIONS/////////////////////////
         //check for an instance of PlayCardAction
-        if(action instanceof PlayCardAction){
-            Card playedCard = ((PlayCardAction) theAction).getCard();
+        else if(action instanceof PlayCardAction){
+            Card playedCard = theAction.getCard();
             //disallow doubled cards
             if(mainGameState.cardsPlayed.contains(playedCard)) return false;
             //this method assigns the lead suit of that trick
@@ -216,7 +163,7 @@ public class WhistLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }
-
+        /////////////////////////////END PLAYCARD ACTIONS/////////////////////////
         return false;
     }
 
@@ -250,6 +197,70 @@ public class WhistLocalGame extends LocalGame {
             }
         }
         p.sendInfo(censoredState);
+    }
+
+    /**
+     * This method scores the round
+     */
+    public void beginNewRound(){
+        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
+        ///runs one last scoreTrick on the last trick in play
+        scoreTrick();
+        //sleep for a little....shhhhh see the scored trick
+        try{
+            Thread.sleep(2500);
+        } catch (InterruptedException e){}
+        ///////handling points///////////
+        //adding points to the team that won the most tricks in the round
+        //if team 1 had more tricks, they get points
+        if(mainGameState.team1WonTricks>mainGameState.team2WonTricks){
+            //score is doubled for a team that wins without granding
+            if(mainGameState.team2Granded){
+                mainGameState.team1Points+=((mainGameState.team1WonTricks-6)*2);
+            }
+            else if(mainGameState.team1Granded){
+                mainGameState.team1Points+=((mainGameState.team1WonTricks-6));
+            }
+            else{//it was a lowround
+                mainGameState.team2Points+=((mainGameState.team1WonTricks-6));
+            }
+        }
+        //else team 2 had more tricks, so they get points
+        else{
+            //score is doubled if team 2 wins when team 1 granded
+            if(mainGameState.team1Granded){
+                mainGameState.team2Points+=((mainGameState.team2WonTricks-6)*2);
+            }
+            else if(mainGameState.team2Granded){
+                mainGameState.team2Points+=((mainGameState.team2WonTricks-6));
+            }
+            else{//it was a lowround
+                mainGameState.team1Points+=((mainGameState.team2WonTricks-6));
+            }
+        }
+        /////////////////////////////////Points Handled/////////////////////////////
+        //get a new deck and deal new hands
+        mainGameState.mainDeck = new Deck();
+        for(Hand h: mainGameState.playerHands){
+            h.removeAll();
+            for(int i = 0; i<13;i++){
+                h.add(mainGameState.mainDeck.dealRandomCard());
+            }
+        }
+        //clears out the cards played and cards in play
+        mainGameState.cardsPlayed.removeAll();
+        mainGameState.cardsInPlay.removeAll();
+        //sets the turn back to zero
+        mainGameState.turn = 0;
+        //sets the grand back to false
+        mainGameState.team1Granded = false;
+        //sets the tricks back to zero
+        mainGameState.team1WonTricks = 0;
+        mainGameState.team2WonTricks = 0;
+        //reset the new round boolean
+        newRound = false;
+        //reset the leadPlayer to zero
+        mainGameState.leadPlayer = 0;
     }
 
     /**
@@ -300,5 +311,6 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.turn ++;
         mainGameState.turn%=4;
     }
+
 }
 

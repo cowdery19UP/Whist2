@@ -33,6 +33,7 @@ public class CardStack {
      * @return - the highest value card in any suit
      */
     public Card getHighest(){
+        if(stack.size()==0) return null;
         //assigns the first card in the stack to be
         //the card to be returned
         Card highCard = stack.get(0);
@@ -70,6 +71,7 @@ public class CardStack {
      * @return - the lowest value card in any suit
      */
     public Card getLowest(){
+        if(stack.size()==0) return null;
         //assigns the first card in the stack to be
         //the card to be returned
         Card lowCard = stack.get(0);
