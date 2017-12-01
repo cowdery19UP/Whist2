@@ -125,93 +125,97 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         }
         return null;
     }
+    @Override
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
-        //key off of what turn we are in
-        int turnInTrick = numCardsPlayed;
-        //new trick, no one has played yet I am the lead player
-
-        if (turnInTrick == 0) {
-            if(hasAHotCard()){
-                cardToPlay = getHotCard();
-            }
-            else cardToPlay = myHand.getHighest();
+        if(savedState.grandingPhase){
+            makeBid();
         }
-        //only one player has played on the other team
-        else if (turnInTrick == 1) {
-            //if we cannot follow suit, play low
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                cardToPlay = myHand.getLowest();
+        else {
+            //key off of what turn we are in
+            int turnInTrick = numCardsPlayed;
+            //new trick, no one has played yet I am the lead player
+
+            if (turnInTrick == 0) {
+                if (hasAHotCard()) {
+                    cardToPlay = getHotCard();
+                } else cardToPlay = myHand.getHighest();
             }
-            //else if we can follow suit, either try to win or play low
-            else {
-                //assign the opponent's card
-                Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
-                //if we can win
-                if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                    cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+            //only one player has played on the other team
+            else if (turnInTrick == 1) {
+                //if we cannot follow suit, play low
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getLowest();
                 }
-               //if we cannot win
-                else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
-            }
-
-        }
-        //only 2 players have played, an opponent and an allie
-        else if (turnInTrick == 2) {
-            //if we cannot follow suit, play low
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                cardToPlay = myHand.getLowest();
-            }
-            //else if we can follow suit, either try to win or play low
-            else {
-                //assign the opponent's card
-                Card opponentCard = savedState.cardsInPlay.getCardByIndex(1);
-                Card allieCard = savedState.cardsInPlay.getCardByIndex(0);
-                //if we can win
-                if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                    //if our allie is already winning the hand, play low to avoid wasting good cards
-                    if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)) {
-                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                //else if we can follow suit, either try to win or play low
+                else {
+                    //assign the opponent's card
+                    Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
+                    //if we can win
+                    if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
+                        cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                     }
-                    //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                    else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                    //if we cannot win
+                    else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                 }
-                //if we cannot win, play low to save valuable cards
-                else
-                    cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
-            }
-        }
-        //all 3 other players have played, and it is down to me...
-        else if (turnInTrick == 3) {
-            //if we cannot follow suit, play low
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                cardToPlay = myHand.getLowest();
-            }
-            //else if we can follow suit, either try to win or play low
-            else {
-                //assign the opponent's card
-                Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
-                Card opponent2Card = savedState.cardsInPlay.getCardByIndex(2);
-                Card allieCard = savedState.cardsInPlay.getCardByIndex(1);
-                //if we can win
-                if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)
-                        && opponent2Card.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                    //if our allie is already winning the hand, play low to avoid wasting good cards
-                    if (allieCard.getRank().value(14) > Math.max(opponent2Card.getRank().value(14), opponentCard.getRank().value(14))) {
-                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
-                    }
-                    //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                    else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
-                }
-                //if we cannot win, play low to save valuable cards
-                else
-                    cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
-            }
-        }
 
-        //after deciding which card to play, play the card and remove it from hand
-        myHand.remove(cardToPlay);
-        game.sendAction(new PlayCardAction(this,cardToPlay));
+            }
+            //only 2 players have played, an opponent and an allie
+            else if (turnInTrick == 2) {
+                //if we cannot follow suit, play low
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getLowest();
+                }
+                //else if we can follow suit, either try to win or play low
+                else {
+                    //assign the opponent's card
+                    Card opponentCard = savedState.cardsInPlay.getCardByIndex(1);
+                    Card allieCard = savedState.cardsInPlay.getCardByIndex(0);
+                    //if we can win
+                    if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
+                        //if our allie is already winning the hand, play low to avoid wasting good cards
+                        if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)) {
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                        }
+                        //if our allie is not already winning the hand, win it for the glory of Mother Russia
+                        else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                    }
+                    //if we cannot win, play low to save valuable cards
+                    else
+                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                }
+            }
+            //all 3 other players have played, and it is down to me...
+            else if (turnInTrick == 3) {
+                //if we cannot follow suit, play low
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getLowest();
+                }
+                //else if we can follow suit, either try to win or play low
+                else {
+                    //assign the opponent's card
+                    Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
+                    Card opponent2Card = savedState.cardsInPlay.getCardByIndex(2);
+                    Card allieCard = savedState.cardsInPlay.getCardByIndex(1);
+                    //if we can win
+                    if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)
+                            && opponent2Card.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
+                        //if our allie is already winning the hand, play low to avoid wasting good cards
+                        if (allieCard.getRank().value(14) > Math.max(opponent2Card.getRank().value(14), opponentCard.getRank().value(14))) {
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                        }
+                        //if our allie is not already winning the hand, win it for the glory of Mother Russia
+                        else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                    }
+                    //if we cannot win, play low to save valuable cards
+                    else
+                        cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                }
+            }
+            //after deciding which card to play, play the card and remove it from hand
+            myHand.remove(cardToPlay);
+            game.sendAction(new PlayCardAction(this, cardToPlay));
+        }
     }
 
     public Hand getMyHand(){ return myHand;}

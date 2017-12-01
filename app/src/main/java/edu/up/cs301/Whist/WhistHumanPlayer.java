@@ -447,7 +447,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(v instanceof Button) {
             Button b = (Button) v;
             if (selectedCard != null) {
-                game.sendAction(new PlayCardAction(this, selectedCard));
+                if(savedState.grandingPhase){
+                    game.sendAction(new BidAction(this, selectedCard));
+                }
+                else game.sendAction(new PlayCardAction(this, selectedCard));
                 b.setBackgroundColor(Color.DKGRAY);
                 selectedCard = null;
             }
@@ -474,5 +477,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             selectedCard = myHand.getCardByIndex((int) flIndex);
         }
 
+    }
+    public int getPlayerIdx(){
+        return playerNum;
     }
 }

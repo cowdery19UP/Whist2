@@ -5,6 +5,7 @@ import android.media.SoundPool;
 import android.util.Log;
 
 import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Suit;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.LocalGame;
 import edu.up.cs301.game.R;
@@ -20,7 +21,6 @@ public class WhistLocalGame extends LocalGame {
     private WhistGameState mainGameState;
     private boolean newTrick = false;
     private boolean newRound = false;
-    private boolean grandingPhase = false;
     //private Card[] cardsByPlayerIdx = new Card[4];
 
 
@@ -126,29 +126,66 @@ public class WhistLocalGame extends LocalGame {
         }
         //safe casting of the sent in action into a MoveAction
         MoveAction theAction = (MoveAction) action;
+
         // get the index of the player making the move; return false
         int thisPlayerIdx = getPlayerIdx(theAction.getPlayer());
         if (thisPlayerIdx < 0) { // illegal player
             return false;
         }
+
         //check to see who's turn it is
-        else if(thisPlayerIdx!=mainGameState.turn){
-            //if it isn't technically that player's turn, but we are in bid phase
-            if(action instanceof BidAction){
-                //check to see if we are still within the bidding stage of the round
-                if(mainGameState.getTurn()<4){
-                    //lastly, increment the turn and send updated states
-                    incrementTurn();
-                    sendAllUpdatedState();
-                    return true;
+        else if(mainGameState.grandingPhase&&action instanceof BidAction){
+
+            ///////if we have all 4 bid cards in play//////
+            if(mainGameState.cardsInPlay.getSize()==4){
+                mainGameState.highGround = false;
+                //index through each card on the table and find if there are any high bids
+                int grandedPlayer = 0;
+                for(Card c: mainGameState.cardsInPlay.stack){
+                    grandedPlayer++;
+                    if(c.getSuit().equals(Suit.Club)||c.getSuit().equals(Suit.Spade)){
+                        //if we find any high bids, the round is played high
+                        mainGameState.highGround = true;
+                        //set the turn to the player to the right of whoever granded
+                        mainGameState.turn = (grandedPlayer+1)%4;
+                    }
                 }
-                //if we are past the bidding phase and it is not your turn
-                else return false;
+                //no longer in granding phase
+                mainGameState.grandingPhase = false;
+                //sleep...shhhhhh
+                try{
+                    Thread.sleep(3000);
+                }catch (InterruptedException e){}
+
+                mainGameState.cardsInPlay.removeAll();
+                Log.i("Team1Granded? ",""+mainGameState.team1Granded);
+                sendAllUpdatedState();
+                return true;
+
             }
+            //we received a high bid action within granding phase
+            else if(((BidAction) action).getCard().getSuit().equals(Suit.Club)||
+                    ((BidAction) action).getCard().getSuit().equals(Suit.Spade)){
+                //if we receive a high bid card, grand the appropriate team
+                if(mainGameState.getTurn()%2==1){
+                    mainGameState.team1Granded = false;
+                }
+                else mainGameState.team1Granded = true;
+
+            }
+            //add the card to cards in play
+            mainGameState.cardsInPlay.add(((BidAction) action).getCard());
+            //finally, increment the turn
+            incrementTurn();
+            //send updated states and return true
+            sendAllUpdatedState();
+            return true;
+
         }
         //check for an instance of PlayCardAction
         if(action instanceof PlayCardAction){
             Card playedCard = ((PlayCardAction) theAction).getCard();
+            //disallow doubled cards
             if(mainGameState.cardsPlayed.contains(playedCard)) return false;
             //this method assigns the lead suit of that trick
             if(mainGameState.cardsPlayed.getSize()%4==0){
@@ -164,13 +201,10 @@ public class WhistLocalGame extends LocalGame {
             else if(playedCard.getRank().value(14)==14) {//played an ace! WoW!
                 WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[1], 1, 1, 1, 0, 1.0f);
             }
-
             //moves the played card onto the table and into the set of played cards
             mainGameState.cardsInPlay.add(playedCard);
             mainGameState.cardsByPlayerIdx[thisPlayerIdx] = playedCard;
             mainGameState.cardsPlayed.add(playedCard);
-
-
             //removes the card from the player's hand (regardles of CPU or human)
             mainGameState.playerHands[thisPlayerIdx].remove(playedCard);
             //lastly, set the turn
@@ -179,7 +213,6 @@ public class WhistLocalGame extends LocalGame {
             if(mainGameState.cardsPlayed.getSize()==52){newRound = true;}
             //after 4 moves, and not at the start of the round, set new trick to true
             else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
-
             sendAllUpdatedState();
             return true;
         }

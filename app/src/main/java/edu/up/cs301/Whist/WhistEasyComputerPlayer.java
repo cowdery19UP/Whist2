@@ -8,7 +8,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  * Created by Kevin on 11/26/2017.
  */
 
-public class WhistEasyComputerPlayer extends GameComputerPlayer {
+public class WhistEasyComputerPlayer extends WhistComputerPlayer{
     private int reactionTime = 1500;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
@@ -45,54 +45,58 @@ public class WhistEasyComputerPlayer extends GameComputerPlayer {
 
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
-        //key off of what turn we are in
-        int turnInTrick = numCardsPlayed;
-        //new trick, no one has played yet I am the lead player
-
-
-
-        if (turnInTrick == 0) {
-            cardToPlay = myHand.getRandomCard();
+        if(savedState.grandingPhase){
+            makeBid();
         }
-        //only one player has played on the other team
-        else if (turnInTrick == 1) {
-            //
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+        else {
+            //key off of what turn we are in
+            int turnInTrick = numCardsPlayed;
+            //new trick, no one has played yet I am the lead player
+
+
+            if (turnInTrick == 0) {
                 cardToPlay = myHand.getRandomCard();
             }
-            //else if we can follow suit, either try to win or play low
-            else {
-                cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
+            //only one player has played on the other team
+            else if (turnInTrick == 1) {
+                //
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getRandomCard();
+                }
+                //else if we can follow suit, either try to win or play low
+                else {
+                    cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
+                }
             }
-        }
-        //only 2 players have played, an opponent and an allie
-        else if (turnInTrick == 2) {
-            //if we cannot follow suit, play low
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                cardToPlay = myHand.getRandomCard();
-            }
-            //else if we can follow suit, either try to win or play low
-            else {
-                //assign the opponent's card
-                        cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
-                    }
+            //only 2 players have played, an opponent and an allie
+            else if (turnInTrick == 2) {
+                //if we cannot follow suit, play low
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getRandomCard();
+                }
+                //else if we can follow suit, either try to win or play low
+                else {
+                    //assign the opponent's card
+                    cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
+                }
             }
 
-        //all 3 other players have played, and it is down to me...
-        else if (turnInTrick == 3) {
-            //if we cannot follow suit, play low
-            if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                cardToPlay = myHand.getRandomCard();
+            //all 3 other players have played, and it is down to me...
+            else if (turnInTrick == 3) {
+                //if we cannot follow suit, play low
+                if (!myHand.hasCardInSuit(savedState.leadSuit)) {
+                    cardToPlay = myHand.getRandomCard();
+                }
+                //else if we can follow suit, either try to win or play low
+                else {
+                    cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
+                }
             }
-            //else if we can follow suit, either try to win or play low
-            else {
-                cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
-            }
-        }
 
-        //after deciding which card to play, play the card and remove it from hand
-        myHand.remove(cardToPlay);
-        game.sendAction(new PlayCardAction(this,cardToPlay));
+            //after deciding which card to play, play the card and remove it from hand
+            myHand.remove(cardToPlay);
+            game.sendAction(new PlayCardAction(this, cardToPlay));
+        }
     }
 
     public Hand getMyHand(){ return myHand;}

@@ -8,9 +8,6 @@ import edu.up.cs301.game.GamePlayer;
  */
 
 public class PlayCardAction extends MoveAction {
-    // the player who generated the request
-    private Card card;
-
     /**
      * constructor for GameAction
      *
@@ -24,5 +21,5 @@ public class PlayCardAction extends MoveAction {
 
     public boolean isCardPlayAction() { return true; }
     public boolean isBidAction() { return false; }
-    public Card getCard(){return card;}
+
 }

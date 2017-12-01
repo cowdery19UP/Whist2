@@ -38,8 +38,12 @@ public class WhistGameState extends GameState {
     public int team2WonTricks = 0;
     public int team1Points = 0;
     public int team2Points = 0;
-    public boolean team1Granded = false;
     ///////////////substitute for Team Class/////////////
+    //granding phase or nah
+    public boolean grandingPhase = true;
+    //whomst granded?
+    public boolean team1Granded = false;
+
     //deciding for high and low round
     public boolean highGround = true;
 
@@ -74,6 +78,8 @@ public class WhistGameState extends GameState {
         team1WonTricks = orig.team1WonTricks;
         team2Points = orig.team2Points;
         team2WonTricks = orig.team2WonTricks;
+        grandingPhase = orig.grandingPhase;
+        highGround = orig.highGround;
 
         //assigns hands to be separate in memory to avoid nulling out the mainState's hands
         for(int i = 0; i<playerHands.length;i++){

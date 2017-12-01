@@ -1,5 +1,6 @@
 package edu.up.cs301.Whist;
 
+import edu.up.cs301.card.Card;
 import edu.up.cs301.game.GamePlayer;
 import edu.up.cs301.game.actionMsg.GameAction;
 
@@ -10,8 +11,9 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public abstract class MoveAction extends GameAction {
     // the player who generated the request
-    private GamePlayer player;
-
+    protected GamePlayer player;
+    // the player who generated the request
+    protected Card card;
     /**
      * constructor for GameAction
      *
@@ -24,4 +26,5 @@ public abstract class MoveAction extends GameAction {
 
     public boolean isCardPlayAction(){return false;}
     public boolean isBidAction(){return false;}
+    public Card getCard(){return card;}
 }
