@@ -320,13 +320,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        // determine whether the touch occurred on the top-card of either
-        // the player's pile or the middle pile
-
-        //TODO this code is copied over from slapjack. it needs to be fixed to our game
-
-        // illegal touch-location: flash for 1/20 second
-        //Tablesurface.flash(Color.WHITE, 50);
 
 
     }

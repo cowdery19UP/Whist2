@@ -45,6 +45,7 @@ public class WhistGameState extends GameState {
     public boolean team1Granded = false;
     public boolean team2Granded = false;
 
+
     //deciding for high and low round
     public boolean highGround = true;
 

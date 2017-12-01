@@ -125,28 +125,6 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         }
         return null;
     }
-    public void makeBid(){
-        //establishes an int for the average card value
-        int avg = 0;
-        //gets the average card value by summing and dividing by 13
-        for(Card d: myHand.stack){
-            avg+=d.getRank().value(14);
-        }
-        avg/=13;
-        //gets either a low club or a low spade for a high bid
-        CardStack bidders = new CardStack();
-        if(avg>7){
-            bidders.add(myHand.getLowestInSuit(Suit.Club));
-            bidders.add(myHand.getLowestInSuit(Suit.Spade));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
-        }
-        //gets either a low heart or a low diamond for a low bid
-        else{
-            bidders.add(myHand.getLowestInSuit(Suit.Heart));
-            bidders.add(myHand.getLowestInSuit(Suit.Diamond));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
-        }
-    }
     @Override
     public void makeMyMove(int numCardsPlayed){
         Card cardToPlay = null;
@@ -179,6 +157,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     }
                     //if we cannot win
                     else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+
                 }
 
             }
