@@ -65,12 +65,13 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //create a new deck
         Deck cardsLeft = new Deck();
         //remove the cards that have been played this round to leave just the cards left
-        ArrayList<Card> stackCopy = (ArrayList<Card>)cardsLeft.stack.clone();
+        ArrayList<Card> stackCopyCardsinPlay = (ArrayList<Card>)savedState.cardsPlayed.stack.clone();
+        ArrayList<Card> stackCopyCardsLeft = (ArrayList<Card>)savedState.cardsPlayed.stack.clone();
         if(savedState.cardsPlayed.getSize()!=0) {
-            for (Card d : savedState.cardsPlayed.stack) {
-                for (Card c : stackCopy) {
+            for (Card d : stackCopyCardsinPlay) {
+                for (Card c : stackCopyCardsLeft) {
                     if (d.equals(c)) {
-                        cardsLeft.remove(d);
+                        cardsLeft.remove(c);
                         break;
                     }
                 }

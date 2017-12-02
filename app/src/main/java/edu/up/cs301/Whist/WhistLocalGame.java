@@ -108,13 +108,23 @@ public class WhistLocalGame extends LocalGame {
             //we received a high bid action within granding phase
             else if(((BidAction) action).getCard().getSuit().equals(Suit.Club)||
                     ((BidAction) action).getCard().getSuit().equals(Suit.Spade)){
-                //if we receive a high bid card, grand the appropriate team
+                ///////////grand the appropriate team//////////
+                //if this bid action was from a member of team 2
                 if(mainGameState.getTurn()%2==1&&!mainGameState.team1Granded){
                     mainGameState.team2Granded = true;
                 }
-                else mainGameState.team1Granded = true;
+                //else it was a granding action from team 1 and team 2 hasn't granded yet
+                else if (!mainGameState.team2Granded){
+                    mainGameState.team1Granded = true;
+                }
+                else{
+                    //disregard this bid, a team has already granded
+                }
+                ////////////////////////One team is granded by now//////////////////
             }
-            //add the card to cards in play
+            ///////////if a high bid was not received, no teams are granded////////
+
+            //add the bid card to cards in play
             mainGameState.cardsInPlay.add(((BidAction) action).getCard());
             //finally, increment the turn
             incrementTurn();
@@ -159,7 +169,6 @@ public class WhistLocalGame extends LocalGame {
             //after reaching 52 cards played, create a new round
             if(mainGameState.cardsPlayed.getSize()==52){
                 newRound = true;
-                mainGameState.grandingPhase = true;
             }
             //after 4 moves, and not at the start of the round, set new trick to true
             else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
@@ -251,19 +260,22 @@ public class WhistLocalGame extends LocalGame {
                 h.add(mainGameState.mainDeck.dealRandomCard());
             }
         }
+        //sets back to granding phase
+        mainGameState.grandingPhase = true;
         //clears out the cards played and cards in play
         mainGameState.cardsPlayed.removeAll();
         mainGameState.cardsInPlay.removeAll();
-        //sets the turn back to zero
+        //resets the turn to zero
         mainGameState.turn = 0;
-        //sets the grand back to false
+        //resets the grands to false
         mainGameState.team1Granded = false;
-        //sets the tricks back to zero
+        mainGameState.team2Granded = false;
+        //resets the tricks back to zero
         mainGameState.team1WonTricks = 0;
         mainGameState.team2WonTricks = 0;
         //reset the new round boolean
         newRound = false;
-        //reset the leadPlayer to zero
+        //reset the leadPlayer to zero (the "dealer)
         mainGameState.leadPlayer = 0;
         //reset the lead suit to null
         mainGameState.leadSuit = null;
