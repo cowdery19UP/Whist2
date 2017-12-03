@@ -82,6 +82,7 @@ public class WhistLocalGame extends LocalGame {
         //remove all the cards in play
         mainGameState.cardsInPlay.removeAll();
         mainGameState.grandingPhase = false;
+        mainGameState.leadSuit = null;
         Log.i("Team1Granded? ",""+mainGameState.team1Granded);
     }
     /**
@@ -102,6 +103,8 @@ public class WhistLocalGame extends LocalGame {
         /////////////////////////////GRANDING/////////////////////////
         if(theAction instanceof BidAction){
             if(!mainGameState.grandingPhase){
+                //updates the state of the player making the wrong move
+                sendUpdatedStateTo(action.getPlayer());
                 //no granding allowed outside of granding phase!
                 return false;
             }
@@ -141,11 +144,18 @@ public class WhistLocalGame extends LocalGame {
         /////////////////////////////PLAYCARD ACTIONS/////////////////////////
         //check for an instance of PlayCardAction
         else if(action instanceof PlayCardAction){
+            if(mainGameState.grandingPhase){
+                //updates the state of the player making the wrong move
+                sendUpdatedStateTo(action.getPlayer());
+                //disallow PlayCardActions during granding phase
+                Log.i("MakeMove - badState",""+action.getPlayer().toString());
+                return false;
+            }
             Card playedCard = theAction.getCard();
             //disallow doubled cards
             if(mainGameState.cardsPlayed.contains(playedCard)) return false;
-            //this method assigns the lead suit of that trick
-            if(mainGameState.cardsPlayed.getSize()%4==0){
+            //if there are no cards in play yet, this is the lead card. Assigns leadsuit
+            if(mainGameState.cardsInPlay.getSize()==0){
                 mainGameState.leadSuit = playedCard.getSuit();
             }
             //fun stuff! Audio sounds!
@@ -279,6 +289,7 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.leadPlayer = 0;
         //reset the lead suit to null
         mainGameState.leadSuit = null;
+
     }
 
     /**

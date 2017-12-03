@@ -378,6 +378,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
     }
 
+    /**
+     * This method sets the GUI display of the cards on the table
+     * @param g - the canvas object to draw on
+     */
+    //TODO There is still a concurrent modification exception at this method as of 12/2/2017
     private void setTableDisplay(Canvas g){
            int Startspot = savedState.leadPlayer;
            ArrayList<Card> stackCopy = (ArrayList<Card>)savedState.cardsInPlay.stack.clone();
