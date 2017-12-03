@@ -45,8 +45,12 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         savedState = (WhistGameState) info;
         //updates the player's hand
         myHand = savedState.getHand();
-        //sets the hotCards!
-        setHotCards();
+        if(!savedState.grandingPhase) {
+            //clears hotcards
+            hotCards.removeAll();
+            //sets the hotCards!
+            setHotCards();
+        }
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
