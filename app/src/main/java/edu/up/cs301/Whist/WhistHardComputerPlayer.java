@@ -165,11 +165,16 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
             //key off of what turn we are in
             int turnInTrick = numCardsPlayed;
             //new trick, no one has played yet I am the lead player
-
+            //if we have a hotCard to play, play it
             if (turnInTrick == 0) {
                 if (hasAHotCard()) {
                     cardToPlay = getHotCard();
-                } else cardToPlay = myHand.getHighest();
+                }
+                //if I don't have a hotcard, play the lowest card in the suit of my highest card
+                //to draw out the higher cards than mine
+                else {
+                    cardToPlay = myHand.getLowestInSuit(myHand.getHighest().getSuit());
+                }
             }
             //only one player has played on the other team
             else if (turnInTrick == 1) {
