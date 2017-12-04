@@ -362,7 +362,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int bottom = (Tablesurface.getHeight()/2)+133+450;
         RectF handArea = new RectF(0,top,Tablesurface.getWidth(),bottom);
         if(handArea.contains(x,y)) {
-            selectedCard = myHand.getCardByIndex(selectedIdx);
             for (int i = 0; i < myHand.getSize(); i++) {
                 if (handSpots[i].contains(x, y)) {
                     selectedCard = myHand.getCardByIndex((myHand.getSize()-1)-i);
