@@ -75,11 +75,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 .findViewById(R.id.animationSurface);
         Tablesurface.setAnimator(this);
 
-        handSeekBar = (SeekBar) myActivity.findViewById(R.id.hand_seek_bar);
-        handSeekBar.setOnSeekBarChangeListener(this);
-        handSeekBar.setProgress(50);
-        handSeekBar.setBackgroundColor(Color.BLACK);
-
         playCardButton = (Button) myActivity.findViewById(R.id.play_card_button);
         playCardButton.setOnClickListener(this);
 
@@ -403,12 +398,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         for(int i = 0; i<=12;i++){
             handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
-        /*
-        for(int i = 0; i<12; i++){
-            handSpots[i+13] = new RectF(middle-100+(450+(i*30)),top,middle+100+(450+(i*30)),bottom);
 
-        }
-*/
     }
     private void setTableSpots(int mySpot){
         //the spot in front of the human player

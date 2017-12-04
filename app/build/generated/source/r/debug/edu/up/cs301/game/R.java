@@ -93,13 +93,12 @@ public final class R {
         public static final int animationSurface=0x7f0a0019;
         public static final int configTableLayout=0x7f0a0007;
         public static final int delPlayerButton=0x7f0a0011;
-        public static final int hand_seek_bar=0x7f0a001a;
         public static final int ipCodeLabel=0x7f0a0009;
         public static final int localGameTab=0x7f0a0003;
         public static final int localTabLayout=0x7f0a0004;
-        public static final int menu_settings=0x7f0a001c;
+        public static final int menu_settings=0x7f0a001b;
         public static final int playGameButton=0x7f0a0002;
-        public static final int play_card_button=0x7f0a001b;
+        public static final int play_card_button=0x7f0a001a;
         public static final int playerNameEditText=0x7f0a000f;
         public static final int playerNameHeadingText=0x7f0a000b;
         public static final int playerTypeHeadingText=0x7f0a000c;
