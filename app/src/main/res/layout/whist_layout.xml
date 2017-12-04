@@ -29,24 +29,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
 
-            <SeekBar
-                android:id="@+id/hand_seek_bar"
-                android:layout_width="586dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:max="100" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2" />
-
             <Button
                 android:id="@+id/play_card_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:text="Play Card" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
         </LinearLayout>
 
     </LinearLayout>

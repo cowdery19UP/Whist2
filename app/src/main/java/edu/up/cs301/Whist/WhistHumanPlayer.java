@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Created by PatrickMaloney on 11/7/17.
  */
 
-public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnClickListener, OnSeekBarChangeListener {
+public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnClickListener {
     //the main activity for the player
     private GameMainActivity myActivity;
     //the unused background color
@@ -48,10 +48,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     //the animation surface for the user interface
     private AnimationSurface Tablesurface;
     //the widgets to the gui
-    private SeekBar handSeekBar;
     private Button playCardButton;
 
-    private RectF[] handSpots = new RectF[14];
+    private int selectedIdx = 5;
+    private RectF[] cardIndicatorSpots = new RectF[13];
+    private RectF[] handSpots = new RectF[13];
     private RectF[] tableSpots = new RectF[4];
 
 
@@ -74,11 +75,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         Tablesurface = (AnimationSurface) myActivity
                 .findViewById(R.id.animationSurface);
         Tablesurface.setAnimator(this);
-
-        handSeekBar = (SeekBar) myActivity.findViewById(R.id.hand_seek_bar);
-        handSeekBar.setOnSeekBarChangeListener(this);
-        handSeekBar.setProgress(50);
-        handSeekBar.setBackgroundColor(Color.BLACK);
 
         playCardButton = (Button) myActivity.findViewById(R.id.play_card_button);
         playCardButton.setOnClickListener(this);
@@ -233,6 +229,12 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             if (savedState.grandingPhase) {
                 g.drawText("GRANDING PHASE", Tablesurface.getWidth() / 2 - 150, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
             }
+            else if(savedState.cardsPlayed.getSize()==52){
+                g.drawText("END ROUND", Tablesurface.getWidth() / 2 - 120, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
+            }
+            else if(savedState.cardsInPlay.getSize()==4){
+                g.drawText("END TRICK", Tablesurface.getWidth() / 2 - 110, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
+            }
 
 
             //in order to make the GUI more user friendly, I added a handler to make the playCard button
@@ -303,10 +305,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 }
             }
 
-            drawCard(g, handSpots[13], selectedCard);
+            //drawCard(g, handSpots[13], selectedCard);
 
             for (int i = 0; i < myHand.getSize(); i++) {
-                drawCard(g, handSpots[12 - i], myHand.getCardByIndex(i));
+                drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
+            }
+            if(selectedIdx>=0) {
+                g.drawOval(cardIndicatorSpots[selectedIdx], myTeamPainter);
             }
         }
 
@@ -351,6 +356,22 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * 		the motion-event
      */
     public void onTouch(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        int top = (Tablesurface.getHeight()/2)-133+450;
+        int bottom = (Tablesurface.getHeight()/2)+133+450;
+        RectF handArea = new RectF(0,top,Tablesurface.getWidth(),bottom);
+        if(handArea.contains(x,y)) {
+            selectedCard = myHand.getCardByIndex(selectedIdx);
+            for (int i = 0; i < myHand.getSize(); i++) {
+                if (handSpots[i].contains(x, y)) {
+                    selectedCard = myHand.getCardByIndex((myHand.getSize()-1)-i);
+                    selectedIdx = i;
+                    break;
+                }
+            }
+        }
+
 
     }
 
@@ -399,16 +420,15 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
 
-        handSpots[13] = new RectF(middle+700, top, middle+900 , bottom);
-        for(int i = 0; i<=12;i++){
-            handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
+        //handSpots[13] = new RectF(middle+700, top, middle+900 , bottom);
+        for(int i = 0; i<myHand.getSize();i++){
+            handSpots[i] = new RectF((0+(i*150)),top,200+(i*150),bottom);
+            //handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
-        /*
-        for(int i = 0; i<12; i++){
-            handSpots[i+13] = new RectF(middle-100+(450+(i*30)),top,middle+100+(450+(i*30)),bottom);
+        for(int i = 0; i<myHand.getSize();i++){
+            cardIndicatorSpots[i] = new RectF((0+(i*150)),top-40,200+(i*150),top);
+        }
 
-        }
-*/
     }
     private void setTableSpots(int mySpot){
         //the spot in front of the human player
@@ -469,25 +489,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
     }
 
-    public void onStartTrackingTouch(SeekBar sb){
-    }
 
-    public void onStopTrackingTouch(SeekBar sb){
 
-    }
-
-    public void onProgressChanged(SeekBar sb, int progress, boolean fromUser){
-        if(myHand.getSize()==0){
-            flash(Color.RED,3000);
-
-        }
-        else {
-            float percent = (float)(progress) / 100;
-            float flIndex = (myHand.getSize()-1) * percent;
-            selectedCard = myHand.getCardByIndex((int) flIndex);
-        }
-
-    }
     public int getPlayerIdx(){
         return playerNum;
     }

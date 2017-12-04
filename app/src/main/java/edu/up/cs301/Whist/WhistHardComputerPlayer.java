@@ -181,6 +181,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                 //if we cannot follow suit, play low
                 if (!myHand.hasCardInSuit(savedState.leadSuit)) {
                     cardToPlay = myHand.getLowest();
+
                 }
                 //else if we can follow suit, either try to win or play low
                 else {
