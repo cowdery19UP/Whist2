@@ -67,3 +67,8 @@ SOLUTION: had to look into the game framework and find the array allPlayerNames[
 11/23/2017
 PROBLEM: occasionally, there is no delay between the first 2 computer players playing cards to start a new trick
 
+12/03/2017
+PROBLEM: ocasionally, the entire animation surface goes dark and nothing but the widgets are visible
+
+12/03/2017
+PROBLEM: If the 0 player bids low and p1 and p3 the player GUI is wrong for the first trick

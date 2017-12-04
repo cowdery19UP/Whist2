@@ -101,7 +101,7 @@ public class WhistLocalGame extends LocalGame {
             return false;
         }
         /////////////////////////////GRANDING/////////////////////////
-        if(theAction instanceof BidAction){
+        if(theAction.isBidAction()){
             if(!mainGameState.grandingPhase){
                 //updates the state of the player making the wrong move
                 sendUpdatedStateTo(action.getPlayer());
@@ -143,7 +143,7 @@ public class WhistLocalGame extends LocalGame {
 
         /////////////////////////////PLAYCARD ACTIONS/////////////////////////
         //check for an instance of PlayCardAction
-        else if(action instanceof PlayCardAction){
+        else if(theAction.isCardPlayAction()){
             if(mainGameState.grandingPhase){
                 //updates the state of the player making the wrong move
                 sendUpdatedStateTo(action.getPlayer());

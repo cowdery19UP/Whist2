@@ -136,13 +136,15 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * and the color of the playcard button for the user.
      * @param g - the canvas object to be used
      */
-    public void tick(Canvas g){
+    public void tick(Canvas g) {
 
-    //checks to make sure there is a state to pull information from
-        if(savedState!=null) {
+        //checks to make sure there is a state to pull information from
+        if (savedState != null) {
             //set rectangles for hand and table spots
+
             setHandSpots();
             setTableSpots(playerNum);
+
             //drawing the table on the GUI
             Paint tableIn = new Paint();
             Paint tableOut = new Paint();
@@ -158,7 +160,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             paintStaticText.setTextSize(45);
             g.drawText("Overall Scores", 10, 40, paintStaticText);
             paintStaticText.setTextSize(40);
-            paintStaticText.setColor(Color.rgb(102,204,255));
+            paintStaticText.setColor(Color.rgb(102, 204, 255));
             g.drawText("Team 1: " + savedState.team1Points, 10, 75, paintStaticText);
             paintStaticText.setColor(Color.RED);
             g.drawText("Team 2: " + savedState.team2Points, 10, 110, paintStaticText);
@@ -167,70 +169,70 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             g.drawText("Current Tricks", Tablesurface.getWidth() - 260, 40, paintStaticText);
             paintStaticText.setTextSize(40);
             //paints text for each team and indicates the team that has granded with a G
-            if(savedState.team1Granded){
-                paintStaticText.setColor(Color.rgb(102,204,255));
-                g.drawText("Team 1: " + savedState.team1WonTricks+"  G", Tablesurface.getWidth() - 260, 75, paintStaticText);
+            if (savedState.team1Granded) {
+                paintStaticText.setColor(Color.rgb(102, 204, 255));
+                g.drawText("Team 1: " + savedState.team1WonTricks + "  G", Tablesurface.getWidth() - 260, 75, paintStaticText);
                 paintStaticText.setColor(Color.RED);
                 g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
-            }
-            else if (savedState.team2Granded){
-                paintStaticText.setColor(Color.rgb(102,204,255));
+            } else if (savedState.team2Granded) {
+                paintStaticText.setColor(Color.rgb(102, 204, 255));
                 g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
                 paintStaticText.setColor(Color.RED);
-                g.drawText("Team 2: " + savedState.team2WonTricks+"  G", Tablesurface.getWidth() - 260, 110, paintStaticText);
-            }
-            else {
+                g.drawText("Team 2: " + savedState.team2WonTricks + "  G", Tablesurface.getWidth() - 260, 110, paintStaticText);
+            } else {
                 paintStaticText.setColor(Color.rgb(102, 204, 255));
                 g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
                 paintStaticText.setColor(Color.RED);
                 g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
             }
             //establishes the RectF's for each player's spot
-            RectF bottomRectIndicator = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,(Tablesurface.getHeight()/20)*13-65,
-                    Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*18+40,(Tablesurface.getHeight()/20)*13+40);
+            RectF bottomRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) - 40, (Tablesurface.getHeight() / 20) * 13 - 65,
+                    Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) + allPlayerNames[0].length() * 18 + 40, (Tablesurface.getHeight() / 20) * 13 + 40);
 
-            RectF rightRectIndicator = new RectF(Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)-40,((Tablesurface.getHeight()/20)*11)-95,
-                    Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9)+allPlayerNames[1].length()*18+40,((Tablesurface.getHeight()/20)*11)+10);
+            RectF rightRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[1].length() * 9) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
+                    Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[1].length() * 9) + allPlayerNames[1].length() * 18 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
 
-            RectF topRectIndicator = new RectF(Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)-40,Tablesurface.getHeight()/10-65,
-                    Tablesurface.getWidth()/2-(allPlayerNames[0].length()*10)+allPlayerNames[0].length()*20+40,Tablesurface.getHeight()/10+40);
+            RectF topRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) - 40, Tablesurface.getHeight() / 10 - 65,
+                    Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) + allPlayerNames[0].length() * 20 + 40, Tablesurface.getHeight() / 10 + 40);
 
-            RectF leftRectIndicator = new RectF(Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)-40,((Tablesurface.getHeight()/20)*11)-95,
-                    Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6)+allPlayerNames[1].length()*20+40,((Tablesurface.getHeight()/20)*11)+10);
+            RectF leftRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[3].length() * 6) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
+                    Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[3].length() * 6) + allPlayerNames[1].length() * 20 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
             Paint BackgroundboxPainter = new Paint();
             ////places a black box around the player name whose turn it is
             BackgroundboxPainter.setColor(Color.BLACK);
-            if(savedState.getTurn()==playerNum) g.drawRect(bottomRectIndicator, BackgroundboxPainter);
-            else if(savedState.getTurn()==(playerNum+1)%4) g.drawRect(rightRectIndicator, BackgroundboxPainter);
-            else if(savedState.getTurn()==(playerNum+2)%4) g.drawRect(topRectIndicator, BackgroundboxPainter);
-            else if(savedState.getTurn()==(playerNum+3)%4) g.drawRect(leftRectIndicator, BackgroundboxPainter);
+            if (savedState.getTurn() == playerNum)
+                g.drawRect(bottomRectIndicator, BackgroundboxPainter);
+            else if (savedState.getTurn() == (playerNum + 1) % 4)
+                g.drawRect(rightRectIndicator, BackgroundboxPainter);
+            else if (savedState.getTurn() == (playerNum + 2) % 4)
+                g.drawRect(topRectIndicator, BackgroundboxPainter);
+            else if (savedState.getTurn() == (playerNum + 3) % 4)
+                g.drawRect(leftRectIndicator, BackgroundboxPainter);
 
             Paint myTeamPainter = new Paint();
             Paint otherTeamPainter = new Paint();
             //paints the player names with team colors
-            if(playerNum%2==0){
-                myTeamPainter.setColor(Color.rgb(102,204,255));
+            if (playerNum % 2 == 0) {
+                myTeamPainter.setColor(Color.rgb(102, 204, 255));
                 otherTeamPainter.setColor(Color.RED);
-            }
-            else{
-                otherTeamPainter.setColor(Color.rgb(102,204,255));
+            } else {
+                otherTeamPainter.setColor(Color.rgb(102, 204, 255));
                 myTeamPainter.setColor(Color.RED);
             }
             otherTeamPainter.setTextSize(35);
             myTeamPainter.setTextSize(35);
 
-            g.drawText(allPlayerNames[playerNum],Tablesurface.getWidth()/2-(allPlayerNames[playerNum].length()*10),(Tablesurface.getHeight()/20)*13,myTeamPainter);
-            g.drawText(allPlayerNames[(playerNum+2)%4],Tablesurface.getWidth()/2-(allPlayerNames[(playerNum+2)%4].length()*10),Tablesurface.getHeight()/10,myTeamPainter);
+            g.drawText(allPlayerNames[playerNum], Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10), (Tablesurface.getHeight() / 20) * 13, myTeamPainter);
+            g.drawText(allPlayerNames[(playerNum + 2) % 4], Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum + 2) % 4].length() * 10), Tablesurface.getHeight() / 10, myTeamPainter);
 
-            g.drawText(allPlayerNames[(playerNum+1)%4],Tablesurface.getWidth()/20*15-(allPlayerNames[1].length()*9),(Tablesurface.getHeight()/20)*11-30,otherTeamPainter);
-            g.drawText(allPlayerNames[(playerNum+3)%4],Tablesurface.getWidth()/20*5-(allPlayerNames[3].length()*6),(Tablesurface.getHeight()/20)*11-30,otherTeamPainter);
+            g.drawText(allPlayerNames[(playerNum + 1) % 4], Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[1].length() * 9), (Tablesurface.getHeight() / 20) * 11 - 30, otherTeamPainter);
+            g.drawText(allPlayerNames[(playerNum + 3) % 4], Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[3].length() * 6), (Tablesurface.getHeight() / 20) * 11 - 30, otherTeamPainter);
             //resets the paint object to white to begin the next tick
             paintStaticText.setColor(Color.WHITE);
             //Paints a nice reminder of Granding phase for the player
-            if(savedState.grandingPhase){
-            g.drawText("GRANDING PHASE",Tablesurface.getWidth()/2-150,Tablesurface.getHeight()/10*4-30,paintStaticText);
+            if (savedState.grandingPhase) {
+                g.drawText("GRANDING PHASE", Tablesurface.getWidth() / 2 - 150, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
             }
-
 
 
             //in order to make the GUI more user friendly, I added a handler to make the playCard button
@@ -260,7 +262,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                         //if we do not have the suit of the leadSuit, set button to a darker, sadder green
                         else if (savedState.getTurn() % 4 == playerNum && !myHand.hasCardInSuit(savedState.leadSuit)) {
                             //if it is granding phase, any card will do
-                            if(savedState.grandingPhase){
+                            if (savedState.grandingPhase) {
                                 playCardButton.setBackgroundColor(Color.GREEN);
                                 playCardButton.setEnabled(true);
                             }
