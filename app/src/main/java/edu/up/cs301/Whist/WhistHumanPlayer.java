@@ -366,6 +366,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 if (handSpots[i].contains(x, y)) {
                     selectedCard = myHand.getCardByIndex((myHand.getSize()-1)-i);
                     selectedIdx = i;
+
                     break;
                 }
             }
