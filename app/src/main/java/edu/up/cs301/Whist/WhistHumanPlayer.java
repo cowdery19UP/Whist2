@@ -247,7 +247,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 public void run() {
                     //if the leadSuit has been established and we have the suit
                     if (savedState.cardsInPlay.getSize() != 0) {
-                        if(savedState.leadSuit==null){
+                        if(savedState.leadSuit==null&&!savedState.grandingPhase){
                             playCardButton.setBackgroundColor(Color.DKGRAY);
                             playCardButton.setEnabled(false);
                         }
