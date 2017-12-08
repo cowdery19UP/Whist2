@@ -141,6 +141,7 @@ public class WhistLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }//end instanceof BidAction
+
         /////////////////////////////END  GRANDING/////////////////////////
 
         /////////////////////////////PLAYCARD ACTIONS/////////////////////////

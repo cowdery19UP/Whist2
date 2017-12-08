@@ -311,6 +311,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 synchronized (g) {
                     setTableDisplay(g);
                 }
+
             }
             if(savedState.cardsInPlay.getSize()==4){
                 Log.i("We've got 4!!","HALLELUAA");
