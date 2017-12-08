@@ -54,6 +54,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     private RectF[] cardIndicatorSpots = new RectF[13];
     private RectF[] handSpots = new RectF[13];
     private RectF[] tableSpots = new RectF[4];
+    private boolean hasTouched = false;
 
 
 
@@ -133,6 +134,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * @param g - the canvas object to be used
      */
     public void tick(Canvas g) {
+
 
         //checks to make sure there is a state to pull information from
         if (savedState != null) {
@@ -310,7 +312,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             for (int i = 0; i < myHand.getSize(); i++) {
                 drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
             }
-            if(selectedIdx>=0) {
+            if(savedState.turn == getPlayerIdx() && hasTouched) {
                 g.drawOval(cardIndicatorSpots[selectedIdx], myTeamPainter);
             }
         }
@@ -356,6 +358,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * 		the motion-event
      */
     public void onTouch(MotionEvent event) {
+        hasTouched = true;
         float x = event.getX();
         float y = event.getY();
         int top = (Tablesurface.getHeight()/2)-133+450;
@@ -425,7 +428,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             //handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
         for(int i = 0; i<myHand.getSize();i++){
-            cardIndicatorSpots[i] = new RectF((0+(i*150)),top-40,200+(i*150),top);
+            cardIndicatorSpots[i] = new RectF((50+(i*150)),top-40,200+(i*150),top);
         }
 
     }
@@ -485,7 +488,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             }
             else flash(Color.RED,1000);
         }
-
+        hasTouched = false;
     }
 
 
