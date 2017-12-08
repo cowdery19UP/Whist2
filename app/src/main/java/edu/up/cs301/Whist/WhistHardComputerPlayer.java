@@ -320,10 +320,12 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     continue;
                 }
                 else{
+                    //the first card that would not win
                     cardToPlay = cardsInSuit.getCardByIndex(i);
+                    break;
                 }
             }
-            if(cardToPlay == null) cardToPlay = cardsInSuit.getHighest();
+            if(cardToPlay == null) cardToPlay = cardsInSuit.getHighest(); //if we have to win a hand, play high
         }
         //after deciding which card to play, play the card and remove it from hand
         myHand.remove(cardToPlay);

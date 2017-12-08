@@ -125,7 +125,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                             if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)) {
                                 cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                             }
-                            //if our allie is not already winning the hand, win it for the glory of Mother Russia
+                            //if our ally is not already winning the hand, win it for the glory of Mother Russia
                             else
                                 cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
                         }
@@ -208,16 +208,16 @@ public class WhistComputerPlayer extends GameComputerPlayer {
                     continue;
                 }
                 else{
+                    //the first card that would not win
                     cardToPlay = cardsInSuit.getCardByIndex(i);
+                    break;
                 }
             }
-            if(cardToPlay == null) cardToPlay = cardsInSuit.getHighest();
+            if(cardToPlay == null) cardToPlay = cardsInSuit.getHighest(); //if we have to win a hand, play high
         }
         //after deciding which card to play, play the card and remove it from hand
         myHand.remove(cardToPlay);
         game.sendAction(new PlayCardAction(this, cardToPlay));
-
     }
-
 }
 
