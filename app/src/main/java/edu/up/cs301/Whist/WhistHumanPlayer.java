@@ -251,7 +251,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                             playCardButton.setBackgroundColor(Color.DKGRAY);
                             playCardButton.setEnabled(false);
                         }
-                        if (savedState.getTurn() == playerNum && myHand.hasCardInSuit(savedState.leadSuit)) {
+                        else if (savedState.getTurn() == playerNum && myHand.hasCardInSuit(savedState.leadSuit)) {
                             //button turn green to indicate legal card play
                             if (selectedCard != null) {
                                 if (selectedCard.getSuit().equals(savedState.leadSuit)) {
