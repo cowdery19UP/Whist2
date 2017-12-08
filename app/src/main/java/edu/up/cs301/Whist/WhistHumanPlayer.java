@@ -17,6 +17,7 @@ import android.view.View;
 import edu.up.cs301.animation.AnimationSurface;
 import edu.up.cs301.animation.Animator;
 import edu.up.cs301.card.Card;
+import edu.up.cs301.card.Suit;
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.GamePlayer;
@@ -416,12 +417,30 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     //TODO There is still a concurrent modification exception at this method as of 12/2/2017
     private void setTableDisplay(Canvas g){
+        boolean foundGrand = false;
            int Startspot = savedState.leadPlayer;
-           ArrayList<Card> stackCopy = (ArrayList<Card>)savedState.cardsInPlay.stack.clone();
-           for (Card c : stackCopy) {
-               drawCard(g, tableSpots[Startspot % 4], c);
-               Startspot++;
-           }
+        if(savedState.grandingPhase){
+            for (int i = 0; i<savedState.cardsByPlayerIdx.length;i++){
+                if(savedState.cardsByPlayerIdx[i]==null){
+                    drawCard(g, tableSpots[Startspot % 4],null);
+                }
+                else if(savedState.cardsByPlayerIdx[i].getSuit()!= Suit.Diamond &&
+                        savedState.cardsByPlayerIdx[i].getSuit()!= Suit.Heart&&!foundGrand) {
+                    drawCard(g, tableSpots[Startspot % 4], savedState.cardsByPlayerIdx[i]);
+                    foundGrand = true;
+                }
+                else if (!foundGrand) drawCard(g, tableSpots[Startspot % 4],savedState.cardsByPlayerIdx[i]);
+                else drawCard(g, tableSpots[Startspot % 4],null);
+                Startspot++;
+            }
+        }
+        else {
+            ArrayList<Card> stackCopy = (ArrayList<Card>) savedState.cardsInPlay.stack.clone();
+            for (Card c : stackCopy) {
+                drawCard(g, tableSpots[Startspot % 4], c);
+                Startspot++;
+            }
+        }
     }
 
     private void setHandSpots(){
