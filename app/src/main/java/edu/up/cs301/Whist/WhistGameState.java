@@ -66,10 +66,10 @@ public class WhistGameState extends GameState {
     }
     public WhistGameState(WhistGameState orig){
         //copy constructor
-        Log.i("CreatedNewState","copy");
+       // Log.i("CreatedNewState","copy, cards: "+orig.cardsInPlay.getSize());
         //assigning basic instance variables as the same
-        cardsInPlay = orig.cardsInPlay;
-        cardsPlayed = orig.cardsPlayed;
+        cardsInPlay = new CardStack(orig.cardsInPlay);
+        cardsPlayed = new CardStack(orig.cardsPlayed);
         mainDeck  = orig.mainDeck;
         turn = orig.getTurn();
         cardsByPlayerIdx = orig.cardsByPlayerIdx;

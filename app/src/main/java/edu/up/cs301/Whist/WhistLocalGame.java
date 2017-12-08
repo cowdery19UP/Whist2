@@ -152,6 +152,9 @@ public class WhistLocalGame extends LocalGame {
                 return false;
             }
             Card playedCard = theAction.getCard();
+            if(playedCard==null){
+                return false;
+            }
             //disallow doubled cards
             if(mainGameState.cardsPlayed.contains(playedCard)) return false;
             //if there are no cards in play yet, this is the lead card. Assigns leadsuit
@@ -188,14 +191,11 @@ public class WhistLocalGame extends LocalGame {
         /////////////////////////////END PLAYCARD ACTIONS/////////////////////////
         return false;
     }
-
-    /**
-     * This method needs to null out all information that isn't supposed to be known
-     * by certain players - TESTED--SUCCESS
-     * @param p
-     */
     @Override
-    protected void sendUpdatedStateTo(GamePlayer p){
+    protected void sendAllUpdatedState() {
+        for (GamePlayer p : players) {
+            sendUpdatedStateTo(p);
+        }
         /////////////handle new trick////////////////
         if(newTrick){
             scoreTrick();
@@ -207,7 +207,14 @@ public class WhistLocalGame extends LocalGame {
             beginNewRound();
         }
         //////////////handle new round/////////////////
-
+    }
+    /**
+     * This method needs to null out all information that isn't supposed to be known
+     * by certain players - TESTED--SUCCESS
+     * @param p
+     */
+    @Override
+    protected void sendUpdatedStateTo(GamePlayer p){
         //copy the state to edit and null information
         WhistGameState censoredState = new WhistGameState(mainGameState);
         //get the idx of the player p
@@ -218,6 +225,8 @@ public class WhistLocalGame extends LocalGame {
                 censoredState.playerHands[i]=null;
             }
         }
+        //Log.i("mainState","Cards: "+mainGameState.cardsInPlay.getSize());
+        Log.i("censoredState","Cards: "+censoredState.cardsInPlay.getSize());
         p.sendInfo(censoredState);
     }
 
@@ -226,6 +235,8 @@ public class WhistLocalGame extends LocalGame {
      */
     public void beginNewRound(){
         WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[3], 1, 1, 1, 0, 1.0f);
+        //reset the new round boolean
+        newRound = false;
         ///runs one last scoreTrick on the last trick in play
         scoreTrick();
         //sleep for a little....shhhhh see the scored trick
@@ -262,6 +273,12 @@ public class WhistLocalGame extends LocalGame {
             }
         }
         /////////////////////////////////Points Handled/////////////////////////////
+        sendAllUpdatedState();
+        //sleep for a little....shhhhh see the scored round
+        try{
+            Thread.sleep(2500);
+        } catch (InterruptedException e){}
+
         //get a new deck and deal new hands
         mainGameState.mainDeck = new Deck();
         for(Hand h: mainGameState.playerHands){
@@ -283,8 +300,6 @@ public class WhistLocalGame extends LocalGame {
         //resets the tricks back to zero
         mainGameState.team1WonTricks = 0;
         mainGameState.team2WonTricks = 0;
-        //reset the new round boolean
-        newRound = false;
         //reset the leadPlayer to zero (the "dealer)
         mainGameState.leadPlayer = 0;
         //reset the lead suit to null
@@ -296,6 +311,8 @@ public class WhistLocalGame extends LocalGame {
      * This method is called anytime the turn reaches a multiple of 4
      */
     public void scoreTrick(){
+        //sets new trick to false
+        newTrick = false;
         //determine which card and player won the trick
         //establish the starting card to increment up from
         Card winningCard = Card.fromString("2C");
@@ -321,6 +338,8 @@ public class WhistLocalGame extends LocalGame {
                 mainGameState.team1WonTricks++;
             }
         }
+
+        sendAllUpdatedState();
         //sleep to let the player see the completed trick
         try{
             Thread.sleep(3000);
@@ -329,8 +348,6 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.cardsInPlay.removeAll();
         //sets the turn to establish who  is leading the next trick
         mainGameState.turn = winningPlayerIdx;
-        //sets new trick to false
-        newTrick = false;
         //sets the leadPlayer to the winningPlayerIdx
         mainGameState.leadPlayer = winningPlayerIdx;
 

@@ -114,7 +114,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if(myHand.getSize()==13){
             selectedCard = myHand.getCardByIndex(myHand.getSize()/2);
         }
-
+        Log.i("/////rinfo"+allPlayerNames[playerNum],"CardsinPlay: "+savedState.cardsInPlay.getSize());
     }
 
     @Override
@@ -366,7 +366,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 if (handSpots[i].contains(x, y)) {
                     selectedCard = myHand.getCardByIndex((myHand.getSize()-1)-i);
                     selectedIdx = i;
-
                     break;
                 }
             }

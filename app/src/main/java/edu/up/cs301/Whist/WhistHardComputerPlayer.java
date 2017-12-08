@@ -1,5 +1,7 @@
 package edu.up.cs301.Whist;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.card.Card;
@@ -45,6 +47,8 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         savedState = (WhistGameState) info;
         //updates the player's hand
         myHand = savedState.getHand();
+        Log.i("/////rinfo"+allPlayerNames[playerNum],"CardsinPlay: "+savedState.cardsInPlay.getSize());
+
         if(!savedState.grandingPhase) {
             //clears hotcards
             hotCards.removeAll();
@@ -69,7 +73,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //create a new deck
         Deck cardsLeft = new Deck();
         //remove the cards that have been played this round to leave just the cards left
-        ArrayList<Card> stackCopyCardsinPlay = (ArrayList<Card>)savedState.cardsPlayed.stack.clone();
+        ArrayList<Card> stackCopyCardsinPlay = (ArrayList<Card>)savedState.cardsInPlay.stack.clone();
         ArrayList<Card> stackCopyCardsLeft = (ArrayList<Card>)savedState.cardsPlayed.stack.clone();
         if(savedState.cardsPlayed.getSize()!=0) {
             for (Card d : stackCopyCardsinPlay) {
