@@ -184,17 +184,17 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
             }
             //establishes the RectF's for each player's spot
-            RectF bottomRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) - 40, (Tablesurface.getHeight() / 20) * 13 - 65,
-                    Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) + allPlayerNames[0].length() * 18 + 40, (Tablesurface.getHeight() / 20) * 13 + 40);
+            RectF bottomRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) - 40, (Tablesurface.getHeight() / 20) * 13 - 65,
+                    Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) + allPlayerNames[playerNum].length() * 18 + 40, (Tablesurface.getHeight() / 20) * 13 + 40);
 
-            RectF rightRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[1].length() * 9) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
-                    Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[1].length() * 9) + allPlayerNames[1].length() * 18 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
+            RectF rightRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[(playerNum+1)%4].length() * 9) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
+                    Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[(playerNum+1)%4].length() * 9) + allPlayerNames[1].length() * 18 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
 
-            RectF topRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) - 40, Tablesurface.getHeight() / 10 - 65,
-                    Tablesurface.getWidth() / 2 - (allPlayerNames[0].length() * 10) + allPlayerNames[0].length() * 20 + 40, Tablesurface.getHeight() / 10 + 40);
+            RectF topRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum+2)%4].length() * 10) - 40, Tablesurface.getHeight() / 10 - 65,
+                    Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum+2)%4].length() * 10) + allPlayerNames[0].length() * 20 + 40, Tablesurface.getHeight() / 10 + 40);
 
-            RectF leftRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[3].length() * 6) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
-                    Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[3].length() * 6) + allPlayerNames[1].length() * 20 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
+            RectF leftRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[(playerNum+3)%4].length() * 6) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
+                    Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[(playerNum+3)%4].length() * 6) + allPlayerNames[1].length() * 20 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
             Paint BackgroundboxPainter = new Paint();
             ////places a black box around the player name whose turn it is
             BackgroundboxPainter.setColor(Color.BLACK);
