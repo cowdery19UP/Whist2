@@ -371,7 +371,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         float y = event.getY();
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
-        RectF handArea = new RectF(0,top,Tablesurface.getWidth(),bottom);
+        RectF handArea = new RectF(0,top,50+(myHand.getSize()*150),bottom);
+        //if the touch was within the bounds of where the cards will be plyed
         if(handArea.contains(x,y)) {
             for (int i = 0; i < myHand.getSize(); i++) {
                 if (handSpots[i].contains(x, y)) {
@@ -379,8 +380,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                     selectedIdx = i;
                     break;
                 }
+
             }
         }
+
 
 
     }
@@ -417,7 +420,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     //TODO There is still a concurrent modification exception at this method as of 12/2/2017
     private void setTableDisplay(Canvas g){
-            boolean foundGrand = false;
+        //a boolean for the special protocols in Granding GUI
+        boolean foundGrand = false;
            int Startspot = savedState.leadPlayer;
         if(savedState.grandingPhase){
             for(int i = 0; i<4; i++) {
@@ -425,7 +429,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                     if(foundGrand){
                         drawCard(g, tableSpots[Startspot % 4], null);
                     }
-                    else if(savedState.cardsByPlayerIdx[i].getSuit()==Suit.Club||savedState.cardsByPlayerIdx[i].getSuit()== Suit.Spade){
+                    else if(savedState.cardsByPlayerIdx[i].getSuit()==Suit.Club||savedState.cardsByPlayerIdx[i].getSuit()== Suit.Spade) {
                         drawCard(g, tableSpots[Startspot % 4], (savedState.cardsByPlayerIdx[i]));
                         foundGrand = true;
                     }

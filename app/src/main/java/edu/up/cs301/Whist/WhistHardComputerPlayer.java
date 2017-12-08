@@ -16,7 +16,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
     //the cardStack of hot cards
     public CardStack hotCards = new CardStack();
     //the reaction time of the player
-    private int reactionTime = 1500;
+    private int reactionTime = 2000;
     //the player hand
     private Hand myHand = new Hand();
     //the saved state

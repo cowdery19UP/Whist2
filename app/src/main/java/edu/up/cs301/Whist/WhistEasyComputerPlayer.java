@@ -10,7 +10,7 @@ import edu.up.cs301.game.infoMsg.GameInfo;
  */
 
 public class WhistEasyComputerPlayer extends WhistComputerPlayer{
-    private int reactionTime = 1500;
+    private int reactionTime = 1000;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 

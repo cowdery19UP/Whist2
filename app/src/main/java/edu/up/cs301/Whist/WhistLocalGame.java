@@ -187,6 +187,10 @@ public class WhistLocalGame extends LocalGame {
             else if(playedCard.getRank().value(14)==14) {//played an ace! WoW!
                 WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[1], 1, 1, 1, 0, 1.0f);
             }
+            else if(playedCard.getRank().value(14)==3) {//played a 3...illuminati confirmed...
+                WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[7], 1, 1, 1, 0, 1.0f);
+            }
+
             //moves the played card onto the table and into the set of played cards
             mainGameState.cardsInPlay.add(playedCard);
             mainGameState.cardsByPlayerIdx[thisPlayerIdx] = playedCard;
