@@ -74,6 +74,7 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
      * This
      */
     public void setHotCards(){
+
         //create a new deck
         Deck cardsLeft = new Deck();
         //remove the cards that have been played this round to leave just the cards left

@@ -47,6 +47,7 @@ public class WhistComputerPlayer extends GameComputerPlayer {
             } catch (NullPointerException nope){
                 sleep(1000);
             }
+
         }
         ////////////////////////end move handling//////////////////////////////////////
 

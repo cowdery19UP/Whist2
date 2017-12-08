@@ -240,10 +240,6 @@ public class WhistLocalGame extends LocalGame {
         newRound = false;
         ///runs one last scoreTrick on the last trick in play
         scoreTrick();
-        //sleep for a little....shhhhh see the scored trick
-        try{
-            Thread.sleep(2500);
-        } catch (InterruptedException e){}
 
         ///////handling points///////////
         //adding points to the team that won the most tricks in the round

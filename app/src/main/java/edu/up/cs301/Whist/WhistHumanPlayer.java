@@ -266,6 +266,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                                 playCardButton.setEnabled(false);
                             }
 
+
                         }
                         //if we do not have the suit of the leadSuit, set button to a darker, sadder green
                         else if (savedState.getTurn() % 4 == playerNum && !myHand.hasCardInSuit(savedState.leadSuit)) {
