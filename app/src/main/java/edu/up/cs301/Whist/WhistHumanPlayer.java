@@ -487,10 +487,12 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Button b = (Button) v;
             if (selectedCard != null) {
                 if(savedState.grandingPhase){
+                    //we drew the card and added it directly
                     savedState.cardsInPlay.add(selectedCard);
                     game.sendAction(new BidAction(this, selectedCard));
                 }
                 else {
+                    //we drew the card and added it directly
                     savedState.cardsInPlay.add(selectedCard);
                     game.sendAction(new PlayCardAction(this, selectedCard));
 
