@@ -37,7 +37,11 @@ public class WhistEasyComputerPlayer extends WhistComputerPlayer{
         //////////////////////////////////move handling//////////////////////////////
         //check if it is my turn
         if(savedState.getTurn()%4==playerNum) {
-            makeMyMove(savedState.cardsInPlay.getSize());
+            try {
+                makeMyMove(savedState.cardsInPlay.getSize());
+            } catch (NullPointerException nope){
+                sleep(1000);
+            }
         }
         ////////////////////////end move handling//////////////////////////////////////
 

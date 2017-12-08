@@ -60,7 +60,11 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         if(savedState.getTurn()%4==playerNum) {
             //sleep....shhhhh
             sleep(reactionTime);
-            makeMyMove(savedState.cardsInPlay.getSize());
+            try {
+                makeMyMove(savedState.cardsInPlay.getSize());
+            } catch (NullPointerException nope){
+                sleep(1000);
+            }
         }
         ////////////////////////end move handling//////////////////////////////////////
 
