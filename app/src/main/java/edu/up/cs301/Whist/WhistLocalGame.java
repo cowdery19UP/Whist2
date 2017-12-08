@@ -60,6 +60,7 @@ public class WhistLocalGame extends LocalGame {
     }
 
     public void handleGranding(){
+        mainGameState.grandingPhase = false;
             //assumes a low round at first
         mainGameState.highGround = false;
         //index through each card on the table and find if there are any high bids
@@ -76,12 +77,12 @@ public class WhistLocalGame extends LocalGame {
             grandedPlayer++;
         }
         //sleep...shhhh
+        sendAllUpdatedState();
         try{
             Thread.sleep(3000);
         }catch (InterruptedException e){}
         //remove all the cards in play
         mainGameState.cardsInPlay.removeAll();
-        mainGameState.grandingPhase = false;
         mainGameState.leadSuit = null;
         Log.i("Team1Granded? ",""+mainGameState.team1Granded);
     }
