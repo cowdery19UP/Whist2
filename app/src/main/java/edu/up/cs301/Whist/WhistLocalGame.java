@@ -17,13 +17,16 @@ import edu.up.cs301.game.actionMsg.GameAction;
  */
 
 public class WhistLocalGame extends LocalGame {
-
+    //the main GameState for the game containing all the information about players and cards
     private WhistGameState mainGameState;
+    //the booleans that determine when to score tricks and start new rounds
     private boolean newTrick = false;
     private boolean newRound = false;
-    //private Card[] cardsByPlayerIdx = new Card[4];
 
-
+    /**
+     * This is the basic constructor for the local game, it creates a new
+     * gamestate and away we go
+     */
     public WhistLocalGame(){
         mainGameState = new WhistGameState();
     }
@@ -43,22 +46,29 @@ public class WhistLocalGame extends LocalGame {
 
     /**
      * this method is called after send updated states
+     * If either team has at least 7 points the game is over
      * @return
      */
     @Override
     protected String checkIfGameOver(){
+        //
         if(mainGameState.team1Points>=7){
             WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
             return ""+playerNames[0]+" and "+playerNames[2]+" win "+mainGameState.team1Points+" to "+mainGameState.team2Points+"!";
 
         }
         else if(mainGameState.team2Points>=7){
-            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[0], 1, 1, 1, 0, 1.0f);
+            WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[6], 1, 1, 1, 0, 1.0f);
             return ""+playerNames[1]+" and "+playerNames[3]+" win "+mainGameState.team2Points+" to "+mainGameState.team1Points+"!";
         }
         else return null;
     }
 
+    /**
+     * This method is called when the granding phase ends and all 4 players
+     * have bid. It assigns the team that granded and assigns the lead to the
+     * player to the right of the player who granded.
+     */
     public void handleGranding(){
         mainGameState.grandingPhase = false;
             //assumes a low round at first
@@ -76,15 +86,17 @@ public class WhistLocalGame extends LocalGame {
             }
             grandedPlayer++;
         }
-        //sleep...shhhh
-        sendAllUpdatedState();
-        try{
-            Thread.sleep(3000);
-        }catch (InterruptedException e){}
         //remove all the cards in play
         mainGameState.cardsInPlay.removeAll();
+        //assigns the lead suit as null to avoid errors in leadSuit
         mainGameState.leadSuit = null;
         Log.i("Team1Granded? ",""+mainGameState.team1Granded);
+        WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
+        sendAllUpdatedState();
+//        //sleep...shhhh
+//        try{
+//            Thread.sleep(3000);
+//        }catch (InterruptedException e){}
     }
     /**
      * This method alters the state based on the action received
