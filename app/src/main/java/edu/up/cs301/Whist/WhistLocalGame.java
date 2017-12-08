@@ -296,6 +296,7 @@ public class WhistLocalGame extends LocalGame {
         //clears out the cards played and cards in play
         mainGameState.cardsPlayed.removeAll();
         mainGameState.cardsInPlay.removeAll();
+        for(int i = 0; i < 4; i++) mainGameState.cardsByPlayerIdx[i] = null;
         //resets the turn to zero
         mainGameState.turn = 0;
         //resets the grands to false
