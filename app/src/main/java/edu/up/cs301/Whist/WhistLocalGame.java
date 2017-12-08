@@ -88,15 +88,17 @@ public class WhistLocalGame extends LocalGame {
         }
         //remove all the cards in play
         mainGameState.cardsInPlay.removeAll();
+        for(int i = 0; i<4; i++) mainGameState.cardsByPlayerIdx[i] = null;
         //assigns the lead suit as null to avoid errors in leadSuit
         mainGameState.leadSuit = null;
-        Log.i("Team1Granded? ",""+mainGameState.team1Granded);
+        //plays the audio for the beginning of a round.
         WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
+        //sleep to allow all threads to catch up.
+        try{
+            Thread.sleep(3500);
+        }catch (InterruptedException e){}
         sendAllUpdatedState();
-//        //sleep...shhhh
-//        try{
-//            Thread.sleep(3000);
-//        }catch (InterruptedException e){}
+
     }
     /**
      * This method alters the state based on the action received
