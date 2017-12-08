@@ -311,7 +311,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 synchronized (g) {
                     setTableDisplay(g);
                 }
-
             }
             if(savedState.cardsInPlay.getSize()==4){
                 Log.i("We've got 4!!","HALLELUAA");
@@ -418,20 +417,21 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      */
     //TODO There is still a concurrent modification exception at this method as of 12/2/2017
     private void setTableDisplay(Canvas g){
-        boolean foundGrand = false;
+            boolean foundGrand = false;
            int Startspot = savedState.leadPlayer;
         if(savedState.grandingPhase){
-            for (int i = 0; i<savedState.cardsByPlayerIdx.length;i++){
-                if(savedState.cardsByPlayerIdx[i]==null){
-                    drawCard(g, tableSpots[Startspot % 4],null);
+            for(int i = 0; i<4; i++) {
+                if (savedState.cardsByPlayerIdx[i]!=null){
+                    if(foundGrand){
+                        drawCard(g, tableSpots[Startspot % 4], null);
+                    }
+                    else if(savedState.cardsByPlayerIdx[i].getSuit()==Suit.Club||savedState.cardsByPlayerIdx[i].getSuit()== Suit.Spade){
+                        drawCard(g, tableSpots[Startspot % 4], (savedState.cardsByPlayerIdx[i]));
+                        foundGrand = true;
+                    }
+                    else drawCard(g, tableSpots[Startspot % 4], null);
                 }
-                else if(savedState.cardsByPlayerIdx[i].getSuit()!= Suit.Diamond &&
-                        savedState.cardsByPlayerIdx[i].getSuit()!= Suit.Heart&&!foundGrand) {
-                    drawCard(g, tableSpots[Startspot % 4], savedState.cardsByPlayerIdx[i]);
-                    foundGrand = true;
-                }
-                else if (!foundGrand) drawCard(g, tableSpots[Startspot % 4],savedState.cardsByPlayerIdx[i]);
-                else drawCard(g, tableSpots[Startspot % 4],null);
+                else drawCard(g, tableSpots[Startspot % 4], null);
                 Startspot++;
             }
         }

@@ -130,7 +130,7 @@ public class WhistLocalGame extends LocalGame {
 
             //add the bid card to cards in play
             mainGameState.cardsInPlay.add(((BidAction) action).getCard());
-            mainGameState.cardsByPlayerIdx[getPlayerIdx(theAction.getPlayer())] = ((BidAction) action).getCard();
+            mainGameState.cardsByPlayerIdx[getPlayerIdx(theAction.getPlayer())] =((BidAction) action).getCard();
             //finally, increment the turn
             incrementTurn();
             //if we have reached all cards in play, handle it.
@@ -141,7 +141,6 @@ public class WhistLocalGame extends LocalGame {
             sendAllUpdatedState();
             return true;
         }//end instanceof BidAction
-
         /////////////////////////////END  GRANDING/////////////////////////
 
         /////////////////////////////PLAYCARD ACTIONS/////////////////////////
