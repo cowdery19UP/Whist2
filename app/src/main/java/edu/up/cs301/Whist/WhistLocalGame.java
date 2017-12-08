@@ -185,7 +185,10 @@ public class WhistLocalGame extends LocalGame {
                 newRound = true;
             }
             //after 4 moves, and not at the start of the round, set new trick to true
-            else if (mainGameState.cardsPlayed.getSize()%4==0&&mainGameState.cardsPlayed.getSize()!=0){newTrick = true;}
+            else if (mainGameState.cardsPlayed.getSize()%4==0
+                    &&mainGameState.cardsPlayed.getSize()!=0){
+                newTrick = true;
+            }
             sendAllUpdatedState();
             return true;
         }
@@ -194,9 +197,12 @@ public class WhistLocalGame extends LocalGame {
     }
     @Override
     protected void sendAllUpdatedState() {
-        for (GamePlayer p : players) {
-            sendUpdatedStateTo(p);
+        synchronized (mainGameState) {
+            for (int i = 0; i < players.length; i++) {
+                sendUpdatedStateTo(players[i]);
+            }
         }
+        Log.i("SentALLUpdatedStates",""+mainGameState.cardsInPlay.getSize());
         /////////////handle new trick////////////////
         if(newTrick){
             scoreTrick();
@@ -302,6 +308,8 @@ public class WhistLocalGame extends LocalGame {
         //reset the lead suit to null
         mainGameState.leadSuit = null;
 
+        sendAllUpdatedState();
+
     }
 
     /**
@@ -347,6 +355,7 @@ public class WhistLocalGame extends LocalGame {
         mainGameState.turn = winningPlayerIdx;
         //sets the leadPlayer to the winningPlayerIdx
         mainGameState.leadPlayer = winningPlayerIdx;
+        sendAllUpdatedState();
 
     }
 

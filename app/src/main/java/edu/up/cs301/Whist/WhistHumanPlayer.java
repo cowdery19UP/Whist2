@@ -311,7 +311,9 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                     setTableDisplay(g);
                 }
             }
-
+            if(savedState.cardsInPlay.getSize()==4){
+                Log.i("We've got 4!!","HALLELUAA");
+            }
             //drawCard(g, handSpots[13], selectedCard);
 
             for (int i = 0; i < myHand.getSize(); i++) {
@@ -485,9 +487,14 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             Button b = (Button) v;
             if (selectedCard != null) {
                 if(savedState.grandingPhase){
+                    savedState.cardsInPlay.add(selectedCard);
                     game.sendAction(new BidAction(this, selectedCard));
                 }
-                else game.sendAction(new PlayCardAction(this, selectedCard));
+                else {
+                    savedState.cardsInPlay.add(selectedCard);
+                    game.sendAction(new PlayCardAction(this, selectedCard));
+
+                }
                 b.setBackgroundColor(Color.DKGRAY);
                 selectedCard = null;
             }
