@@ -138,7 +138,7 @@ public final class R {
         public static final int thatsaten=0x7f040004;
         public static final int timetoduel=0x7f040005;
         public static final int wow=0x7f040006;
-        public static final int xfiles=0x7f040007;
+        public static final int xfil=0x7f040007;
         public static final int yee=0x7f040008;
     }
     public static final class string {

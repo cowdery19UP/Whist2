@@ -108,6 +108,9 @@ public class WhistLocalGame extends LocalGame {
         if(!(action instanceof MoveAction)){
             return false;
         }
+        if(mainGameState.cardsInPlay.getSize()==4){
+            return false;
+        }
         //safe casting of the sent in action into a MoveAction
         MoveAction theAction = (MoveAction) action;
         // get the index of the player making the move; return false
