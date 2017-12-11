@@ -73,6 +73,7 @@ public class WhistMainActivity extends GameMainActivity {
         soundId[5] = mySoundpool.load(this, R.raw.thatsaten,1);
         soundId[6] = mySoundpool.load(this, R.raw.yee,1);
         soundId[7] = mySoundpool.load(this, R.raw.xfil,1);
+
         // get the bitmap for the card
         cardback = BitmapFactory.decodeResource(this.getResources(),R.drawable.cardback);
         return new WhistLocalGame();
