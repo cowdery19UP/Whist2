@@ -55,6 +55,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     private RectF[] cardIndicatorSpots = new RectF[13];
     private RectF[] handSpots = new RectF[13];
     private RectF[] tableSpots = new RectF[4];
+    private RectF suitIndicator = new RectF();
     private boolean hasTouched = false;
 
 
@@ -90,6 +91,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if (savedState != null) {
             receiveInfo(savedState);
         }
+
+        suitIndicator.set(Tablesurface.getWidth()-100, 900, Tablesurface.getWidth()-50, 950);
 
     }
 
@@ -237,6 +240,33 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             }
             else if(savedState.cardsInPlay.getSize()==4){
                 g.drawText("END TRICK", Tablesurface.getWidth() / 2 - 110, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
+            }
+
+            if(savedState.highGround && !savedState.grandingPhase) {
+                g.drawText("HIGH ROUND", 10, 900, paintStaticText);
+            }
+            else if (!savedState.highGround && !savedState.grandingPhase) {
+                g.drawText("LOW ROUND", 10, 900, paintStaticText);
+            }
+
+            if(savedState.leadSuit != null) {
+                String lsString = "";
+
+                switch (savedState.leadSuit) {
+                    case Club:
+                        lsString = "CLUBS";
+                        break;
+                    case Diamond:
+                        lsString = "DIAMONDS";
+                        break;
+                    case Heart:
+                        lsString = "HEARTS";
+                        break;
+                    case Spade:
+                        lsString = "SPADES";
+                        break;
+                }
+                g.drawText("LEAD SUIT: "+lsString, Tablesurface.getWidth() - 380, 900, paintStaticText);
             }
 
 
@@ -421,29 +451,13 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         //a boolean for the special protocols in Granding GUI
         boolean foundGrand = false;
            int Startspot = savedState.leadPlayer;
-        if(savedState.grandingPhase){
-            for(int i = 0; i<4; i++) {
-                if (savedState.cardsByPlayerIdx[i]!=null){
-                    if(foundGrand){
-                        drawCard(g, tableSpots[Startspot % 4], null);
-                    }
-                    else if(savedState.cardsByPlayerIdx[i].getSuit()==Suit.Club||savedState.cardsByPlayerIdx[i].getSuit()== Suit.Spade) {
-                        drawCard(g, tableSpots[Startspot % 4], (savedState.cardsByPlayerIdx[i]));
-                        foundGrand = true;
-                    }
-                    else drawCard(g, tableSpots[Startspot % 4], null);
-                }
-                else drawCard(g, tableSpots[Startspot % 4], null);
-                Startspot++;
-            }
+
+        ArrayList<Card> stackCopy = (ArrayList<Card>) savedState.cardsInPlay.stack.clone();
+        for (Card c : stackCopy) {
+            drawCard(g, tableSpots[Startspot % 4], c);
+            Startspot++;
         }
-        else {
-            ArrayList<Card> stackCopy = (ArrayList<Card>) savedState.cardsInPlay.stack.clone();
-            for (Card c : stackCopy) {
-                drawCard(g, tableSpots[Startspot % 4], c);
-                Startspot++;
-            }
-        }
+
     }
 
     private void setHandSpots(){

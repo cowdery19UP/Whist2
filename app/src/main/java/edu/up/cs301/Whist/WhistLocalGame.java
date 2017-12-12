@@ -86,19 +86,20 @@ public class WhistLocalGame extends LocalGame {
             }
             grandedPlayer++;
         }
+        for(int i = grandedPlayer; i > 4; i++) mainGameState.cardsInPlay.stack.set(i, null);
+        sendAllUpdatedState();
         //remove all the cards in play
-        mainGameState.cardsInPlay.removeAll();
-        for(int i = 0; i<4; i++) mainGameState.cardsByPlayerIdx[i] = null;
+        mainGameState.leadSuit = null;
         //assigns the lead suit as null to avoid errors in leadSuit
         mainGameState.leadSuit = null;
         //plays the audio for the beginning of a round.
         WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
         //sleep to allow all threads to catch up.
+        mainGameState.cardsInPlay.removeAll();
         try{
             Thread.sleep(3500);
         }catch (InterruptedException e){}
         sendAllUpdatedState();
-
     }
     /**
      * This method alters the state based on the action received
@@ -260,6 +261,9 @@ public class WhistLocalGame extends LocalGame {
             if(i!=idx){
                 censoredState.playerHands[i]=null;
             }
+        }
+        if(mainGameState.grandingPhase) {
+            for(int i = 0; i < censoredState.cardsInPlay.getSize(); i++) censoredState.cardsInPlay.stack.set(i,null);
         }
         //Log.i("mainState","Cards: "+mainGameState.cardsInPlay.getSize());
         Log.i("censoredState","Cards: "+censoredState.cardsInPlay.getSize());
