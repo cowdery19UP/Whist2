@@ -312,10 +312,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                     setTableDisplay(g);
                 }
             }
-            if(savedState.cardsInPlay.getSize()==4){
-                Log.i("We've got 4!!","HALLELUAA");
-            }
-            //drawCard(g, handSpots[13], selectedCard);
+
 
             for (int i = 0; i < myHand.getSize(); i++) {
                 drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
@@ -418,7 +415,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * This method sets the GUI display of the cards on the table
      * @param g - the canvas object to draw on
      */
-    //TODO There is still a concurrent modification exception at this method as of 12/2/2017
+
     private void setTableDisplay(Canvas g){
         //a boolean for the special protocols in Granding GUI
         boolean foundGrand = false;
