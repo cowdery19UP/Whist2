@@ -52,28 +52,20 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
     private Button playCardButton;
 
     private int selectedIdx = 5;
-    //spot for the blue card indicator
     private RectF[] cardIndicatorSpots = new RectF[13];
-    //spots for the cards to show up in your hand
     private RectF[] handSpots = new RectF[13];
-    //spots for the cards to show up on the table
     private RectF[] tableSpots = new RectF[4];
-    //only displays indicator when person has touched the card
+    private RectF suitIndicator = new RectF();
     private boolean hasTouched = false;
 
 
 
-    //constructor
+
     public WhistHumanPlayer(String name){
         super(name);
 
     }
 
-    /**
-     * sets the gui and makes the animation surface
-     *
-     * @param activity
-     */
     public void setAsGui(GameMainActivity activity){
 
         // remember the activity
@@ -100,6 +92,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             receiveInfo(savedState);
         }
 
+        suitIndicator.set(Tablesurface.getWidth()-100, 900, Tablesurface.getWidth()-50, 950);
+
     }
 
     /**
@@ -122,7 +116,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         //updates the player hand from the new gamestate
         myHand = savedState.getHand();
         myHand.organizeBySuit();
-        //sets the selected card so we can get its value and such
         if(myHand.getSize()==13){
             selectedCard = myHand.getCardByIndex(myHand.getSize()/2);
         }
@@ -131,6 +124,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
     @Override
     public View getTopView(){
+
+        //return activity.findViewById(R.id.top_gui_layout);
         return null;
     }
     //returns the player hand
@@ -149,23 +144,23 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         if (savedState != null) {
             //set rectangles for hand and table spots
 
-            setHandSpots(); //sets the hand spots
-            setTableSpots(playerNum); //sets the spots on the table
+            setHandSpots();
+            setTableSpots(playerNum);
 
             //drawing the table on the GUI
-            Paint tableIn = new Paint();  //sets two different paints to make the table
+            Paint tableIn = new Paint();
             Paint tableOut = new Paint();
             tableOut.setColor(Color.rgb(42, 111, 0));
             tableIn.setColor(Color.rgb(104, 69, 0));
-            RectF rectIn = new RectF(40, 50, Tablesurface.getWidth() - 40, (int) (Tablesurface.getBottom() * 0.69)); //creates the table
+            RectF rectIn = new RectF(40, 50, Tablesurface.getWidth() - 40, (int) (Tablesurface.getBottom() * 0.69));
             RectF rectOut = new RectF(70, 80, Tablesurface.getWidth() - 70, (int) (Tablesurface.getBottom() * 0.66));
-            g.drawOval(rectIn, tableIn); //draws the table
+            g.drawOval(rectIn, tableIn);
             g.drawOval(rectOut, tableOut);
             //drawing text on the GUI
-            Paint paintStaticText = new Paint(); //creates a new paint for text
+            Paint paintStaticText = new Paint();
             paintStaticText.setColor(Color.WHITE);
             paintStaticText.setTextSize(45);
-            g.drawText("Overall Scores", 10, 40, paintStaticText);        //all of this is placing text around the board to describe teams and scores and such
+            g.drawText("Overall Scores", 10, 40, paintStaticText);
             paintStaticText.setTextSize(40);
             paintStaticText.setColor(Color.rgb(102, 204, 255));
             g.drawText("Team 1: " + savedState.team1Points, 10, 75, paintStaticText);
@@ -192,18 +187,18 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 paintStaticText.setColor(Color.RED);
                 g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
             }
-            //establishes the RectF's for each player's name spot
+            //establishes the RectF's for each player's spot
             RectF bottomRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) - 40, (Tablesurface.getHeight() / 20) * 13 - 65,
                     Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) + allPlayerNames[playerNum].length() * 18 + 40, (Tablesurface.getHeight() / 20) * 13 + 40);
 
             RectF rightRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[(playerNum+1)%4].length() * 9) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
-                    Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[(playerNum+1)%4].length() * 9) + allPlayerNames[(playerNum+1)%4].length() * 18 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
+                    Tablesurface.getWidth() / 20 * 15 - (allPlayerNames[(playerNum+1)%4].length() * 9) + allPlayerNames[1].length() * 18 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
 
             RectF topRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum+2)%4].length() * 10) - 40, Tablesurface.getHeight() / 10 - 65,
-                    Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum+2)%4].length() * 10) + allPlayerNames[(playerNum+2)%4].length() * 20 + 40, Tablesurface.getHeight() / 10 + 40);
+                    Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum+2)%4].length() * 10) + allPlayerNames[0].length() * 20 + 40, Tablesurface.getHeight() / 10 + 40);
 
             RectF leftRectIndicator = new RectF(Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[(playerNum+3)%4].length() * 6) - 40, ((Tablesurface.getHeight() / 20) * 11) - 95,
-                    Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[(playerNum+3)%4].length() * 6) + allPlayerNames[(playerNum+3)%4].length() * 20 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
+                    Tablesurface.getWidth() / 20 * 5 - (allPlayerNames[(playerNum+3)%4].length() * 6) + allPlayerNames[1].length() * 20 + 40, ((Tablesurface.getHeight() / 20) * 11) + 10);
             Paint BackgroundboxPainter = new Paint();
             ////places a black box around the player name whose turn it is
             BackgroundboxPainter.setColor(Color.BLACK);
@@ -216,7 +211,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             else if (savedState.getTurn() == (playerNum + 3) % 4)
                 g.drawRect(leftRectIndicator, BackgroundboxPainter);
 
-            Paint myTeamPainter = new Paint();         //creates two new paints to color the teams to coordinate with each other
+            Paint myTeamPainter = new Paint();
             Paint otherTeamPainter = new Paint();
             //paints the player names with team colors
             if (playerNum % 2 == 0) {
@@ -229,7 +224,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             otherTeamPainter.setTextSize(35);
             myTeamPainter.setTextSize(35);
 
-            //draws the names of the players in their right spots
             g.drawText(allPlayerNames[playerNum], Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10), (Tablesurface.getHeight() / 20) * 13, myTeamPainter);
             g.drawText(allPlayerNames[(playerNum + 2) % 4], Tablesurface.getWidth() / 2 - (allPlayerNames[(playerNum + 2) % 4].length() * 10), Tablesurface.getHeight() / 10, myTeamPainter);
 
@@ -248,6 +242,33 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 g.drawText("END TRICK", Tablesurface.getWidth() / 2 - 110, Tablesurface.getHeight() / 10 * 4 - 30, paintStaticText);
             }
 
+            if(savedState.highGround && !savedState.grandingPhase) {
+                g.drawText("HIGH ROUND", 10, 900, paintStaticText);
+            }
+            else if (!savedState.highGround && !savedState.grandingPhase) {
+                g.drawText("LOW ROUND", 10, 900, paintStaticText);
+            }
+
+            if(savedState.leadSuit != null) {
+                String lsString = "";
+
+                switch (savedState.leadSuit) {
+                    case Club:
+                        lsString = "CLUBS";
+                        break;
+                    case Diamond:
+                        lsString = "DIAMONDS";
+                        break;
+                    case Heart:
+                        lsString = "HEARTS";
+                        break;
+                    case Spade:
+                        lsString = "SPADES";
+                        break;
+                }
+                g.drawText("LEAD SUIT: "+lsString, Tablesurface.getWidth() - 380, 900, paintStaticText);
+            }
+
 
             //in order to make the GUI more user friendly, I added a handler to make the playCard button
             //light up green when it is this player's turn to play
@@ -262,7 +283,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                             playCardButton.setEnabled(false);
                         }
                         else if (savedState.getTurn() == playerNum && myHand.hasCardInSuit(savedState.leadSuit)) {
-                            //button turns green to indicate legal card play
+                            //button turn green to indicate legal card play
                             if (selectedCard != null) {
                                 if (selectedCard.getSuit().equals(savedState.leadSuit)) {
                                     playCardButton.setBackgroundColor(Color.GREEN);
@@ -322,11 +343,11 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 }
             }
 
-            //logic to paint the cards in the correct order in your hand
+
             for (int i = myHand.getSize()-1; i >= 0; i--) {
                 drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
             }
-            // draws card indicator when you touch the card
+
             if(savedState.turn == getPlayerIdx() && hasTouched) {
                 g.drawOval(cardIndicatorSpots[selectedIdx], myTeamPainter);
             }
@@ -379,7 +400,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
         RectF handArea = new RectF(0,top,50+(myHand.getSize()*150),bottom);
-        //if the touch was within the bounds of where the cards will be played
+        //if the touch was within the bounds of where the cards will be plyed
         if(handArea.contains(x,y)) {
             for (int i = 0; i < myHand.getSize(); i++) {
                 if (handSpots[i].contains(x, y)) {
@@ -428,43 +449,27 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
     private void setTableDisplay(Canvas g){
         //a boolean for the special protocols in Granding GUI
-        //determines which card gets painted in the granding phase
         boolean foundGrand = false;
            int Startspot = savedState.leadPlayer;
-        if(savedState.grandingPhase){
-            for(int i = 0; i<4; i++) {
-                if (savedState.cardsByPlayerIdx[i]!=null){
-                    if(foundGrand){
-                        drawCard(g, tableSpots[Startspot % 4], null);
-                    }
-                    else if(savedState.cardsByPlayerIdx[i].getSuit()==Suit.Club||savedState.cardsByPlayerIdx[i].getSuit()== Suit.Spade) {
-                        drawCard(g, tableSpots[Startspot % 4], (savedState.cardsByPlayerIdx[i]));
-                        foundGrand = true;
-                    }
-                    else drawCard(g, tableSpots[Startspot % 4], null);
-                }
-                else drawCard(g, tableSpots[Startspot % 4], null);
-                Startspot++;
-            }
+
+        ArrayList<Card> stackCopy = (ArrayList<Card>) savedState.cardsInPlay.stack.clone();
+        for (Card c : stackCopy) {
+            drawCard(g, tableSpots[Startspot % 4], c);
+            Startspot++;
         }
-        else {
-            ArrayList<Card> stackCopy = (ArrayList<Card>) savedState.cardsInPlay.stack.clone();
-            for (Card c : stackCopy) {
-                drawCard(g, tableSpots[Startspot % 4], c);
-                Startspot++;
-            }
-        }
+
     }
 
     private void setHandSpots(){
         int middle = Tablesurface.getWidth()/2;
         int top = (Tablesurface.getHeight()/2)-133+450;
         int bottom = (Tablesurface.getHeight()/2)+133+450;
-        //makes the rects for the cards to be drawn in the hand
+
+        //handSpots[13] = new RectF(middle+700, top, middle+900 , bottom);
         for(int i = 0; i<myHand.getSize();i++){
             handSpots[i] = new RectF((0+(i*150)),top,200+(i*150),bottom);
+            //handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
-        //sets the rects for the card indicators to be drawn above the cards in the hand
         for(int i = 0; i<myHand.getSize();i++){
             if(i==myHand.getSize()-1){
                 cardIndicatorSpots[i] = new RectF(((i * 150)), top - 40, 200 + (i * 150), top);
@@ -530,7 +535,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 else {
                     //we drew the card and added it directly
                     savedState.cardsInPlay.add(selectedCard);
-                    myHand.remove(selectedCard);
                     game.sendAction(new PlayCardAction(this, selectedCard));
 
                 }
@@ -541,6 +545,8 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
         hasTouched = false;
     }
+
+
 
     public int getPlayerIdx(){
         return playerNum;
