@@ -20,11 +20,15 @@ import edu.up.cs301.game.config.GamePlayerType;
 
 public class WhistMainActivity extends GameMainActivity {
 
+    //something for network play
     public static final int PORT_NUMBER = 2278;
     //fun stuff! soundPool for playing superfluous audio
     public static SoundPool mySoundpool = new SoundPool(1, AudioManager.STREAM_MUSIC,0);
+    //array that can contains the soundIds for how many sounds we can have
     public static int[] soundId = new int[9];
+    //yugioh card backing
     public static Bitmap cardback;
+    //it's a string
     public String string;
 
 
@@ -33,31 +37,31 @@ public class WhistMainActivity extends GameMainActivity {
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
         // whist has two player types:  human and computer
-        playerTypes.add(new GamePlayerType("Local Human Player") {
+        playerTypes.add(new GamePlayerType("Local Human Player") {    //sets the names for the options of computer players
             public GamePlayer createPlayer(String name) {
                 return new WhistHumanPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Easy Computer Player") {
+        playerTypes.add(new GamePlayerType("Easy Computer Player") {   //sets the names for the options of computer players
             public GamePlayer createPlayer(String name) {
                 return new WhistEasyComputerPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Hard Computer Player") {
+        playerTypes.add(new GamePlayerType("Hard Computer Player") {   //sets the names for the options of computer players
             public GamePlayer createPlayer(String name) {
                 return new WhistHardComputerPlayer(name);
             }});
-        playerTypes.add(new GamePlayerType("Normal Computer Player") {
+        playerTypes.add(new GamePlayerType("Normal Computer Player") {   //sets the names for the options of computer players
             public GamePlayer createPlayer(String name) {
                 return new WhistComputerPlayer(name);
             }});
 
 
-        // Create a game configuration class for Pig:
+        // Create a game configuration class for Whist:
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Minnesota Whist", PORT_NUMBER);
         defaultConfig.addPlayer("Steve", 0); // player 1: a human player
-        defaultConfig.addPlayer("Kevin", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Andrew",3);
-        defaultConfig.addPlayer("Patrick",2);
-        defaultConfig.setRemoteData("Sam", "", 0);
+        defaultConfig.addPlayer("Kevin", 2); // player 2: a hard computer player
+        defaultConfig.addPlayer("Andrew",2); // player 3: a hard computer player
+        defaultConfig.addPlayer("Patrick",2); // player 4: a hard computer player
+        defaultConfig.setRemoteData("Sam", "", 0); // a remote player
         return defaultConfig;
 
     }
@@ -69,7 +73,7 @@ public class WhistMainActivity extends GameMainActivity {
         soundId[2] = mySoundpool.load(this, R.raw.stopitgethelp,1);
         soundId[1] = mySoundpool.load(this, R.raw.wow,1);
         soundId[3] = mySoundpool.load(this, R.raw.freerealestate,1);
-        soundId[4] = mySoundpool.load(this, R.raw.timetoduel,1);
+        soundId[4] = mySoundpool.load(this, R.raw.timetoduel,1);                //WOOOO SOUNDS
         soundId[5] = mySoundpool.load(this, R.raw.thatsaten,1);
         soundId[6] = mySoundpool.load(this, R.raw.yee,1);
         soundId[7] = mySoundpool.load(this, R.raw.xfil,1);
