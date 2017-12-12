@@ -70,9 +70,6 @@ public class WhistLocalGame extends LocalGame {
      * player to the right of the player who granded.
      */
     public void handleGranding(){
-        mainGameState.grandingPhase = false;
-            //assumes a low round at first
-        mainGameState.highGround = false;
         //index through each card on the table and find if there are any high bids
         int grandedPlayer = 0;
         for(Card c: mainGameState.cardsInPlay.stack){
@@ -86,8 +83,15 @@ public class WhistLocalGame extends LocalGame {
             }
             grandedPlayer++;
         }
-        for(int i = grandedPlayer; i > 4; i++) mainGameState.cardsInPlay.stack.set(i, null);
+        Log.i("GrandedPlayer: ",""+grandedPlayer);
+        for(int i = grandedPlayer; i < 4; i++) mainGameState.cardsInPlay.stack.set(i, null);
         sendAllUpdatedState();
+        try{
+            Thread.sleep(3000);
+        }catch (InterruptedException e){}
+        mainGameState.grandingPhase = false;
+        //assumes a low round at first
+        mainGameState.highGround = false;
         //remove all the cards in play
         mainGameState.leadSuit = null;
         //assigns the lead suit as null to avoid errors in leadSuit
@@ -96,9 +100,6 @@ public class WhistLocalGame extends LocalGame {
         WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[4], 1, 1, 1, 0, 1.0f);
         //sleep to allow all threads to catch up.
         mainGameState.cardsInPlay.removeAll();
-        try{
-            Thread.sleep(3500);
-        }catch (InterruptedException e){}
         sendAllUpdatedState();
     }
     /**
