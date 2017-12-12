@@ -170,23 +170,51 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             paintStaticText.setTextSize(45);
             g.drawText("Current Tricks", Tablesurface.getWidth() - 260, 40, paintStaticText);
             paintStaticText.setTextSize(40);
-            //paints text for each team and indicates the team that has granded with a G
-            if (savedState.team1Granded) {
-                paintStaticText.setColor(Color.rgb(102, 204, 255));
-                g.drawText("Team 1: " + savedState.team1WonTricks + "  G", Tablesurface.getWidth() - 260, 75, paintStaticText);
-                paintStaticText.setColor(Color.RED);
-                g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
-            } else if (savedState.team2Granded) {
-                paintStaticText.setColor(Color.rgb(102, 204, 255));
-                g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
-                paintStaticText.setColor(Color.RED);
-                g.drawText("Team 2: " + savedState.team2WonTricks + "  G", Tablesurface.getWidth() - 260, 110, paintStaticText);
-            } else {
-                paintStaticText.setColor(Color.rgb(102, 204, 255));
-                g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
-                paintStaticText.setColor(Color.RED);
-                g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+
+            ///////paints text for each team and indicates the team that has granded with a G/////////
+            if(!savedState.grandingPhase) {
+                if (savedState.team1Granded) {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks + "  G", Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
+                else if (savedState.team2Granded) {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks + "  G", Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
+                else {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
             }
+            else{
+                if (savedState.team1Granded) {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
+                else if (savedState.team2Granded) {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
+                else {
+                    paintStaticText.setColor(Color.rgb(102, 204, 255));
+                    g.drawText("Team 1: " + savedState.team1WonTricks, Tablesurface.getWidth() - 260, 75, paintStaticText);
+                    paintStaticText.setColor(Color.RED);
+                    g.drawText("Team 2: " + savedState.team2WonTricks, Tablesurface.getWidth() - 260, 110, paintStaticText);
+                }
+
+            }
+            ///////paints text for each team and indicates the team that has granded with a G/////////
+
             //establishes the RectF's for each player's spot
             RectF bottomRectIndicator = new RectF(Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) - 40, (Tablesurface.getHeight() / 20) * 13 - 65,
                     Tablesurface.getWidth() / 2 - (allPlayerNames[playerNum].length() * 10) + allPlayerNames[playerNum].length() * 18 + 40, (Tablesurface.getHeight() / 20) * 13 + 40);
