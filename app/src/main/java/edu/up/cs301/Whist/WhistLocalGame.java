@@ -13,7 +13,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 /**
  * Created by Patrick Maloney on 11/7/17.
- *
+ * This is our Local Game. It controls all player interactions and logic.
  */
 
 public class WhistLocalGame extends LocalGame {
@@ -184,7 +184,7 @@ public class WhistLocalGame extends LocalGame {
             if(playedCard.getRank().value(14)==10){//thats a ten
                 WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[5], 1, 1, 1, 0, 1.0f);
             }
-            else if(playedCard.getRank().value(14)==2){//played a 2, get some help!
+            else if(playedCard.getSuit()!=mainGameState.leadSuit&&mainGameState.cardsPlayed.getSize()<40){//played out of suit, get some help!
                 WhistMainActivity.mySoundpool.play(WhistMainActivity.soundId[2], 1, 1, 1, 0, 1.0f);
             }
             else if(playedCard.getRank().value(14)==14) {//played an ace! WoW!
@@ -220,6 +220,10 @@ public class WhistLocalGame extends LocalGame {
         /////////////////////////////END PLAYCARD ACTIONS/////////////////////////
         return false;
     }
+
+    /**
+     *This method is called for each player to send them a new state
+     */
     @Override
     protected void sendAllUpdatedState() {
         synchronized (mainGameState) {
@@ -385,8 +389,14 @@ public class WhistLocalGame extends LocalGame {
 
     }
 
+    /**
+     * This method does a special combination
+     * to avoid keeping the turn 0-3
+     */
     public void incrementTurn(){
+        //increment turn
         mainGameState.turn ++;
+        //use modular arithmetic to keep value 0-3
         mainGameState.turn%=4;
     }
 

@@ -14,6 +14,7 @@ import edu.up.cs301.game.infoMsg.GameState;
 
 /**
  * Created by Samuel on 11/9/2017.
+ * This Class contains all the information for the game at a given time
  */
 
 public class WhistGameState extends GameState {
@@ -49,6 +50,10 @@ public class WhistGameState extends GameState {
     //deciding for high and low round
     public boolean highGround = true;
 
+    /**
+     * This is the basic constructor for the gamestate.
+     * it creates the new CardStacks and deals the hands
+     */
     public WhistGameState(){
         //initial gameState
         Log.i("CreatedNewState","new");
@@ -64,12 +69,20 @@ public class WhistGameState extends GameState {
             }
         }
     }
+
+    /**
+     * This is the copy constructor for the GameState, it needs to re-create
+     * certain objects in order to send them over the network
+     * @param orig
+     */
     public WhistGameState(WhistGameState orig){
         //copy constructor
-       // Log.i("CreatedNewState","copy, cards: "+orig.cardsInPlay.getSize());
         //assigning basic instance variables as the same
+
+        //These first two Cardstacks needed to be re-built
         cardsInPlay = new CardStack(orig.cardsInPlay);
         cardsPlayed = new CardStack(orig.cardsPlayed);
+        ////////the rest of these objects are just reassigned/////////
         mainDeck  = orig.mainDeck;
         turn = orig.getTurn();
         cardsByPlayerIdx = orig.cardsByPlayerIdx;
@@ -83,6 +96,7 @@ public class WhistGameState extends GameState {
         team2WonTricks = orig.team2WonTricks;
         grandingPhase = orig.grandingPhase;
         highGround = orig.highGround;
+        ////////the rest of these objects are just reassigned/////////
 
         //assigns hands to be separate in memory to avoid nulling out the mainState's hands
         for(int i = 0; i<playerHands.length;i++){
@@ -93,12 +107,14 @@ public class WhistGameState extends GameState {
 
     }//copyCtor
 
+    //this method sends the gamestate
     public GameInfo sendGameState(){
         return this;
     }
 
+    //this method returnst the turnst
     public int getTurn(){return turn;}
-
+    //returns the remaining non-nulled hand in the savedstate for the player
     public Hand getHand(){
         for(Hand d: playerHands) {
             if (d != null) {
