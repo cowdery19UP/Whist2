@@ -20,7 +20,7 @@ public class BidAction extends PlayCardAction {
         super(player,c);
     }
 
-    //boolean methods to remove ambiguity with instanceof and inheritance
+    //boolean methods to remove any ambiguity with instanceof and inheritance
     public boolean isCardPlayAction(){return false;}
     public boolean isBidAction(){return true;}
 }

@@ -273,7 +273,7 @@ public class CardStack implements Serializable {
 
     public boolean contains(Card c){
         for(Card d : stack){
-            if(d.equals(c)) return true; //if we find the card, return true
+            if(d.equals(c)) return true; //if we find the card in the cardstack, return true
         }
         return false;
     }

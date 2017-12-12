@@ -16,7 +16,7 @@ public class PlayCardAction extends MoveAction {
      */
     public PlayCardAction(GamePlayer player, Card c) {
         super(player);
-        card = c;
+        card = c; //card associated with the action
     }//ctor
 
     //boolean methods used to remove ambiguity with instanceof and inheritance

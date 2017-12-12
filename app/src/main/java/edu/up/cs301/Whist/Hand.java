@@ -22,7 +22,7 @@ public class Hand extends CardStack {
     private ArrayList<Card> diamonds = new ArrayList<Card>();
     private ArrayList<Card> spades = new ArrayList<Card>();
     ///////////////////////////////////////////////////////
-    //this array of cards is used in Patrick's mergeSort function
+    //this array of cards is used in Patrick's function
     private static Card[] T = new Card[52];
     /**
      * The constructor for the Hand
@@ -86,7 +86,7 @@ public class Hand extends CardStack {
         stack.clear(); //clear stack to copy array back in
 
         for(int i = 0; i < arr.length; i++){ //copying array back into CardStack
-            stack.add(arr[i]); //add the card to the stack
+            stack.add(arr[i]); //add the card to the cardstack
         }
     }
 }

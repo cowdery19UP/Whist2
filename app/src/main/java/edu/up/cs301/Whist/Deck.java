@@ -32,7 +32,7 @@ public class Deck extends CardStack {
     public Card dealRandomCard(){
         int idx = (int)(Math.random()*stack.size()); //get a random index
         Card toReturn = stack.get(idx); //get the card at random index
-        stack.remove(stack.get(idx)); //remove that card from the stack
+        stack.remove(stack.get(idx)); //remove that card from the cardstack
         return toReturn; //return the card
     }
 
