@@ -7,10 +7,14 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
  * Created by Kevin on 11/26/2017.
+ * WhistEasyComputer player is designed to be beaten
+ * It does not have Low-Round functionality
+ * It does not have hotCards
+ * It only plays random cards until it makes a legal move.
  */
 
 public class WhistEasyComputerPlayer extends WhistComputerPlayer{
-    private int reactionTime = 1000;
+    private int reactionTime = 500;
     private Hand myHand = new Hand();
     private WhistGameState savedState;
 
@@ -18,6 +22,11 @@ public class WhistEasyComputerPlayer extends WhistComputerPlayer{
         super(name);
     }
 
+    /**
+     * This method recieves the gamestate from the game
+     * and informs the computer player what to do
+     * @param info - the updated gamestate
+     */
     public void receiveInfo(GameInfo info){
         //check for null state
         if(info==null){

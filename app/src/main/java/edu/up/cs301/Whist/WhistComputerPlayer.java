@@ -11,6 +11,8 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
  * Created by PatrickMaloney on 11/7/17.
+ * WhistComputerPlayer is the medium difficulty computer player
+ * It plays with basic game logic and Low-Round ability, but does not play hotCards
  */
 
 public class WhistComputerPlayer extends GameComputerPlayer {
@@ -22,7 +24,11 @@ public class WhistComputerPlayer extends GameComputerPlayer {
     public WhistComputerPlayer(String name){
         super(name);
     }
-
+    /**
+     * This method recieves the gamestate from the game
+     * and informs the computer player what to do
+     * @param info - the updated gamestate
+     */
     public void receiveInfo(GameInfo info){
         //check for null state
         if(info==null){

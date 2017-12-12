@@ -121,8 +121,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
 
     @Override
     public View getTopView(){
-
-        //return activity.findViewById(R.id.top_gui_layout);
         return null;
     }
     //returns the player hand
@@ -532,8 +530,6 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
         }
         hasTouched = false;
     }
-
-
 
     public int getPlayerIdx(){
         return playerNum;

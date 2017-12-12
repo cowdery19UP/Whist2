@@ -10,6 +10,11 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 
 /**
  * Created by Kevin on 11/26/2017.
+ * WhistHardComputerPlayer is designed to be as unbeatable as possible
+ * It uses a CardStack called "hotCards" to determine which cards are
+ * guaranteed to win a round and guesses when the opponents are out of
+ * a particular suit.
+ * It also has Low-Round functionality implemented
  */
 
 public class WhistHardComputerPlayer extends WhistComputerPlayer {

@@ -28,6 +28,7 @@ public class WhistMainActivity extends GameMainActivity {
     public static int[] soundId = new int[9];
     //yugioh card backing
     public static Bitmap cardback;
+    //it's a string
     public String string;
 
 
@@ -54,7 +55,7 @@ public class WhistMainActivity extends GameMainActivity {
             }});
 
 
-        // Create a game configuration class for Pig:
+        // Create a game configuration class for Whist:
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Minnesota Whist", PORT_NUMBER);
         defaultConfig.addPlayer("Steve", 0); // player 1: a human player
         defaultConfig.addPlayer("Kevin", 2); // player 2: a hard computer player
