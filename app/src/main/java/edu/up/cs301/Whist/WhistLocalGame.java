@@ -83,6 +83,7 @@ public class WhistLocalGame extends LocalGame {
             }
             grandedPlayer++;
         }
+
         Log.i("GrandedPlayer: ",""+grandedPlayer);
         for(int i = grandedPlayer; i < 4; i++) mainGameState.cardsInPlay.stack.set(i, null);
         sendAllUpdatedState();
