@@ -54,8 +54,8 @@ public class WhistMainActivity extends GameMainActivity {
         // Create a game configuration class for Pig:
         GameConfig defaultConfig = new GameConfig(playerTypes, 4, 4, "Minnesota Whist", PORT_NUMBER);
         defaultConfig.addPlayer("Steve", 0); // player 1: a human player
-        defaultConfig.addPlayer("Kevin", 1); // player 2: a computer player
-        defaultConfig.addPlayer("Andrew",3);
+        defaultConfig.addPlayer("Kevin", 2); // player 2: a computer player
+        defaultConfig.addPlayer("Andrew",2);
         defaultConfig.addPlayer("Patrick",2);
         defaultConfig.setRemoteData("Sam", "", 0);
         return defaultConfig;
