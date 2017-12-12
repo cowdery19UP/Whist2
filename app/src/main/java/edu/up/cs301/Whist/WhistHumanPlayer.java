@@ -312,14 +312,12 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                     setTableDisplay(g);
                 }
             }
-            if(savedState.cardsInPlay.getSize()==4){
-                Log.i("We've got 4!!","HALLELUAA");
-            }
-            //drawCard(g, handSpots[13], selectedCard);
 
-            for (int i = 0; i < myHand.getSize(); i++) {
+
+            for (int i = myHand.getSize()-1; i >= 0; i--) {
                 drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
             }
+
             if(savedState.turn == getPlayerIdx() && hasTouched) {
                 g.drawOval(cardIndicatorSpots[selectedIdx], myTeamPainter);
             }
@@ -418,7 +416,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
      * This method sets the GUI display of the cards on the table
      * @param g - the canvas object to draw on
      */
-    //TODO There is still a concurrent modification exception at this method as of 12/2/2017
+
     private void setTableDisplay(Canvas g){
         //a boolean for the special protocols in Granding GUI
         boolean foundGrand = false;
@@ -459,7 +457,12 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             //handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
         for(int i = 0; i<myHand.getSize();i++){
-            cardIndicatorSpots[i] = new RectF((50+(i*150)),top-40,200+(i*150),top);
+            if(i==myHand.getSize()-1){
+                cardIndicatorSpots[i] = new RectF(((i * 150)), top - 40, 200 + (i * 150), top);
+            }
+            else {
+                cardIndicatorSpots[i] = new RectF(((i * 150)), top - 40, 150 + (i * 150), top);
+            }
         }
 
     }
