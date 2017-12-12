@@ -314,9 +314,10 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             }
 
 
-            for (int i = 0; i < myHand.getSize(); i++) {
+            for (int i = myHand.getSize()-1; i >= 0; i--) {
                 drawCard(g, handSpots[(myHand.getSize()-1)-i], myHand.getCardByIndex(i));
             }
+
             if(savedState.turn == getPlayerIdx() && hasTouched) {
                 g.drawOval(cardIndicatorSpots[selectedIdx], myTeamPainter);
             }
@@ -456,7 +457,12 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
             //handSpots[i] = new RectF(middle-100-(-350+(i*100)),top,middle+100-(-350+(i*100)),bottom);
         }
         for(int i = 0; i<myHand.getSize();i++){
-            cardIndicatorSpots[i] = new RectF((50+(i*150)),top-40,200+(i*150),top);
+            if(i==myHand.getSize()-1){
+                cardIndicatorSpots[i] = new RectF(((i * 150)), top - 40, 200 + (i * 150), top);
+            }
+            else {
+                cardIndicatorSpots[i] = new RectF(((i * 150)), top - 40, 150 + (i * 150), top);
+            }
         }
 
     }
