@@ -521,6 +521,7 @@ public class WhistHumanPlayer extends GameHumanPlayer implements Animator, OnCli
                 else {
                     //we drew the card and added it directly
                     savedState.cardsInPlay.add(selectedCard);
+                    myHand.remove(selectedCard);
                     game.sendAction(new PlayCardAction(this, selectedCard));
 
                 }
