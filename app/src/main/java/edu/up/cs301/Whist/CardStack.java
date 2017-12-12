@@ -14,9 +14,7 @@ import edu.up.cs301.card.Suit;
  * Workhorse Class that holds an array list of cards called stack
  */
 
-public class CardStack implements Serializable {
-    // to satisfy the Serializable interface
-    private static final long serialVersionUID = 930471234567801845L;
+public class CardStack implements Serializable{
 
     protected ArrayList<Card> stack = new ArrayList<Card>();
 

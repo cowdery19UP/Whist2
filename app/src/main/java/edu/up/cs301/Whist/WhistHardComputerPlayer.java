@@ -61,9 +61,9 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
             //sleep....shhhhh
             sleep(reactionTime);
             try {
-                makeMyMove(savedState.cardsInPlay.getSize());
+                makeMyMove(savedState.cardsInPlay.getSize()); //get size cards in play
             } catch (NullPointerException nope){
-                sleep(1000);
+                sleep(1000); //sleep shhhhhhhh
             }
         }
         ////////////////////////end move handling//////////////////////////////////////
@@ -91,10 +91,10 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
             }
         }
         ////////////adds the highest remaining card in each suit/////////////
-        hotCards.add(cardsLeft.getHighestInSuit(Suit.Club));
-        hotCards.add(cardsLeft.getHighestInSuit(Suit.Heart));
-        hotCards.add(cardsLeft.getHighestInSuit(Suit.Spade));
-        hotCards.add(cardsLeft.getHighestInSuit(Suit.Diamond));
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Club)); //highest club in that suit
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Heart)); //highest heart in that suit
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Spade)); //highest spade in that suit
+        hotCards.add(cardsLeft.getHighestInSuit(Suit.Diamond)); //highest diamond in that suit
         ////////////adds the highest remaining card in each suit/////////////
 
 
@@ -102,15 +102,15 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //// fires only if both opponents have played
         if(savedState.cardsByPlayerIdx[(playerNum+3)%4]!=null&&savedState.cardsByPlayerIdx[(playerNum+1)%4]!=null){
             //creates an array of 2 cards to hold the opponents' cards
-            Card[] oppCards = new Card[2];
-            oppCards[0] = savedState.cardsByPlayerIdx[(playerNum+1)%4];
-            oppCards[1] = savedState.cardsByPlayerIdx[(playerNum+3)%4];
+            Card[] oppCards = new Card[2]; //Thank you based god
+            oppCards[0] = savedState.cardsByPlayerIdx[(playerNum+1)%4]; //creates the turn cycle of given player
+            oppCards[1] = savedState.cardsByPlayerIdx[(playerNum+3)%4]; //creates the turn cycle of given player
             ///////////if both opponents did not follow suit (therefore are out of that suit)///////////////////
             //add all of the cards of that suit to hotCards////////////////////
             if(!oppCards[0].getSuit().equals(savedState.leadSuit)&&!oppCards[1].getSuit().equals(savedState.leadSuit)){
-                for(Card d: cardsLeft.stack){
-                    if(d.getSuit().equals(savedState.leadSuit)){
-                        hotCards.add(d);
+                for(Card d: cardsLeft.stack){ //go through cards left
+                    if(d.getSuit().equals(savedState.leadSuit)){ //add lead suit
+                        hotCards.add(d); //add the highest card of that suit
                     }
                 }
             }
@@ -118,22 +118,22 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
 
             ///////if one opponent is out of a suit and another played high in that suit but could not win////////////
             else if (!oppCards[0].getSuit().equals(savedState.leadSuit)&&
-                    (oppCards[1].getRank().value(14)>10 &&
+                    (oppCards[1].getRank().value(14)>10 && //determines rank of the lead suit
                             oppCards[1].getRank().value(14)<savedState.cardsByPlayerIdx[(playerNum+2)%4].getRank().value(14))){
                 //if it looks like those players are running out of that suit, add all the cards of that suit to hotCards
-                for(Card d: cardsLeft.stack){
-                    if(d.getSuit().equals(savedState.leadSuit)){
-                        hotCards.add(d);
+                for(Card d: cardsLeft.stack){ //iterate through the card stack of cards left
+                    if(d.getSuit().equals(savedState.leadSuit)){ //add lead suit
+                        hotCards.add(d); //add the highest card of that suit
                     }
                 }
             }
             else if (!oppCards[1].getSuit().equals(savedState.leadSuit)&&
-                    (oppCards[0].getRank().value(14)>10 &&
+                    (oppCards[0].getRank().value(14)>10 && //determines rank of the lead suit
                             oppCards[0].getRank().value(14)<savedState.cardsByPlayerIdx[(playerNum+2)%4].getRank().value(14))){
                 //if it looks like those players are running out of that suit, add all the cards of that suit to hotCards
-                for(Card d: cardsLeft.stack){
-                    if(d.getSuit().equals(savedState.leadSuit)){
-                        hotCards.add(d);
+                for(Card d: cardsLeft.stack){ //iterate through the card stack of cards left
+                    if(d.getSuit().equals(savedState.leadSuit)){ //add lead suit
+                        hotCards.add(d); //add the highest card of that suit
                     }
                 }
             }
@@ -143,8 +143,8 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
     }
     public boolean hasAHotCard(){
         //goes through the entire hotCard stack and compares to hand
-        for(Card f: hotCards.stack){
-            for (Card d: myHand.stack) {
+        for(Card f: hotCards.stack){ //iterate through hot card card stack
+            for (Card d: myHand.stack) { //iterate through hand
                 //if we do have a hot card return true
                 if(f.equals(d)){
                     return true;
@@ -155,9 +155,9 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         return false;
     }
     public Card getHotCard(){
-        for(Card c: myHand.stack){
-            for(Card d: hotCards.stack){
-                if(c.equals(d)){
+        for(Card c: myHand.stack){ //iterate through hot card card stack
+            for(Card d: hotCards.stack){ //iterate through hand
+                if(c.equals(d)){ //if they have that hot card, then return that guy
                     return c;
                 }
             }
@@ -166,10 +166,10 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
     }
     @Override
     public void makeMyMove(int numCardsPlayed){
-        if(savedState.highGround) {
-            Card cardToPlay = null;
+        if(savedState.highGround) { //high round
+            Card cardToPlay = null; //set it to nulllll
             if (savedState.grandingPhase) {
-                makeBid();
+                makeBid(); //granding phase; make bid
             } else {
                 //key off of what turn we are in
                 int turnInTrick = numCardsPlayed;
@@ -182,14 +182,14 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     //if I don't have a hotcard, play the lowest card in the suit of my highest card
                     //to draw out the higher cards than mine
                     else {
-                        cardToPlay = myHand.getLowestInSuit(myHand.getHighest().getSuit());
+                        cardToPlay = myHand.getLowestInSuit(myHand.getHighest().getSuit()); //get lowest in suit of hand
                     }
                 }
                 //only one player has played on the other team
                 else if (turnInTrick == 1) {
                     //if we cannot follow suit, play low
                     if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                        cardToPlay = myHand.getLowest();
+                        cardToPlay = myHand.getLowest(); //get low low low
 
                     }
                     //else if we can follow suit, either try to win or play low
@@ -198,10 +198,10 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                         Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
                         //if we can win
                         if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
-                            cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                            cardToPlay = myHand.getHighestInSuit(savedState.leadSuit); //get the highest in suit from hand
                         }
                         //if we cannot win
-                        else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                        else cardToPlay = myHand.getLowestInSuit(savedState.leadSuit); //get the lowest card in suit from hand
 
                     }
 
@@ -215,34 +215,34 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                     //else if we can follow suit, either try to win or play low
                     else {
                         //assign the opponent's card
-                        Card opponentCard = savedState.cardsInPlay.getCardByIndex(1);
-                        Card allieCard = savedState.cardsInPlay.getCardByIndex(0);
+                        Card opponentCard = savedState.cardsInPlay.getCardByIndex(1); //the other guys
+                        Card allieCard = savedState.cardsInPlay.getCardByIndex(0); //allie bro
                         //if we can win
                         if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
                             //if our allie is already winning the hand, play low to avoid wasting good cards
                             if (allieCard.getRank().value(14) > opponentCard.getRank().value(14)) {
-                                cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                                cardToPlay = myHand.getLowestInSuit(savedState.leadSuit); //play that lowest in suit
                             }
                             //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                            else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                            else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit); //get highest card in suit from hand
                         }
                         //if we cannot win, play low to save valuable cards
                         else
-                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit); //get lowest in suit from hand
                     }
                 }
                 //all 3 other players have played, and it is down to me...
                 else if (turnInTrick == 3) {
                     //if we cannot follow suit, play low
                     if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                        cardToPlay = myHand.getLowest();
+                        cardToPlay = myHand.getLowest(); //get lowest card in hand of that suit
                     }
                     //else if we can follow suit, either try to win or play low
                     else {
                         //assign the opponent's card
-                        Card opponentCard = savedState.cardsInPlay.getCardByIndex(0);
-                        Card opponent2Card = savedState.cardsInPlay.getCardByIndex(2);
-                        Card allieCard = savedState.cardsInPlay.getCardByIndex(1);
+                        Card opponentCard = savedState.cardsInPlay.getCardByIndex(0); //assign opponent 0
+                        Card opponent2Card = savedState.cardsInPlay.getCardByIndex(2); //assign opponent 2
+                        Card allieCard = savedState.cardsInPlay.getCardByIndex(1); //assign allie
                         //if we can win
                         if (opponentCard.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)
                                 && opponent2Card.getRank().value(14) < myHand.getHighestInSuit(savedState.leadSuit).getRank().value(14)) {
@@ -251,16 +251,16 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                                 cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
                             }
                             //if our allie is not already winning the hand, win it for the glory of Mother Russia
-                            else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit);
+                            else cardToPlay = myHand.getHighestInSuit(savedState.leadSuit); //get the highest card in that suit
                         }
                         //if we cannot win, play low to save valuable cards
                         else
-                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit);
+                            cardToPlay = myHand.getLowestInSuit(savedState.leadSuit); //get the lowest card in that suit
                     }
                 }
                 //after deciding which card to play, play the card and remove it from hand
-                myHand.remove(cardToPlay);
-                game.sendAction(new PlayCardAction(this, cardToPlay));
+                myHand.remove(cardToPlay); //remove the card you just played
+                game.sendAction(new PlayCardAction(this, cardToPlay)); //send tha action just do it
             }
         }
         else {
@@ -272,24 +272,24 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
 
     public void makeBid(){
         //establishes an int for the average card value
-        int avg = 0;
+        int avg = 0; //rip lil peep
         //gets the average card value by summing and dividing by 13
-        for(Card d: myHand.stack){
-            avg+=d.getRank().value(14);
+        for(Card d: myHand.stack){ //iterate through the hand
+            avg+=d.getRank().value(14); //get average rank of player
         }
         avg/=13;
         //gets either a low club or a low spade for a high bid
-        CardStack bidders = new CardStack();
+        CardStack bidders = new CardStack(); //free tayk
         if(avg>7){
-            bidders.add(myHand.getLowestInSuit(Suit.Club));
-            bidders.add(myHand.getLowestInSuit(Suit.Spade));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
+            bidders.add(myHand.getLowestInSuit(Suit.Club)); //add bid club in bidding phase
+            bidders.add(myHand.getLowestInSuit(Suit.Spade)); //add bid spade in bidding phase
+            game.sendAction(new BidAction(this,bidders.getLowest())); //send that action its lit
         }
         //gets either a low heart or a low diamond for a low bid
         else{
-            bidders.add(myHand.getLowestInSuit(Suit.Heart));
-            bidders.add(myHand.getLowestInSuit(Suit.Diamond));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
+            bidders.add(myHand.getLowestInSuit(Suit.Heart)); //add bid heart in bidding phase
+            bidders.add(myHand.getLowestInSuit(Suit.Diamond)); //add bid diamond in bidding phase
+            game.sendAction(new BidAction(this,bidders.getLowest())); //send that action again
         }
     }
 
@@ -302,17 +302,17 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
         //new trick, no one has played yet I am the lead player
         //if we have a hotCard to play, play it
         if (turnInTrick == 0) {
-            cardToPlay = myHand.getLowest();
+            cardToPlay = myHand.getLowest(); //play lowest card in hand
         }
         //only one player has played on the other team
         else {
             Hand cardsInSuit = new Hand();
-            for(Card c : myHand.stack){
-                if(c.getSuit() == savedState.leadSuit) cardsInSuit.add(c);
+            for(Card c : myHand.stack){ //iterate through hand
+                if(c.getSuit() == savedState.leadSuit) cardsInSuit.add(c); //add card in lead suit
             }
-            if(cardsInSuit.getSize()==0) cardToPlay = myHand.getHighest();
+            if(cardsInSuit.getSize()==0) cardToPlay = myHand.getHighest(); //gethighest card
 
-            cardsInSuit.organizeBySuit();
+            cardsInSuit.organizeBySuit(); //organize the cards by suit
 
             for(int i = cardsInSuit.getSize()-1; i >= 0; i--){
                 //this absurdly long if-statement checks if the card we're on is greater than the greatest card in suit on the table
@@ -321,15 +321,15 @@ public class WhistHardComputerPlayer extends WhistComputerPlayer {
                 }
                 else{
                     //the first card that would not win
-                    cardToPlay = cardsInSuit.getCardByIndex(i);
-                    break;
+                    cardToPlay = cardsInSuit.getCardByIndex(i); //
+                    break; //break it all...grrrr
                 }
             }
             if(cardToPlay == null) cardToPlay = cardsInSuit.getHighest(); //if we have to win a hand, play high
         }
         //after deciding which card to play, play the card and remove it from hand
-        myHand.remove(cardToPlay);
-        game.sendAction(new PlayCardAction(this, cardToPlay));
+        myHand.remove(cardToPlay); //remove card played from hand
+        game.sendAction(new PlayCardAction(this, cardToPlay)); //send that action....its the right thing to do
 
     }
 }

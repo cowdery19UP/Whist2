@@ -91,42 +91,42 @@ public class WhistEasyComputerPlayer extends WhistComputerPlayer{
             else if (turnInTrick == 3) {
                 //if we cannot follow suit, play low
                 if (!myHand.hasCardInSuit(savedState.leadSuit)) {
-                    cardToPlay = myHand.getRandomCard();
+                    cardToPlay = myHand.getRandomCard(); //get random card from that suit
                 }
                 //else if we can follow suit, either try to win or play low
                 else {
-                    cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);
+                    cardToPlay = myHand.getRandomInSuit(savedState.leadSuit);//get random card in suit
                 }
             }
 
             //after deciding which card to play, play the card and remove it from hand
             myHand.remove(cardToPlay);
-            game.sendAction(new PlayCardAction(this, cardToPlay));
+            game.sendAction(new PlayCardAction(this, cardToPlay)); //send that action boi
         }
     }
 
-    public Hand getMyHand(){ return myHand;}
+    public Hand getMyHand(){ return myHand;} // get your hand boyo
 
     public void makeBid(){
         //establishes an int for the average card value
         int avg = 0;
         //gets the average card value by summing and dividing by 13
         for(Card d: myHand.stack){
-            avg+=d.getRank().value(14);
+            avg+=d.getRank().value(14); //get the a average rank
         }
         avg/=13;
         //gets either a low club or a low spade for a high bid
         CardStack bidders = new CardStack();
         if(avg>7){
-            bidders.add(myHand.getLowestInSuit(Suit.Club));
-            bidders.add(myHand.getLowestInSuit(Suit.Spade));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
+            bidders.add(myHand.getLowestInSuit(Suit.Club)); //add bid club in bidding phase
+            bidders.add(myHand.getLowestInSuit(Suit.Spade)); //add bid spade in bidding phase
+            game.sendAction(new BidAction(this,bidders.getLowest())); //send that action
         }
         //gets either a low heart or a low diamond for a low bid
         else{
-            bidders.add(myHand.getLowestInSuit(Suit.Heart));
-            bidders.add(myHand.getLowestInSuit(Suit.Diamond));
-            game.sendAction(new BidAction(this,bidders.getLowest()));
+            bidders.add(myHand.getLowestInSuit(Suit.Heart)); //add bid heart in bidding phase
+            bidders.add(myHand.getLowestInSuit(Suit.Diamond)); //add bid diamond in bidding phase
+            game.sendAction(new BidAction(this,bidders.getLowest())); // send that action once more my guy
         }
     }
 
