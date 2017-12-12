@@ -36,16 +36,16 @@ public class Hand extends CardStack {
      *  by using Patrick's Sort function
      */
     public void organizeBySuit(){
-        sortCards();
-        for(Card c: stack){
+        sortCards(); //sort the cards
+        for(Card c: stack){ //go through the sorted cards
             switch(c.getSuit()){
-                case Club: clubs.add(c);
+                case Club: clubs.add(c); //if it's a club, add it to the clubs arraylist
                     break;
-                case Diamond: diamonds.add(c);
+                case Diamond: diamonds.add(c); //if it's a diamond, add it to the diamonds arraylist
                     break;
-                case Heart: hearts.add(c);
+                case Heart: hearts.add(c); //if it's a heart, add it to the hearts arraylist
                     break;
-                case Spade: spades.add(c);
+                case Spade: spades.add(c); //if it's a spade, add it to the spades arraylist
             }
         }
         //clear the stack of cards to null
@@ -86,7 +86,7 @@ public class Hand extends CardStack {
         stack.clear(); //clear stack to copy array back in
 
         for(int i = 0; i < arr.length; i++){ //copying array back into CardStack
-            stack.add(arr[i]);
+            stack.add(arr[i]); //add the card to the stack
         }
     }
 }

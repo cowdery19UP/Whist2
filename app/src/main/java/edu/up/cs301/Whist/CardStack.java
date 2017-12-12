@@ -42,12 +42,12 @@ public class CardStack implements Serializable {
         Card highCard = stack.get(0);
         //indexes through the stack and if the c card is a higher
         //value, it becomes the highCard
-        for(Card c: stack){
-            if(c.getRank().value(14)>highCard.getRank().value(14)){
-                highCard = c;
+        for(Card c: stack){ //step through the CardStack
+            if(c.getRank().value(14)>highCard.getRank().value(14)){ //if we find a new highest card...
+                highCard = c; //assign it to the return card
             }
         }
-        return highCard;
+        return highCard; //return the card
     }
     /**
      * This method goes through the array of cards and
@@ -61,12 +61,12 @@ public class CardStack implements Serializable {
         Card highCard = inputStack.get(0);
         //indexes through the stack and if the c card is a higher
         //value, it becomes the highCard
-        for(Card c: inputStack){
-            if(c.getRank().value(14)>highCard.getRank().value(14)){
-                highCard = c;
+        for(Card c: inputStack){ //step through the cardstack
+            if(c.getRank().value(14)>highCard.getRank().value(14)){ //if we find a new minimum card
+                highCard = c; //assign it to the return card
             }
         }
-        return highCard;
+        return highCard; //return the card
     }
     /**
      * This method goes through the stack of cards and
@@ -211,6 +211,7 @@ public class CardStack implements Serializable {
             }
         }
 
+        //go through the cards in suit, and retrieve a random card
         Card RandCard = cardsOfSuit.get(0);
         for(Card c: cardsOfSuit) {
             Random random = new Random();
@@ -236,8 +237,8 @@ public class CardStack implements Serializable {
      * @param beGone -- the card to be removed
      */
     public void remove(Card beGone){
-        synchronized (stack) {
-            stack.remove(beGone);
+        synchronized (stack) { //to remove concurrent modification with other threads
+            stack.remove(beGone); //remove the card
         }
     }
 
@@ -263,7 +264,7 @@ public class CardStack implements Serializable {
 
     public boolean hasCardInSuit(Suit s){
         for(Card c: stack){
-            if(c.getSuit().equals(s)){
+            if(c.getSuit().equals(s)){ //if we find a card of the specified suit
                 return true;
             }
         }
@@ -272,7 +273,7 @@ public class CardStack implements Serializable {
 
     public boolean contains(Card c){
         for(Card d : stack){
-            if(d.equals(c)) return true;
+            if(d.equals(c)) return true; //if we find the card, return true
         }
         return false;
     }

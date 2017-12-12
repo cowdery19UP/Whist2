@@ -13,10 +13,14 @@ public class BidAction extends PlayCardAction {
      *
      * @param player
      * 		the player who created the action
+     * 	@param c
+     * 	    the card associated with the action
      */
     public BidAction(GamePlayer player,Card c) {
         super(player,c);
     }
+
+    //boolean methods to remove ambiguity with instanceof and inheritance
     public boolean isCardPlayAction(){return false;}
     public boolean isBidAction(){return true;}
 }

@@ -24,7 +24,9 @@ public abstract class MoveAction extends GameAction {
         super(player);
     }
 
+    //boolean methods used to remove ambiguity with instanceof and inheritance
     public boolean isCardPlayAction(){return false;}
     public boolean isBidAction(){return false;}
-    public Card getCard(){return card;}
+
+    public Card getCard(){return card;} //return the card associated with the action
 }
